@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Communication;
+using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -80,7 +82,7 @@ namespace Client
             }
         }
 
-        public async void SendMessage (string message)
+        public async Task SendMessage (string message)
         {
             byte[] buffer = WrapMessage(Encoding.ASCII.GetBytes(message));
             await this.tcpClient.GetStream().WriteAsync(buffer, 0, buffer.Length);
@@ -88,6 +90,14 @@ namespace Client
 
             byte[] received = await Read(this.tcpClient.GetStream());
         }
+
+        public async Task SendSegments(ByteData data) {
+            foreach (Segment s in data.Segments) {
+                byte[] array = s.ToByteArray();
+                await this.tcpClient.GetStream().WriteAsync(array, 0, array.Length);
+                await this.tcpClient.GetStream().FlushAsync();
+			}
+		}
 
         public byte[] WrapMessage(byte[] message)
         {

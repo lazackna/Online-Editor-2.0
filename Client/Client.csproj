@@ -9,4 +9,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
+  <Import Project="..\DataCommunication\DataCommunication.projitems" Label="Shared" />
+
 </Project>

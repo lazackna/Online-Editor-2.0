@@ -26,7 +26,7 @@ namespace Online_Editor
 				{
 					await client.ConnectToServerAsync();
 					Login login = new Login { ShowInTaskbar = false, Owner = Application.Current.MainWindow};
-					login.DataContext = new LoginViewModel();
+					login.DataContext = new LoginViewModel(client);
 					login.ShowDialog();
 				}
 				catch
@@ -37,7 +37,7 @@ namespace Online_Editor
 			else
 			{
 				Login login = new Login { ShowInTaskbar = false, Owner = Application.Current.MainWindow };
-				login.DataContext = new LoginViewModel();
+				login.DataContext = new LoginViewModel(client);
 				login.ShowDialog();
 			}
 

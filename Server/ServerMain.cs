@@ -82,6 +82,7 @@ namespace Server
                            break;
                        }
                    }
+                   Console.WriteLine("Removing client");
                    clients.Remove(this);
                });
                 this.thread.Start();

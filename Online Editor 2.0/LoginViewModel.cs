@@ -1,4 +1,5 @@
-﻿using Communication;
+﻿using Client;
+using Communication;
 using DataCommunication;
 using Online_Editor.Util;
 using System;
@@ -15,10 +16,10 @@ namespace Online_Editor
 {
 	public class LoginViewModel
 	{
-
-		public LoginViewModel()
+		private ClientMain client;
+		public LoginViewModel(ClientMain client)
 		{
-
+			this.client = client;
 		}
 
 		public string UserName { get; set; }
@@ -28,20 +29,29 @@ namespace Online_Editor
 		{
 			get
 			{
-				if (login == null) login = new RelayCommand(async e => ClientLogin());
+				if (login == null) login = new RelayCommand(async e => await ClientLogin());
 				return login;
 			}
 		}
 
-		public async void ClientLogin()
+		private ICommand makeAccount;
+		public ICommand MakeAccount
+		{
+			get 
+			{
+				if (makeAccount == null) makeAccount = new RelayCommand(async e => await ClientMakeAccount());
+				return makeAccount;
+			}
+		}
+
+		public async Task ClientLogin()
 		{
 			Debug.WriteLine(UserName + ":" + PassWord);
 		}
 
-		public async void MakeAccount()
+		public async Task ClientMakeAccount()
 		{
-			(byte, string) makeAccount = Messages.RequestAccount();
-
+			await this.client.SendSegments(new ByteData(Messages.RequestAccount()));
 		}
 
 	}
