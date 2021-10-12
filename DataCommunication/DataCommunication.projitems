@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>28f35ce2-1948-463d-9f77-cbc673e6ec3f</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>DataCommunication</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ByteData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Message.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\Button.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\Element.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\Image.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\Text.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\TextElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\Page.cs" />
+  </ItemGroup>
+</Project>

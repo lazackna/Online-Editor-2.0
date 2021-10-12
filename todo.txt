@@ -1,0 +1,5 @@
+projectView
+projectEditView
+Koppeling netwerk-gui
+file system
+project structure (json serializable)
