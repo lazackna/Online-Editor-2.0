@@ -1,18 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DataCommunication_ProjectData
 {
-	public class Element
+	public abstract class Element
 	{
 		public int X { get; set; }
 		public int Y { get; set; }
 
-		public Element(int x, int y)
+		protected Element(int x, int y)
 		{
 			X = x;
 			Y = y;
 		}
+
+		public virtual bool HasText() => false;
+		public virtual bool HasImage() => false;
+
+		public virtual string GetText() => throw new NotImplementedException();
 	}
 }

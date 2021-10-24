@@ -9,6 +9,8 @@ namespace DataCommunication_ProjectData
 		public int Width { get; set; }
 		public int Height { get; set; }
 
-		public Image (int x, int y, int width, int height) :base(x,y){ this.Width = width; this.Height = height; }
+		public Image(int x, int y, int width, int height) : base(x, y) { Width = width; Height = height; }
+
+		public override bool HasImage() => true;
 	}
 }

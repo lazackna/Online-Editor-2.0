@@ -1,53 +1,58 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 
 namespace Online_Editor_2._0.Util
 {
-	static class SymbolStorage
+	class SymbolStorage
 	{
-		internal static Regex Regex = new Regex("[\\|/<>\":*?]");
+		internal Regex Regex { get; }
 
-		internal static IDictionary<string, string> SpecialConverter = new Dictionary<string, string>
+		private string UndefinedPath { get; }
+
+		internal IDictionary<string, string> SpecialConverter { get; }
+
+		internal Bitmap Undefined { get; }
+		internal IDictionary<string, Bitmap> Symbols { get; }
+
+		public SymbolStorage()
 		{
-			{"\\", "bs"}, {"|", "pc"}, {"/", "fs"}, {"<", "la"}, {">", "ra"}, {"\"", "dq"}, {":", "cl"}, {"*", "as"}, {"?", "qm"}
-		};
-
-		private readonly static string UndefinedPath = Path.Combine("Resources", "undefined.png");
-		private static Image _undefined;
-		internal static Image Undefined => _undefined ??= Image.FromFile(UndefinedPath);
-
-		private static IDictionary<string, Image> _symbols;
-		internal static IDictionary<string, Image> Symbols
-		{
-			get
+			Regex = new Regex("[\\\\|/<>\":*?]");
+			SpecialConverter = new Dictionary<string, string>
 			{
-				if (_symbols == null || _symbols.Count == 0)
-				{
-					_symbols = new Dictionary<string, Image>();
-					GetFiles("Resources");
-				}
+				{"\\", "bs"}, {"|", "pc"}, {"/", "fs"}, {"<", "la"}, {">", "ra"}, {"\"", "dq"}, {":", "cl"}, {"*", "as"}, {"?", "qm"}
+			};
+			UndefinedPath = Path.Combine("Resources", "undefined.png");
+			Undefined = new Bitmap(Image.FromFile(UndefinedPath));
 
-				return _symbols;
-			}
+			Symbols = new Dictionary<string, Bitmap>();
+
+			GetFiles("Resources");
 		}
 
-		private static void GetFiles(string path)
+		~SymbolStorage()
+		{
+			Undefined.Dispose();
+			foreach (var symbols in Symbols.Values) symbols.Dispose();
+		}
+
+		private void GetFiles(string path)
 		{
 			foreach (var d in Directory.GetDirectories(path)) GetFiles(d);
 
 			var files = Directory.GetFiles(path);
 			foreach (var file in files)
 				if (file != UndefinedPath)
-					_symbols.Add(Path.GetFileNameWithoutExtension(file), Image.FromFile(file));
+					Symbols.Add(Path.GetFileNameWithoutExtension(file), new Bitmap(Image.FromFile(file)));
 		}
 
-		public static Image GetImage(string symbol)
+		public Bitmap GetImage(char symbol)
 		{
-			if (Regex.IsMatch(symbol)) symbol = SpecialConverter[symbol];
-			if (Symbols.ContainsKey(symbol)) return Symbols[symbol];
-			return Undefined;
+			var s = $"{symbol}";
+			if (Regex.IsMatch(s)) s = SpecialConverter[s];
+			return Symbols.ContainsKey(s) ? Symbols[s] : Undefined;
 		}
 	}
 }

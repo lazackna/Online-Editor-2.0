@@ -8,6 +8,9 @@ namespace DataCommunication_ProjectData
 	{
 		public string Value { get; set; }
 
-		public TextElement(int x, int y, string value) : base(x, y){ this.Value = value; }
+		protected TextElement(int x, int y, string value) : base(x, y) => Value = value;
+
+		public override bool HasText() => true;
+		public override string GetText() => Value;
 	}
 }
