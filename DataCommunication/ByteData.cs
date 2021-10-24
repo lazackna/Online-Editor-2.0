@@ -7,6 +7,8 @@ namespace Communication
 	public class ByteData
 	{
 		public readonly IList<Segment> Segments;
+		public string Message;
+		public int Id;
 		public ByteData((byte, string) message)
 		{
 			Segments = new List<Segment>();
@@ -22,12 +24,28 @@ namespace Communication
 			else
 			{
 				var segmentCount = decimal.ToInt32(Math.Ceiling((decimal)length / maxSize));
-				for (var i = 0; i < segmentCount - 1; i++)
+				for (var i = 0; i < segmentCount; i++)
 				{
-					var segmentMessage = messagePayload.Substring(maxSize * i, Math.Min(maxSize, length % maxSize));
-					Segments.Add(new Segment(messageType, segmentMessage, (byte)(segmentCount - i)));
+					var segmentMessage = messagePayload.Substring(maxSize * i, Math.Min(maxSize, length - maxSize * i));
+					Segments.Add(new Segment(messageType, segmentMessage, (byte)(segmentCount - i - 1)));
 				}
 			}
+		}
+
+		public ByteData(byte[][] byteArrays) {
+			this.Segments = new List<Segment>();
+			StringBuilder builder = new StringBuilder();
+			foreach (byte[] b in byteArrays) {
+				Segment segment = new Segment(b);
+				Segments.Add(segment);
+				builder.Append(segment.GetMessage());
+			}
+			this.Message = builder.ToString();
+			this.Id = this.Segments[0]._id;
+		}
+
+		public byte GetMessageType() {
+			return this.Segments[0]._type;
 		}
 	}
 
@@ -41,14 +59,14 @@ namespace Communication
 		internal static ushort MaxMessageSize() => (ushort)(TotalLength - LengthSize - TypeSize - IdSize - ChecksumSize);
 
 		private readonly ushort _length;
-		private readonly byte _type;
+		public readonly byte _type;
 		public readonly string Message;
-		private readonly ushort _id;
+		public readonly ushort _id;
 		private byte _checksum;
 
 		public Segment(byte[] bytes)
 		{
-			var lengthArr = new byte[2];
+			var lengthArr = new byte[LengthSize];
 			Array.Copy(bytes, 0, lengthArr, 0, 2);
 			Array.Reverse(lengthArr);
 			_length = BitConverter.ToUInt16(lengthArr, 0);
@@ -58,12 +76,11 @@ namespace Communication
 			Console.WriteLine(messageArr.Length);
 			Array.Copy(bytes, 3, messageArr, 0, messageArr.Length);
 			Message = Encoding.ASCII.GetString(messageArr);
-			var idArr = new byte[2];
+			var idArr = new byte[IdSize];
 			Array.Copy(bytes, bytes.Length - 3, idArr, 0, 2);
 			Array.Reverse(idArr);
 			_id = BitConverter.ToUInt16(idArr, 0);
-			_checksum = 0;
-			CalculateChecksum();
+			_checksum = CalculateChecksum();
 			Console.WriteLine(_checksum);
 
 			if (_checksum != bytes[^1]) throw new Exception("checksum was not correct");
@@ -76,7 +93,17 @@ namespace Communication
 			_type = messageType;
 			Message = messagePayload;
 			_id = id;
-			_checksum = 0;
+			_checksum = CalculateChecksum();
+		}
+
+		public string GetMessage () {
+
+			byte[] array = ToByteArray();
+			int size = array.Length - 6;
+			byte[] messageArray = new byte[size];
+			Array.Copy(array, 3, messageArray, 0, messageArray.Length);
+
+			return Encoding.ASCII.GetString(messageArray);
 		}
 
 		public byte[] ToByteArray()
@@ -97,14 +124,24 @@ namespace Communication
 			return bytes;
 		}
 
-		public void CalculateChecksum()
+		public byte CreateChecksum () {
+			//byte[] array = new byte[]
+			return 1;
+		}
+
+		public byte CalculateChecksum()
 		{
 			var bytes = ToByteArray();
-			byte checksum = 0;
+			//byte checksum = 0;
 
-			for (var i = 0; i < bytes.Length - 1; i++) checksum ^= bytes[i];
+			//for (var i = 0; i < bytes.Length - 1; i++) checksum ^= bytes[i];
+			byte output = bytes[0];
 
-			_checksum = checksum;
+			for (int i = 1; i < bytes.Length - 2; i++)
+			{
+				output = (byte)(output ^ bytes[i]);
+			}
+			return output;
 		}
 
 		//public static void Main(string[] args)

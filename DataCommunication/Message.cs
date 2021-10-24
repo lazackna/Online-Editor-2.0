@@ -39,20 +39,20 @@ namespace DataCommunication
 			internal static readonly string ResponseNotOK = "negative";
 		}
 
-		private static class Codes
+		public static class Codes
 		{
-			internal static readonly byte Login = 0;
-			internal static readonly byte RequestAccount = 1;
-			internal static readonly byte MakeAccount = 2;
-			internal static readonly byte RequestPages = 20;
-			internal static readonly byte RequestPage = 21;
-			internal static readonly byte UploadPage = 22;
-			internal static readonly byte RequestChangePage = 23;
-			internal static readonly byte UploadChangedPage = 24;
-			internal static readonly byte ResponseOK = 40;
-			internal static readonly byte ResponseNotOK = 41;
-			internal static readonly byte ClientPing = 193;
-			internal static readonly byte ServerPing = 194;
+			public static readonly byte Login = 0;
+			public static readonly byte RequestAccount = 1;
+			public static readonly byte MakeAccount = 2;
+			public static readonly byte RequestPages = 20;
+			public static readonly byte RequestPage = 21;
+			public static readonly byte UploadPage = 22;
+			public static readonly byte RequestChangePage = 23;
+			public static readonly byte UploadChangedPage = 24;
+			public static readonly byte ResponseOK = 40;
+			public static readonly byte ResponseNotOK = 41;
+			public static readonly byte ClientPing = 193;
+			public static readonly byte ServerPing = 194;
 		}
 
 		//public static void Main(string[] args)

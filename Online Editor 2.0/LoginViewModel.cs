@@ -47,7 +47,7 @@ namespace Online_Editor
 		public async Task ClientLogin()
 		{
 			Debug.WriteLine(UserName + ":" + PassWord);
-			await this.client.SendMessage("hello?");
+			await this.client.SendSegments(new ByteData(Messages.Login(UserName, PassWord)));
 			//await this.client.Read();
 		}
 
@@ -55,6 +55,13 @@ namespace Online_Editor
 		{
 			//await this.client.SendTest();
 			await this.client.SendSegments(new ByteData(Messages.RequestAccount()));
+			byte[] received = await this.client.Read();
+			ByteData data = new ByteData(new byte[1][] { received });
+			if (data.Id == Messages.Codes.ResponseOK) {
+				await this.client.SendSegments(new ByteData(Messages.MakeAccount(UserName, PassWord)));
+			} else {
+				// not allowed to make account
+			}
 		}
 
 	}

@@ -102,16 +102,14 @@ namespace Client
 
         public async Task SendSegments(ByteData data) {
             foreach (Segment s in data.Segments) {
-                Debug.WriteLine("");
-                
                 byte[] array = s.ToByteArray();
-                foreach (int i in array) {
-                    Debug.Write(i + ", ");
-				}
                 await this.tcpClient.GetStream().WriteAsync(array, 0, array.Length);
                 await this.tcpClient.GetStream().FlushAsync();
                 byte[] received = await Read();
+                Debug.WriteLine(Encoding.ASCII.GetString(received));
+                
 			}
+            
 		}
 
         public byte[] WrapMessage(byte[] message)
@@ -127,19 +125,22 @@ namespace Client
 
         public async Task<byte[]> Read()
         {
-            byte[] prefix = new byte[4];
-            await this.stream.ReadAsync(prefix, 0, 4);
-            int size = BitConverter.ToInt32(prefix);
+            
+            byte[] prefix = new byte[2];
+            await stream.ReadAsync(prefix, 0, 2);
+            Array.Reverse(prefix);
+            int size = BitConverter.ToInt16(prefix);
             byte[] received = new byte[size];
+            Array.Reverse(prefix);
+            prefix.CopyTo(received, 0);
+            int bytesRead = 2;
 
-            int bytesRead = 0;
-
-            while(bytesRead < size)
+            while (bytesRead < size)
             {
-                int read = await this.stream.ReadAsync(received, bytesRead, received.Length - bytesRead);
+                int read = await stream.ReadAsync(received, bytesRead, received.Length - bytesRead);
                 bytesRead += read;
             }
-
+            Debug.WriteLine("received message: " + Encoding.ASCII.GetString(received));
             return received;
         }
     }

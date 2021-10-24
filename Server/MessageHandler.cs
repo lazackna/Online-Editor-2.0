@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Communication;
+using DataCommunication;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,91 +11,91 @@ namespace Server
 {
 	public class MessageHandler
 	{
-
-		public MessageHandler ()
+		public NetworkClient client;
+		public MessageHandler (NetworkClient client)
 		{
-
+			this.client = client;
 		}
 
-		public void Handle (byte[] array)
+		public void Handle (ByteData data)
 		{
 
-			int type = array[2];
+			
 
-			switch (type)
+			switch (data.GetMessageType())
 			{
 				case 0:
-					Login(array);
+					Login(data);
 					break;
 				case 1:
-					RequestAccount(array);
+					RequestAccount(data);
 					break;
 				case 2:
-					MakeAccount(array);
+					MakeAccount(data);
 					break;
 				case 20:
-					RequestPages(array);
+					RequestPages(data);
 					break;
 				case 21:
-					RequestPage(array);
+					RequestPage(data);
 					break;
 				case 22:
-					UploadPage(array);
+					UploadPage(data);
 					break;
 				case 23:
-					RequestChangePage(array);
+					RequestChangePage(data);
 					break;
 				case 24:
-					UploadChangedPage(array);
+					UploadChangedPage(data);
 					break;
 				case 193:
-					Ping(array);
+					Ping(data);
 					break;
 			}
 		}
 
-		public void Ping (byte[] array)
+		public void Ping (ByteData array)
 		{
 			
 		}
 
-		public void UploadChangedPage (byte[] array)
+		public void UploadChangedPage (ByteData array)
 		{
 			
 		}
 
-		public void RequestChangePage (byte[] array)
+		public void RequestChangePage (ByteData array)
 		{
 			
 		}
 
-		public void UploadPage (byte[] array)
+		public void UploadPage (ByteData array)
 		{
 			
 		}
 
-		public void RequestPages (byte[] array)
+		public void RequestPages (ByteData array)
 		{
 			
 		}
 
-		public void RequestPage (byte[] array)
+		public void RequestPage (ByteData array)
 		{
 			
 		}
 
-		public void Login (byte[] array)
+		public void Login (ByteData array)
 		{
 
 
 		}
 
-		public void RequestAccount (byte[] array) {
-
+		public async Task RequestAccount (ByteData array) {
+			await this.client.Write(new ByteData(Messages.ResponseOk()));
 		}
 
-		public void MakeAccount (byte[] array) {
-
+		public void MakeAccount (ByteData array) {
+			Console.WriteLine("making account");
 		}
 
 	}
