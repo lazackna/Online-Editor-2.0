@@ -109,13 +109,14 @@ namespace Server
 
             public async Task<byte[]> Read(TcpClient tcpClient)
             {
-                byte[] prefix = new byte[4];
-                await tcpClient.GetStream().ReadAsync(prefix, 0, 4);
-                int size = BitConverter.ToInt32(prefix);
+                byte[] prefix = new byte[2];
+                await tcpClient.GetStream().ReadAsync(prefix, 0, 2);
+                Array.Reverse(prefix);
+                int size = BitConverter.ToInt16(prefix);
                 byte[] received = new byte[size];
 
-                int bytesRead = 0;
-
+                int bytesRead = 2;
+                
                 while (bytesRead < size)
                 {
                     int read = await tcpClient.GetStream().ReadAsync(received, bytesRead, received.Length - bytesRead);

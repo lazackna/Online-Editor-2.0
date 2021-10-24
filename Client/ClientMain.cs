@@ -1,6 +1,7 @@
 ﻿using Communication;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -77,7 +78,7 @@ namespace Client
                 byte[] buffer = Encoding.ASCII.GetBytes(Console.ReadLine());
                 await this.stream.WriteAsync(WrapMessage(buffer));
                 this.stream.Flush();
-                byte[] received = await Read(this.stream);
+                byte[] received = await Read();
                 Console.WriteLine(Encoding.ASCII.GetString(received));
             }
         }
@@ -88,14 +89,28 @@ namespace Client
             await this.tcpClient.GetStream().WriteAsync(buffer, 0, buffer.Length);
             await this.tcpClient.GetStream().FlushAsync();
 
-            byte[] received = await Read(this.tcpClient.GetStream());
+            byte[] received = await Read();
         }
+
+        public async Task SendTest() {
+        //byte[] buffer = { 6, 0, 0, 0, 104, 101, 108, 108, 111, 63 }
+            byte[] buffer =  { 0, 26, 1, 0, 101, 113, 117, 101, 115, 116, 32, 109, 97, 107, 101, 32, 97, 99, 99, 111, 117, 110, 116, 0, 0, 0 };
+            await this.stream.WriteAsync(buffer, 0, buffer.Length);
+            await this.stream.FlushAsync();
+            byte[] received = await Read();
+		}
 
         public async Task SendSegments(ByteData data) {
             foreach (Segment s in data.Segments) {
+                Debug.WriteLine("");
+                
                 byte[] array = s.ToByteArray();
+                foreach (int i in array) {
+                    Debug.Write(i + ", ");
+				}
                 await this.tcpClient.GetStream().WriteAsync(array, 0, array.Length);
                 await this.tcpClient.GetStream().FlushAsync();
+                byte[] received = await Read();
 			}
 		}
 
@@ -110,7 +125,7 @@ namespace Client
             return ret;
         }
 
-        public async Task<byte[]> Read(NetworkStream stream)
+        public async Task<byte[]> Read()
         {
             byte[] prefix = new byte[4];
             await this.stream.ReadAsync(prefix, 0, 4);

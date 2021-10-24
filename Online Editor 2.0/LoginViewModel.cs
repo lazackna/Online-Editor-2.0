@@ -47,10 +47,13 @@ namespace Online_Editor
 		public async Task ClientLogin()
 		{
 			Debug.WriteLine(UserName + ":" + PassWord);
+			await this.client.SendMessage("hello?");
+			//await this.client.Read();
 		}
 
 		public async Task ClientMakeAccount()
 		{
+			//await this.client.SendTest();
 			await this.client.SendSegments(new ByteData(Messages.RequestAccount()));
 		}
 
