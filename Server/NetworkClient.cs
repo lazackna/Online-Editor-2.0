@@ -1,4 +1,5 @@
 ﻿using Communication;
+using DataCommunication;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,9 +70,7 @@ namespace Server
 		}
 
 		public async Task WriteOkResponse() {
-			byte[] buffer = WrapMessage(Encoding.ASCII.GetBytes("200 OK"));
-			await this.stream.WriteAsync(buffer);
-			await this.stream.FlushAsync();
+			await Write(new ByteData(Messages.ResponseOk()));
 		}
 
 		private byte[] WrapMessage(byte[] message)

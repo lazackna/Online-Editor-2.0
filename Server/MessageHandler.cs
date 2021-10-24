@@ -17,7 +17,7 @@ namespace Server
 			this.client = client;
 		}
 
-		public void Handle (ByteData data)
+		public async Task Handle (ByteData data)
 		{
 
 			
@@ -25,10 +25,10 @@ namespace Server
 			switch (data.GetMessageType())
 			{
 				case 0:
-					Login(data);
+					await Login(data);
 					break;
 				case 1:
-					RequestAccount(data);
+					await RequestAccount(data);
 					break;
 				case 2:
 					MakeAccount(data);
@@ -84,9 +84,9 @@ namespace Server
 			
 		}
 
-		public void Login (ByteData array)
+		public async Task Login (ByteData array)
 		{
-
+			await this.client.WriteOkResponse();
 
 		}
 

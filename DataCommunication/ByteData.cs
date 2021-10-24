@@ -41,7 +41,7 @@ namespace Communication
 				builder.Append(segment.GetMessage());
 			}
 			this.Message = builder.ToString();
-			this.Id = this.Segments[0]._id;
+			this.Id = this.Segments[0]._type;
 		}
 
 		public byte GetMessageType() {

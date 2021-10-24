@@ -106,7 +106,7 @@ namespace Client
                 await this.tcpClient.GetStream().WriteAsync(array, 0, array.Length);
                 await this.tcpClient.GetStream().FlushAsync();
                 byte[] received = await Read();
-                Debug.WriteLine(Encoding.ASCII.GetString(received));
+                Debug.WriteLine("\nReceived: " + Encoding.ASCII.GetString(received) + "\n");
                 
 			}
             

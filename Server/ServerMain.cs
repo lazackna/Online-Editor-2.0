@@ -79,7 +79,7 @@ namespace Server
 						   ByteData data = new ByteData(segments);
 						   
 						   Console.WriteLine($"Received from {this.tcpClient.Client.RemoteEndPoint}: {data.Message}");
-						   this.messageHandler.Handle(data);
+						   await this.messageHandler.Handle(data);
 					   }
 					   catch (Exception e)
 					   {
