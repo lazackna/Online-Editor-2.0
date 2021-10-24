@@ -56,7 +56,7 @@ namespace Online_Editor
 			//await this.client.SendTest();
 			await this.client.SendSegments(new ByteData(Messages.RequestAccount()));
 			byte[] received = await this.client.Read();
-			ByteData data = new ByteData(new byte[1][] { received });
+			ByteData data = new ByteData(received);
 			if (data.Id == Messages.Codes.ResponseOK) {
 				await this.client.SendSegments(new ByteData(Messages.MakeAccount(UserName, PassWord)));
 			} else {

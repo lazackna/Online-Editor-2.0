@@ -32,7 +32,7 @@ namespace Communication
 			}
 		}
 
-		public ByteData(byte[][] byteArrays) {
+		public ByteData(params byte[][] byteArrays) {
 			this.Segments = new List<Segment>();
 			StringBuilder builder = new StringBuilder();
 			foreach (byte[] b in byteArrays) {
