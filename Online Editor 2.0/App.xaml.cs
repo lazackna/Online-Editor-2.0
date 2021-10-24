@@ -16,12 +16,12 @@ namespace Online_Editor
 
         protected override void OnStartup(StartupEventArgs e)
         {
-	        var window = new MainWindow();
+	        var window = new ProjectView();
 
-			var vm = new MainWindowViewModel();
+			//var vm = new MainWindowViewModel();
 
-			window.DataContext = vm;
-			window.Closed += vm.Window_Closed;
+			//window.DataContext = vm;
+			//window.Closed += vm.Window_Closed;
 
 			window.Show();
 		}
