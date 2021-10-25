@@ -55,6 +55,28 @@
     <None Remove="Resources\special\pc.png" />
     <None Remove="Resources\special\qm.png" />
     <None Remove="Resources\special\ra.png" />
+    <None Remove="Resources\special\sc.png" />
+    <None Remove="Resources\special\sp.png" />
+    <None Remove="Resources\symbols\!.png" />
+    <None Remove="Resources\symbols\#.png" />
+    <None Remove="Resources\symbols\%25.png" />
+    <None Remove="Resources\symbols\%27.png" />
+    <None Remove="Resources\symbols\%28.png" />
+    <None Remove="Resources\symbols\%29.png" />
+    <None Remove="Resources\symbols\%3b.png" />
+    <None Remove="Resources\symbols\%40.png" />
+    <None Remove="Resources\symbols\&amp;.png" />
+    <None Remove="Resources\symbols\+.png" />
+    <None Remove="Resources\symbols\,.png" />
+    <None Remove="Resources\symbols\-.png" />
+    <None Remove="Resources\symbols\..png" />
+    <None Remove="Resources\symbols\[.png" />
+    <None Remove="Resources\symbols\].png" />
+    <None Remove="Resources\symbols\^.png" />
+    <None Remove="Resources\symbols\_.png" />
+    <None Remove="Resources\symbols\{.png" />
+    <None Remove="Resources\symbols\}.png" />
+    <None Remove="Resources\symbols\~.png" />
     <None Remove="Resources\undefined.png" />
     <None Remove="Resources\uppercase\A.png" />
     <None Remove="Resources\uppercase\B.png" />
@@ -218,6 +240,69 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\special\ra.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\special\sc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\special\sp.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\!.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\#.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\%.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\&amp;.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\'.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\(.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\).png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\+.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\,.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\-.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\special\dt.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\@.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\[.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\].png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\^.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\_.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\{.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\}.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\~.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\undefined.png">

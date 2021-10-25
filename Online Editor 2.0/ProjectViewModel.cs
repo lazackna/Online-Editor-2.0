@@ -7,14 +7,12 @@ namespace Online_Editor
 {
 	public class ProjectViewModel
 	{
-		private ICanvasFiller _canvasFiller;
 		private int i;
 
 		public ProjectViewModel(ICanvasFiller canvasFiller)
 		{
-			_canvasFiller = canvasFiller;
 			AddText = new RelayCommand(e =>
-				_canvasFiller.Add(new Text(0, i += 15, "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890*\\:\"/<|?> ")));
+				canvasFiller.Add(new Text(0, i += 15, @"qwertyuiopasdfghjklzxcvbnm1234567890*\:""./<|?>; !#%&(),'-@[]^_{}~+QWERTYUIOPASDFGHJKLZXCVBNM")));
 		}
 
 		public ICommand AddText { get; }

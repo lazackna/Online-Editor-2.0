@@ -19,10 +19,11 @@ namespace Online_Editor_2._0.Util
 
 		public SymbolStorage()
 		{
-			Regex = new Regex("[\\\\|/<>\":*?]");
+			Regex = new Regex("[\\\\|/<>\":*? \\.;]");
 			SpecialConverter = new Dictionary<string, string>
 			{
-				{"\\", "bs"}, {"|", "pc"}, {"/", "fs"}, {"<", "la"}, {">", "ra"}, {"\"", "dq"}, {":", "cl"}, {"*", "as"}, {"?", "qm"}
+				{"\\", "bs"}, {@"|", "pc"}, {@"/", "fs"}, {@"<", "la"}, {@">", "ra"}, {"\"", "dq"},
+				{@":", "cl"}, {@"*", "as"}, {@"?", "qm"}, {@" ", "sp"}, {@".", "dt"}, {@";", "sc"}
 			};
 			UndefinedPath = Path.Combine("Resources", "undefined.png");
 			Undefined = new Bitmap(Image.FromFile(UndefinedPath));
