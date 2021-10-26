@@ -59,6 +59,7 @@ namespace Online_Editor
 			ByteData data = new ByteData(received);
 			if (data.Id == Messages.Codes.ResponseOK) {
 				await this.client.SendSegments(new ByteData(Messages.MakeAccount(UserName, PassWord)));
+				// get responseOK Read();
 			} else {
 				// not allowed to make account
 			}

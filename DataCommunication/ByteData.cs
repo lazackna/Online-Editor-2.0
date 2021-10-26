@@ -127,7 +127,7 @@ namespace Communication
 			var s = new Segment();
 
 			var lengthArr = new byte[LengthSize];
-			var messageArr = new byte[s._length - LengthSize - TypeSize - IdSize - ChecksumSize];
+			var messageArr = new byte[bytes.Length - LengthSize - TypeSize - IdSize - ChecksumSize];
 			var idArr = new byte[IdSize];
 
 			Array.Copy(bytes, 0, lengthArr, 0, 2);

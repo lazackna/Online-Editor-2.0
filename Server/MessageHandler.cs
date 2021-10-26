@@ -1,5 +1,6 @@
 ﻿using Communication;
 using DataCommunication;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,12 @@ namespace Server
 {
 	public class MessageHandler
 	{
+		private AccountManager manager;
 		public NetworkClient client;
 		public MessageHandler (NetworkClient client)
 		{
 			this.client = client;
+			this.manager = new AccountManager();
 		}
 
 		public async Task Handle (ByteData data)
@@ -94,8 +97,16 @@ namespace Server
 			await this.client.Write(new ByteData(Messages.ResponseOk()));
 		}
 
-		public void MakeAccount (ByteData array) {
+		public async Task MakeAccount (ByteData array) {
 			Console.WriteLine("making account");
+			JObject root = JObject.Parse(array.Message);
+			
+
+			if (this.manager.CreateAccount(root.Value<string>("username"),root.Value<string>("password"))) {
+				await this.client.WriteOkResponse();
+			} else {
+				await this.client.WriteNotOkResponse();
+			}
 		}
 
 	}

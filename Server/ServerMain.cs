@@ -26,7 +26,7 @@ namespace Server
 		public ServerMain()
 		{
 			clients = new List<ClientHandler>();
-
+			AccountManager.InitializeServer();
 			this.listener = new TcpListener(IPAddress.Loopback, 34192);
 			this.listener.Start();
 			this.listener.BeginAcceptTcpClient(OnConnect, null);

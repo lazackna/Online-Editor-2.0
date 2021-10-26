@@ -73,6 +73,10 @@ namespace Server
 			await Write(new ByteData(Messages.ResponseOk()));
 		}
 
+		public async Task WriteNotOkResponse() {
+			await Write(new ByteData(Messages.ResponseNotOk()));
+		}
+
 		private byte[] WrapMessage(byte[] message)
 		{
 			// Get the length prefix for the message
