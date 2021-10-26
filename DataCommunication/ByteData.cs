@@ -11,89 +11,150 @@ namespace Communication
 		public int Id;
 		public ByteData((byte, string) message)
 		{
-			Segments = new List<Segment>();
-
 			var messageType = message.Item1;
-			var messagePayload = message.Item2;
-			if (messagePayload == null) throw new ArgumentNullException(nameof(messagePayload), "the payload was null");
+			Message = message.Item2 ?? throw new ArgumentNullException(nameof(message.Item2), "the payload was null");
 
-			var maxSize = Segment.MaxMessageSize();
-			var length = messagePayload.Length;
+			var maxSize = Segment.MaxMessageSize;
+			var length = Message.Length;
 
-			if (length <= maxSize) Segments.Add(new Segment(messageType, messagePayload, 0));
+			if (length <= maxSize)
+			{
+				var segment = new Segment(messageType, Message, 0);
+				segment.CalculateChecksum();
+				Segments = new List<Segment> { segment };
+			}
 			else
 			{
-				var segmentCount = decimal.ToInt32(Math.Ceiling((decimal)length / maxSize));
+				var segmentCount = decimal.ToInt32(Math.Ceiling((decimal) length / maxSize));
+				Segments = new List<Segment>(segmentCount);
+
 				for (var i = 0; i < segmentCount; i++)
 				{
-					var segmentMessage = messagePayload.Substring(maxSize * i, Math.Min(maxSize, length - maxSize * i));
-					Segments.Add(new Segment(messageType, segmentMessage, (byte)(segmentCount - i - 1)));
+					var segmentMessage = Message.Substring(maxSize * i, Math.Min(maxSize, length - maxSize * i));
+					var segment = new Segment(messageType, segmentMessage, (byte) (segmentCount - (i + 1)));
+					segment.CalculateChecksum();
+					Segments.Add(segment);
 				}
 			}
 		}
+		public ByteData(params byte[][] data)
+		{
+			Segments = new List<Segment>();
+			var builder = new StringBuilder();
 
-		public ByteData(params byte[][] byteArrays) {
-			this.Segments = new List<Segment>();
-			StringBuilder builder = new StringBuilder();
-			foreach (byte[] b in byteArrays) {
-				Segment segment = new Segment(b);
+			foreach (var bytes in data)
+			{
+				var segment = new Segment(bytes);
 				Segments.Add(segment);
-				builder.Append(segment.GetMessage());
+				builder.Append(segment.Message);
 			}
-			this.Message = builder.ToString();
+			Message = builder.ToString();
 			this.Id = this.Segments[0]._type;
 		}
-
 		public byte GetMessageType() {
 			return this.Segments[0]._type;
+		}
+		public static bool TryParse(out ByteData byteData, params byte[][] data)
+		{
+			var bd = new ByteData { Segments = new List<Segment>() };
+			var builder = new StringBuilder();
+
+			foreach (var bytes in data)
+			{
+				if (Segment.TryParse(out var segment, bytes))
+				{
+					bd.Segments.Add(segment);
+					builder.Append(segment.Message);
+				}
+				else
+				{
+					byteData = null;
+					return false;
+				}
+			}
+
+			bd.Message = builder.ToString();
+			byteData = bd;
+			return true;
 		}
 	}
 
 	public class Segment
 	{
-		internal static readonly byte LengthSize = 2;
-		internal static readonly byte TypeSize = 1;
-		internal static readonly byte IdSize = 2;
-		internal static readonly byte ChecksumSize = 1;
+		private const byte LengthSize = 2;
+		private const byte TypeSize = 1;
+		private const byte IdSize = 2;
+		private const byte ChecksumSize = 1;
 		internal static readonly ushort TotalLength = 1024;
-		internal static ushort MaxMessageSize() => (ushort)(TotalLength - LengthSize - TypeSize - IdSize - ChecksumSize);
+		internal static readonly ushort MaxMessageSize = (ushort) (TotalLength - LengthSize - TypeSize - IdSize - ChecksumSize);
 
-		private readonly ushort _length;
-		public readonly byte _type;
-		public readonly string Message;
+		private const int TypeIndex = LengthSize + TypeSize - 1;
+		private ushort _length;
+		internal byte Type { private set; get; }
+		public string Message { private set; get; }
 		public readonly ushort _id;
 		private byte _checksum;
 
 		public Segment(byte[] bytes)
 		{
-			var lengthArr = new byte[LengthSize];
-			Array.Copy(bytes, 0, lengthArr, 0, 2);
-			Array.Reverse(lengthArr);
-			_length = BitConverter.ToUInt16(lengthArr, 0);
-			Console.WriteLine(_length);
-			_type = bytes[2];
-			var messageArr = new byte[_length - LengthSize - TypeSize - IdSize - ChecksumSize];
-			Console.WriteLine(messageArr.Length);
-			Array.Copy(bytes, 3, messageArr, 0, messageArr.Length);
-			Message = Encoding.ASCII.GetString(messageArr);
-			var idArr = new byte[IdSize];
-			Array.Copy(bytes, bytes.Length - 3, idArr, 0, 2);
-			Array.Reverse(idArr);
-			_id = BitConverter.ToUInt16(idArr, 0);
-			_checksum = CalculateChecksum();
-			Console.WriteLine(_checksum);
-
-			if (_checksum != bytes[^1]) throw new Exception("checksum was not correct");
+			if (TryParse(out var segment, bytes))
+			{
+				_length = segment._length;
+				Type = segment.Type;
+				Message = segment.Message;
+				_id = segment._id;
+				_checksum = segment._checksum;
+			}
+			else throw new Exception("Checksum was not correct");
 		}
 
-		internal Segment(byte messageType, string messagePayload, ushort id)
+		internal Segment(byte type, string message, ushort id)
 		{
-			if (messagePayload.Length > MaxMessageSize()) throw new ArgumentOutOfRangeException(nameof(messagePayload.Length), "message was too long");
-			_length = (ushort)(messagePayload.Length + LengthSize + TypeSize + IdSize + ChecksumSize);
-			_type = messageType;
-			Message = messagePayload;
+			if (message.Length > MaxMessageSize) throw new ArgumentOutOfRangeException(nameof(message.Length), "message was too long");
+			_length = (ushort) (LengthSize + TypeSize + message.Length + IdSize + ChecksumSize);
+			Type = type;
+			Message = message;
 			_id = id;
-			_checksum = CalculateChecksum();
+			_checksum = 0;
+		}
+
+		private Segment()
+		{
+		}
+
+		public static bool TryParse(out Segment segment, byte[] bytes)
+		{
+			var s = new Segment();
+
+			var lengthArr = new byte[LengthSize];
+			var messageArr = new byte[s._length - LengthSize - TypeSize - IdSize - ChecksumSize];
+			var idArr = new byte[IdSize];
+
+			Array.Copy(bytes, 0, lengthArr, 0, 2);
+			Array.Copy(bytes, 3, messageArr, 0, messageArr.Length);
+			Message = Encoding.ASCII.GetString(messageArr);
+			var idArr = new byte[2];
+			Array.Copy(bytes, bytes.Length - 3, idArr, 0, 2);
+
+			Array.Reverse(lengthArr);
+			Array.Reverse(idArr);
+			_id = BitConverter.ToUInt16(idArr, 0);
+			_checksum = 0;
+			CalculateChecksum();
+			Console.WriteLine(_checksum);
+
+			s._length = BitConverter.ToUInt16(lengthArr, 0);
+			s.Type = bytes[TypeIndex];
+			s.Message = Encoding.ASCII.GetString(messageArr);
+			s._id = BitConverter.ToUInt16(idArr, 0);
+
+			s._checksum = 0;
+			s.CalculateChecksum();
+
+			var correctChecksum = s._checksum == bytes[^1];
+
+			segment = correctChecksum ? s : null;
+			return correctChecksum;
 		}
 
 		public string GetMessage () {
@@ -117,10 +178,11 @@ namespace Communication
 
 			var bytes = new byte[LengthSize + TypeSize + IdSize + ChecksumSize + messageAsBytes.Length];
 			lengthAsBytes.CopyTo(bytes, 0);
-			bytes[2] = _type;
+			bytes[TypeIndex] = Type;
 			messageAsBytes.CopyTo(bytes, 3);
 			idAsBytes.CopyTo(bytes, bytes.Length - 3);
 			bytes[^1] = _checksum;
+
 			return bytes;
 		}
 
@@ -143,17 +205,5 @@ namespace Communication
 			}
 			return output;
 		}
-
-		//public static void Main(string[] args)
-		//{
-		//	var s1 = new Segment(0, "a", 256);
-		//	s1.CalculateChecksum();
-		//	Console.WriteLine(string.Join(", ", s1.ToByteArray()));
-		//	Console.WriteLine();
-
-		//	var s2 = new Segment(s1.ToByteArray());
-		//	Console.WriteLine(string.Join(", ", s2.ToByteArray()));
-		//	Console.WriteLine();
-		//}
 	}
 }

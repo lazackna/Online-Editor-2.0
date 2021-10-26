@@ -54,21 +54,5 @@ namespace DataCommunication
 			public static readonly byte ClientPing = 193;
 			public static readonly byte ServerPing = 194;
 		}
-
-		//public static void Main(string[] args)
-		//{
-		//	Console.WriteLine(Login("Merijn", "njireM"));
-		//	Console.WriteLine(RequestAccount());
-		//	Console.WriteLine(MakeAccount("Jasper", "repsaJ"));
-		//	Console.WriteLine(RequestPages());
-		//	Console.WriteLine(RequestPage("user/page/name"));
-		//	Console.WriteLine(UploadPage());
-		//	Console.WriteLine(RequestChangePage());
-		//	Console.WriteLine(UploadChangedPage("user2/page2/name2"));
-		//	Console.WriteLine(ResponseOk());
-		//	Console.WriteLine(ResponseNotOk());
-		//	Console.WriteLine(ClientPing());
-		//	Console.WriteLine(ServerPing());
-		//}
 	}
 }
