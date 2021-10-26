@@ -46,8 +46,15 @@ namespace Online_Editor
 
 		public async Task ClientLogin()
 		{
-			Debug.WriteLine(UserName + ":" + PassWord);
+			
 			await this.client.SendSegments(new ByteData(Messages.Login(UserName, PassWord)));
+			ByteData data = new ByteData(await this.client.Read());
+			if (data.Id == Messages.Codes.ResponseOK) {
+				// Tell client that they are logged in and change screen.
+			} else {
+				// Could not log in.
+			}
+			
 			//await this.client.Read();
 		}
 
@@ -59,10 +66,22 @@ namespace Online_Editor
 			ByteData data = new ByteData(received);
 			if (data.Id == Messages.Codes.ResponseOK) {
 				await this.client.SendSegments(new ByteData(Messages.MakeAccount(UserName, PassWord)));
-				// get responseOK Read();
+				data = new ByteData(await this.client.Read());
+
+				if (!(data.Id == Messages.Codes.ResponseOK)) {
+					// could not create account. Could be due to already existing or an error occured on the server.
+				}
+				
 			} else {
 				// not allowed to make account
 			}
+		}
+
+		public async Task Ping()
+		{
+			await this.client.SendSegments(new ByteData(Messages.ClientPing()));
+			ByteData data = new ByteData(await this.client.Read());
+			Debug.WriteLine(data.Message);
 		}
 
 	}

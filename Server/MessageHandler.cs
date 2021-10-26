@@ -34,7 +34,7 @@ namespace Server
 					await RequestAccount(data);
 					break;
 				case 2:
-					MakeAccount(data);
+					await MakeAccount(data);
 					break;
 				case 20:
 					RequestPages(data);
@@ -52,14 +52,14 @@ namespace Server
 					UploadChangedPage(data);
 					break;
 				case 193:
-					Ping(data);
+					await Ping(data);
 					break;
 			}
 		}
 
-		public void Ping (ByteData array)
+		public async Task Ping (ByteData array)
 		{
-			
+			await this.client.Write(new ByteData(Messages.ServerPing()));
 		}
 
 		public void UploadChangedPage (ByteData array)
@@ -89,7 +89,14 @@ namespace Server
 
 		public async Task Login (ByteData array)
 		{
-			await this.client.WriteOkResponse();
+			JObject root = Parse(array);
+			if (this.manager.Login(root.Value<string>("username"), root.Value<string>("password"))) {
+				// log client into server.
+
+				await this.client.WriteOkResponse();
+			} else {
+				await this.client.WriteNotOkResponse();
+			}
 
 		}
 
@@ -107,6 +114,10 @@ namespace Server
 			} else {
 				await this.client.WriteNotOkResponse();
 			}
+		}
+
+		private JObject Parse (ByteData data) {
+			return JObject.Parse(data.Message);
 		}
 
 	}
