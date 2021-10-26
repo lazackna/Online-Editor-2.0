@@ -6,7 +6,7 @@ namespace Communication
 {
 	public class ByteData
 	{
-		public readonly IList<Segment> Segments;
+		public IList<Segment> Segments { private set; get; }
 		public string Message;
 		public int Id;
 		public ByteData((byte, string) message)
@@ -49,10 +49,10 @@ namespace Communication
 				builder.Append(segment.Message);
 			}
 			Message = builder.ToString();
-			this.Id = this.Segments[0]._type;
+			this.Id = this.Segments[0].Type;
 		}
 		public byte GetMessageType() {
-			return this.Segments[0]._type;
+			return this.Segments[0].Type;
 		}
 		public static bool TryParse(out ByteData byteData, params byte[][] data)
 		{
@@ -92,7 +92,7 @@ namespace Communication
 		private ushort _length;
 		internal byte Type { private set; get; }
 		public string Message { private set; get; }
-		public readonly ushort _id;
+		public ushort _id { private set; get; }
 		private byte _checksum;
 
 		public Segment(byte[] bytes)
@@ -132,16 +132,15 @@ namespace Communication
 
 			Array.Copy(bytes, 0, lengthArr, 0, 2);
 			Array.Copy(bytes, 3, messageArr, 0, messageArr.Length);
-			Message = Encoding.ASCII.GetString(messageArr);
-			var idArr = new byte[2];
+			s.Message = Encoding.ASCII.GetString(messageArr);
 			Array.Copy(bytes, bytes.Length - 3, idArr, 0, 2);
 
 			Array.Reverse(lengthArr);
 			Array.Reverse(idArr);
-			_id = BitConverter.ToUInt16(idArr, 0);
-			_checksum = 0;
-			CalculateChecksum();
-			Console.WriteLine(_checksum);
+			s._id = BitConverter.ToUInt16(idArr, 0);
+			s._checksum = 0;
+			s.CalculateChecksum();
+			Console.WriteLine(s._checksum);
 
 			s._length = BitConverter.ToUInt16(lengthArr, 0);
 			s.Type = bytes[TypeIndex];
