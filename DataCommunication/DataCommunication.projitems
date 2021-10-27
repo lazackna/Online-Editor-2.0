@@ -11,11 +11,19 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ByteData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Message.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\ButtonPictureStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\Button.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\Element.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\providers\IImageProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\Image.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\providers\IOffsetProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\providers\IPositionProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\providers\ISizeProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\providers\ITextProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\Text.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\TextElement.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\Page.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\PictureStorage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\SymbolStorage.cs" />
   </ItemGroup>
 </Project>

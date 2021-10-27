@@ -1,21 +1,17 @@
-﻿using System;
-
-namespace DataCommunication_ProjectData
+﻿namespace DataCommunication_ProjectData
 {
-	public abstract class Element
+	public abstract class Element : IPositionProvider
 	{
-		public int X { get; set; }
-		public int Y { get; set; }
+		private readonly int _x;
+		private readonly int _y;
 
 		protected Element(int x, int y)
 		{
-			X = x;
-			Y = y;
+			_x = x;
+			_y = y;
 		}
 
-		public virtual bool HasText() => false;
-		public virtual bool HasImage() => false;
-
-		public virtual string GetText() => throw new NotImplementedException();
+		public int GetX() => _x;
+		public int GetY() => _y;
 	}
 }

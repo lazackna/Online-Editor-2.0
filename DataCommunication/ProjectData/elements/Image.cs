@@ -1,16 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Drawing;
 
 namespace DataCommunication_ProjectData
 {
-	public class Image : Element
+	public class Image : Element, IImageProvider
 	{
-		public int Width { get; set; }
-		public int Height { get; set; }
+		private readonly int _width;
+		private readonly int _height;
 
-		public Image(int x, int y, int width, int height) : base(x, y) { Width = width; Height = height; }
+		public Image(int x, int y, int width, int height) : base(x, y) { _width = width; _height = height; }
 
-		public override bool HasImage() => true;
+		public Bitmap GetImage()
+		{
+			throw new NotImplementedException();
+		}
+		public int GetWidth() => _width;
+		public int GetHeight() => _height;
 	}
 }

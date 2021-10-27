@@ -3,40 +3,43 @@ using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace Online_Editor_2._0.Util
+namespace Storage
 {
 	class SymbolStorage
 	{
-		public static readonly SymbolStorage Instance = new SymbolStorage();
+		private static SymbolStorage _instance;
+		public static SymbolStorage Instance => _instance ??= new SymbolStorage();
 
-		internal readonly Regex Regex;
+		private static readonly string ResourceRoot = Path.Combine("Resources", "symbols");
+
+		private readonly Regex regex;
 		private readonly IDictionary<string, string> specialConverter;
 
 		private readonly string undefinedPath;
-		private readonly Bitmap undefined;
+		public readonly Bitmap Undefined;
 
 		private readonly IDictionary<string, Bitmap> symbols;
 
 		private SymbolStorage()
 		{
-			Regex = new Regex(@"[\\|/<>"":*? \.;]");
+			regex = new Regex(@"[\\|/<>"":*? \.;]");
 			specialConverter = new Dictionary<string, string>
 			{
 				{"\\", "bs"}, {@"|", "pc"}, {@"/", "fs"}, {@"<", "la"}, {@">", "ra"}, {"\"", "dq"},
 				{@":", "cl"}, {@"*", "as"}, {@"?", "qm"}, {@" ", "sp"}, {@".", "dt"}, {@";", "sc"}
 			};
-			undefinedPath = Path.Combine("Resources", "undefined.png");
-			undefined = new Bitmap(Image.FromFile(undefinedPath));
+			undefinedPath = Path.Combine(ResourceRoot, "undefined.png");
+			Undefined = new Bitmap(Image.FromFile(undefinedPath));
 
 			symbols = new Dictionary<string, Bitmap>();
 
-			GetFiles("Resources");
+			GetFiles(ResourceRoot);
 		}
 
 		~SymbolStorage()
 		{
-			undefined.Dispose();
-			foreach (var symbols in symbols.Values) symbols.Dispose();
+			Undefined.Dispose();
+			foreach (var symbolBmp in symbols.Values) symbolBmp.Dispose();
 		}
 
 		private void GetFiles(string path)
@@ -52,8 +55,8 @@ namespace Online_Editor_2._0.Util
 		public Bitmap GetImage(char symbol)
 		{
 			var s = $"{symbol}";
-			if (Regex.IsMatch(s)) s = specialConverter[s];
-			return symbols.ContainsKey(s) ? symbols[s] : undefined;
+			if (regex.IsMatch(s)) s = specialConverter[s];
+			return symbols.ContainsKey(s) ? symbols[s] : Undefined;
 		}
 	}
 }
