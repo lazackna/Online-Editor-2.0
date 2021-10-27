@@ -39,7 +39,6 @@ namespace Server
 		public bool Login(string name, string password)
 		{
 			string root = Path.Combine(dataPath, name);
-			GetPages();
 			if (Directory.Exists(root) && File.Exists(Path.Combine(root, PASSPATH)))
 			{
 				string savedpass = File.ReadAllText(Path.Combine(root, PASSPATH));
