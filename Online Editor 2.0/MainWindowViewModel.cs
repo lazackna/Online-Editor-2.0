@@ -12,6 +12,7 @@ using System.Windows.Input;
 using Client;
 using Online_Editor.Util;
 using Online_Editor_2._0.Util;
+using DataCommunication;
 
 namespace Online_Editor
 {
@@ -85,7 +86,7 @@ namespace Online_Editor
 			{
 				if (openProjectCommand == null)
 				{
-					openProjectCommand = new RelayCommand(e => OpenProject());
+					openProjectCommand = new RelayCommand(async e => await OpenProject());
 				}
 
 				return openProjectCommand;
@@ -93,9 +94,17 @@ namespace Online_Editor
 			
 		}
 
-		public void OpenProject()
+		public async Task OpenProject()
 		{
 			// Open project.
+			await client.SendSegments(new ByteData(Messages.RequestPage(selectedProject.path)));
+
+			ByteData data = null;
+			if (ByteData.TryParse(out data, await client.Read()))
+			{
+				//open the project view and load the project.
+			}
+			
 			
 		}
 

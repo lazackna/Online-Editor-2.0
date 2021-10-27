@@ -1,5 +1,4 @@
-﻿using Communication;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
@@ -7,6 +6,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DataCommunication;
 
 namespace Server
 {

@@ -1,5 +1,4 @@
-﻿using Communication;
-using DataCommunication;
+﻿using DataCommunication;
 using System;
 using System.Collections.Generic;
 using System.Linq;

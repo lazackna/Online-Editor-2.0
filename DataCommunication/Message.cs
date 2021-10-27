@@ -13,6 +13,7 @@ namespace DataCommunication
 		public static (byte, string) RequestPages() => (Codes.RequestPages, StringMessages.RequestPages);
 		public static (byte, string) RequestPagesResponse(string pages) => (Codes.RequestPagesResponse, pages);
 		public static (byte, string) RequestPage(string pageID) => (Codes.RequestPage, JsonMessages.requestPage(pageID).ToString());
+		public static (byte, string) RequestPageResponse(Page page) => (Codes.RequestPageResponse, JsonMessages.requestPageResponse(page).ToString());
 		public static (byte, string) UploadPage(Page page) => (Codes.UploadPage, JsonMessages.uploadPage(page).ToString());
 		public static (byte, string) RequestChangePage() => (Codes.RequestChangePage, StringMessages.RequestChangePage);
 		public static (byte, string) UploadChangedPage(string pageID, Page page) => (Codes.UploadChangedPage, JsonMessages.uploadChangedPage(pageID, page).ToString());
@@ -26,6 +27,7 @@ namespace DataCommunication
 			internal static JObject Login(string username, string password) => JObject.FromObject(new { username, password });
 			internal static JObject MakeAccount(string username, string password) => JObject.FromObject(new { username, password });
 			internal static JObject requestPage(string pageID) => JObject.FromObject(new { page = pageID });
+			internal static JObject requestPageResponse(Page page) => JObject.FromObject(new { elements = page.Elements });
 			internal static JObject uploadPage(Page page) => JObject.FromObject(new { elements = page.Elements });
 			internal static JObject uploadChangedPage(string pageID, Page page) => JObject.FromObject(new { page = pageID, elements = page.Elements });
 			internal static JObject ping() => JObject.FromObject(new { sendtime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() });

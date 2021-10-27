@@ -1,5 +1,4 @@
-﻿using Communication;
-using DataCommunication;
+﻿using DataCommunication;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
