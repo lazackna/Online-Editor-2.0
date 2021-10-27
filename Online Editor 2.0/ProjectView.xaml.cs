@@ -15,11 +15,8 @@ namespace Online_Editor
 	/// </summary>
 	public partial class ProjectView : Window, ICanvasFiller
 	{
-		private readonly SymbolStorage symbols;
-
 		public ProjectView()
 		{
-			symbols = new SymbolStorage();
 			InitializeComponent();
 			DataContext = new ProjectViewModel(this);
 		}
@@ -40,6 +37,9 @@ namespace Online_Editor
 			var text = element.GetText();
 			var x = element.X;
 			var y = element.Y;
+
+			var symbols = SymbolStorage.Instance;
+
 			foreach (var t in text)
 			{
 				var src = Imaging.CreateBitmapSourceFromHBitmap(symbols.GetImage(t).GetHbitmap(),
