@@ -1,20 +1,35 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
+using Storage;
 
 namespace DataCommunication_ProjectData
 {
 	public class Image : Element, IImageProvider
 	{
-		private readonly int _width;
-		private readonly int _height;
+		private Bitmap _image;
 
-		public Image(int x, int y, int width, int height) : base(x, y) { _width = width; _height = height; }
-
-		public Bitmap GetImage()
+		public Image(int x, int y, string base64Image) : base(x, y)
 		{
-			throw new NotImplementedException();
+			var bytes = Convert.FromBase64String(base64Image);
+			using var ms = new MemoryStream(bytes);
+			try
+			{
+				_image = new Bitmap(ms);
+			}
+			catch
+			{
+				_image = ImagePictureStorage.Instance.Image;
+			}
 		}
-		public int GetWidth() => _width;
-		public int GetHeight() => _height;
+
+		~Image()
+		{
+			_image.Dispose();
+		}
+
+		public Bitmap GetImage() => _image;
+		public int GetWidth() => _image.Width;
+		public int GetHeight() => _image.Height;
 	}
 }

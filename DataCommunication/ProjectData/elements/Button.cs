@@ -27,6 +27,11 @@ namespace DataCommunication_ProjectData
 			}
 		}
 
+		~Button()
+		{
+			_image.Dispose();
+		}
+
 		private Bitmap MakeImage(ButtonPictureStorage bps, int centerSegments = 0)
 		{
 			var image = new Bitmap(bps.Left, bps.Left.Width + centerSegments + bps.Right.Width, bps.Left.Height);

@@ -13,6 +13,7 @@
     <None Remove="Resources\pictures\button\center.png" />
     <None Remove="Resources\pictures\button\left.png" />
     <None Remove="Resources\pictures\button\right.png" />
+    <None Remove="Resources\pictures\invalid_image.png" />
     <None Remove="Resources\symbols\lowercase\a.png" />
     <None Remove="Resources\symbols\lowercase\b.png" />
     <None Remove="Resources\symbols\lowercase\c.png" />
@@ -117,6 +118,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\pictures\button\right.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\pictures\invalid_image.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\symbols\lowercase\a.png">

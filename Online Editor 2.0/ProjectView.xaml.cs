@@ -6,7 +6,6 @@ using System.Windows.Media.Imaging;
 using DataCommunication_ProjectData;
 using Online_Editor_2._0.Util;
 using Storage;
-using Button = DataCommunication_ProjectData.Button;
 using Image = System.Windows.Controls.Image;
 
 namespace Online_Editor
@@ -20,8 +19,6 @@ namespace Online_Editor
 		{
 			InitializeComponent();
 			DataContext = new ProjectViewModel(this);
-
-			Add(new Button(10, 10, "Merijn en Jasper Project"));
 		}
 
 		public void Add(Element element)

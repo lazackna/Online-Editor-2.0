@@ -22,6 +22,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\providers\ITextProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\Text.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\TextElement.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\ImagePictureStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\Page.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\PictureStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\SymbolStorage.cs" />
