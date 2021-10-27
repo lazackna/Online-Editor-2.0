@@ -1,5 +1,6 @@
 ﻿using Communication;
 using DataCommunication;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,7 @@ namespace Server
 					await MakeAccount(data);
 					break;
 				case 20:
-					RequestPages(data);
+					await RequestPages(data);
 					break;
 				case 21:
 					RequestPage(data);
@@ -77,9 +78,11 @@ namespace Server
 			
 		}
 
-		public void RequestPages (ByteData array)
+		public async Task RequestPages (ByteData array)
 		{
-			
+			List<string> list = this.manager.GetPages();
+			string pages = JsonConvert.SerializeObject(list);
+			await this.client.Write(new ByteData(Messages.RequestPagesResponse(pages)));
 		}
 
 		public void RequestPage (ByteData array)

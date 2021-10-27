@@ -1,6 +1,7 @@
 ﻿using Client;
 using Communication;
 using DataCommunication;
+using Newtonsoft.Json;
 using Online_Editor.Util;
 using System;
 using System.Collections.Generic;
@@ -51,11 +52,19 @@ namespace Online_Editor
 			ByteData data = new ByteData(await this.client.Read());
 			if (data.Id == Messages.Codes.ResponseOK) {
 				// Tell client that they are logged in and change screen.
+				await RequestPages();
 			} else {
 				// Could not log in.
 			}
 			
 			//await this.client.Read();
+		}
+
+		public async Task RequestPages()
+		{
+			await this.client.SendSegments(new ByteData(Messages.RequestPages()));
+			ByteData data = new ByteData(await this.client.Read());
+			List<string> pages = JsonConvert.DeserializeObject<List<string>>(data.Message);
 		}
 
 		public async Task ClientMakeAccount()

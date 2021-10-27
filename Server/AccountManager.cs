@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -38,13 +39,43 @@ namespace Server
 		public bool Login(string name, string password)
 		{
 			string root = Path.Combine(dataPath, name);
+			GetPages();
 			if (Directory.Exists(root) && File.Exists(Path.Combine(root, PASSPATH)))
 			{
 				string savedpass = File.ReadAllText(Path.Combine(root, PASSPATH));
 				if (password == savedpass) return true;
 			}
-
+			
 			return false;
+		}
+
+		public List<string> GetPages()
+		{
+			string[] users = Directory.GetDirectories(dataPath);
+			List<string> list = new List<string>();
+			foreach (string s in users)
+			{
+				//list.AddRange()
+				string[] projects = GetProjects(s);
+				list.AddRange(projects);
+			}
+
+			return list;
+		}
+
+		private string[] GetProjects (string directory)
+		{
+			string[] projects = Directory.GetDirectories(directory);
+			if (projects.Length == 0) return null;
+			string[] projectNames = new string[projects.Length];
+			for(int i = 0; i < projects.Length; i++)
+			{
+				string projectName = projects[i].Substring(projects[i].LastIndexOf("\\") + 1);
+				string userName = directory.Substring(directory.LastIndexOf("\\") + 1);
+				string fullName = userName + "|" + projectName;
+				projectNames[i] = fullName;
+			}
+			return projectNames;
 		}
 
 

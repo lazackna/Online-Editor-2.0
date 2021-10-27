@@ -11,6 +11,7 @@ namespace DataCommunication
 		public static (byte, string) RequestAccount() => (Codes.RequestAccount, StringMessages.RequestAccount);
 		public static (byte, string) MakeAccount(string username, string password) => (Codes.MakeAccount, JsonMessages.MakeAccount(username, password).ToString());
 		public static (byte, string) RequestPages() => (Codes.RequestPages, StringMessages.RequestPages);
+		public static (byte, string) RequestPagesResponse(string pages) => (Codes.RequestPagesResponse, pages);
 		public static (byte, string) RequestPage(string pageID) => (Codes.RequestPage, JsonMessages.requestPage(pageID).ToString());
 		public static (byte, string) UploadPage(Page page) => (Codes.UploadPage, JsonMessages.uploadPage(page).ToString());
 		public static (byte, string) RequestChangePage() => (Codes.RequestChangePage, StringMessages.RequestChangePage);
@@ -44,13 +45,18 @@ namespace DataCommunication
 			public static readonly byte Login = 0;
 			public static readonly byte RequestAccount = 1;
 			public static readonly byte MakeAccount = 2;
+
 			public static readonly byte RequestPages = 20;
 			public static readonly byte RequestPage = 21;
 			public static readonly byte UploadPage = 22;
 			public static readonly byte RequestChangePage = 23;
 			public static readonly byte UploadChangedPage = 24;
+
 			public static readonly byte ResponseOK = 40;
 			public static readonly byte ResponseNotOK = 41;
+			public static readonly byte RequestPagesResponse = 42;
+			public static readonly byte RequestPageResponse = 43;
+
 			public static readonly byte ClientPing = 193;
 			public static readonly byte ServerPing = 194;
 		}
