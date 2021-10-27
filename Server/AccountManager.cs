@@ -43,8 +43,10 @@ namespace Server
 			if (Directory.Exists(root) && File.Exists(Path.Combine(root, PASSPATH)))
 			{
 				string savedpass = File.ReadAllText(Path.Combine(root, PASSPATH));
+				CreateProject("tester", "test2");
 				if (password == savedpass) return true;
 			}
+			
 			
 			return false;
 		}
@@ -61,6 +63,41 @@ namespace Server
 			}
 
 			return list;
+		}
+
+		/*
+		 * Use to create project. This is not complete. Change method and private "sub" method according to what is needed when a project is created.
+		 */
+		public bool CreateProject(string userName, string projectName)
+		{
+			string userPath = Path.Combine(dataPath, userName);
+			if (Directory.Exists(userPath))
+			{
+				string projectPath = Path.Combine(userPath, projectName);
+				if (!Directory.Exists(projectPath))
+				{
+					Directory.CreateDirectory(projectPath);
+
+					
+				} else
+				{
+					// Project already exists.
+					return false;
+				}
+				return true;
+			} else
+			{
+				// Project under that name already exists or no such user exists.
+				return false;
+			}
+		}
+		private const string mainFiller = @"{""Elements"":[{""Width"":10,""Height"":0,""Value"":""test"",""X"":0,""Y"":0}]}";
+		private void CreateProjectFiles(string path, string username)
+		{
+			string permissionPath = Path.Combine(path, "Permissions");
+			Directory.CreateDirectory(permissionPath);
+			File.Create(Path.Combine(permissionPath, username + ".perm"));
+			File.WriteAllText(Path.Combine(path, "main.mj"), mainFiller);
 		}
 
 		private string[] GetProjects (string directory)
