@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace Storage
 {
@@ -12,7 +11,6 @@ namespace Storage
 
 		private static readonly string ResourceRoot = Path.Combine("Resources", "symbols");
 
-		private readonly Regex regex;
 		private readonly IDictionary<string, string> specialConverter;
 
 		private readonly string undefinedPath;
@@ -22,7 +20,6 @@ namespace Storage
 
 		private SymbolStorage()
 		{
-			regex = new Regex(@"[\\|/<>"":*? \.;]");
 			specialConverter = new Dictionary<string, string>
 			{
 				{"\\", "bs"}, {@"|", "pc"}, {@"/", "fs"}, {@"<", "la"}, {@">", "ra"}, {"\"", "dq"},
@@ -55,7 +52,7 @@ namespace Storage
 		public Bitmap GetImage(char symbol)
 		{
 			var s = $"{symbol}";
-			if (regex.IsMatch(s)) s = specialConverter[s];
+			if (specialConverter.ContainsKey(s)) s = specialConverter[s];
 			return symbols.ContainsKey(s) ? symbols[s] : Undefined;
 		}
 	}
