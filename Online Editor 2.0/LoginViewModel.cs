@@ -38,7 +38,7 @@ namespace Online_Editor
 		private ICommand makeAccount;
 		public ICommand MakeAccount
 		{
-			get 
+			get
 			{
 				if (makeAccount == null) makeAccount = new RelayCommand(async e => await ClientMakeAccount());
 				return makeAccount;
@@ -47,17 +47,37 @@ namespace Online_Editor
 
 		public async Task ClientLogin()
 		{
-			
-			await this.client.SendSegments(new ByteData(Messages.Login(UserName, PassWord)));
+			var password = Encrypt(PassWord);
+
+
+			await this.client.SendSegments(new ByteData(Messages.Login(UserName, password)));
 			ByteData data = new ByteData(await this.client.Read());
-			if (data.Id == Messages.Codes.ResponseOK) {
+			if (data.Id == Messages.Codes.ResponseOK)
+			{
 				// Tell client that they are logged in and change screen.
 				await RequestPages();
-			} else {
+			}
+			else
+			{
 				// Could not log in.
 			}
-			
+
 			//await this.client.Read();
+		}
+
+		private string Encrypt(string value)
+		{
+			var x = 0;
+			foreach (var c in value) x = (x ^ c) << 2;
+
+			var random = new Random(x);
+
+			var passwordLength = random.Next(value.Length / 2, value.Length * 2);
+
+			var sb = new StringBuilder();
+			for (var i = 0; i < passwordLength; i++) sb.Append((char) (random.Next('0', 'z')));
+
+			return sb.ToString();
 		}
 
 		public async Task RequestPages()
@@ -73,15 +93,19 @@ namespace Online_Editor
 			await this.client.SendSegments(new ByteData(Messages.RequestAccount()));
 			byte[] received = await this.client.Read();
 			ByteData data = new ByteData(received);
-			if (data.Id == Messages.Codes.ResponseOK) {
+			if (data.Id == Messages.Codes.ResponseOK)
+			{
 				await this.client.SendSegments(new ByteData(Messages.MakeAccount(UserName, PassWord)));
 				data = new ByteData(await this.client.Read());
 
-				if (!(data.Id == Messages.Codes.ResponseOK)) {
+				if (!(data.Id == Messages.Codes.ResponseOK))
+				{
 					// could not create account. Could be due to already existing or an error occured on the server.
 				}
-				
-			} else {
+
+			}
+			else
+			{
 				// not allowed to make account
 			}
 		}
