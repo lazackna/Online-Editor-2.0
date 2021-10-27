@@ -7,12 +7,13 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using Client;
 using Online_Editor.Util;
 using Online_Editor_2._0.Util;
 using DataCommunication;
+using Newtonsoft.Json;
+using DataCommunication_ProjectData;
 
 namespace Online_Editor
 {
@@ -103,6 +104,14 @@ namespace Online_Editor
 			if (ByteData.TryParse(out data, await client.Read()))
 			{
 				//open the project view and load the project.
+				if (data.Id == Messages.Codes.RequestPageResponse)
+				{
+					Page page = JsonConvert.DeserializeObject<Page>(data.Message);
+				} else
+				{
+					// Did not find page or did not have permission (look if client has permission to see on server side to not show pointless projects.
+					// Add a folder in each project for permission to see and edit project.
+				}
 			}
 			
 			

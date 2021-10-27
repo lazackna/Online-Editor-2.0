@@ -40,6 +40,7 @@ namespace DataCommunication
 		public ByteData(params byte[][] data)
 		{
 			Segments = new List<Segment>();
+			if (data.Length == 0) return;
 			var builder = new StringBuilder();
 
 			foreach (var bytes in data)

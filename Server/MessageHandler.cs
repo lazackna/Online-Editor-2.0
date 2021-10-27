@@ -1,4 +1,5 @@
 ﻿using DataCommunication;
+using DataCommunication_ProjectData;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -40,7 +41,7 @@ namespace Server
 					await RequestPages(data);
 					break;
 				case 21:
-					RequestPage(data);
+					await RequestPage(data);
 					break;
 				case 22:
 					UploadPage(data);
@@ -83,10 +84,19 @@ namespace Server
 			string pages = JsonConvert.SerializeObject(list);
 			await this.client.Write(new ByteData(Messages.RequestPagesResponse(pages)));
 		}
-
-		public void RequestPage (ByteData array)
+		
+		public async Task RequestPage (ByteData array)
 		{
-			
+			JObject root = Parse(array);
+			string projectName = root.Value<string>("page");
+			Page page = this.manager.GetPage(projectName);
+			if (page != null)
+			{
+				await this.client.Write(new ByteData(Messages.RequestPageResponse(page)));
+			} else
+			{
+				await this.client.WriteNotOkResponse();
+			}
 		}
 
 		public async Task Login (ByteData array)

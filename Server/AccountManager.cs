@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DataCommunication_ProjectData;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -75,6 +76,27 @@ namespace Server
 				projectNames[i] = fullName;
 			}
 			return projectNames;
+		}
+
+		public Page GetPage(string projectName)
+		{
+			string[] array = projectName.Split("|");
+			string clientPath = Path.Combine(dataPath, array[0]);
+			string projectPath = Path.Combine(clientPath, array[1]);
+			string mainPath = Path.Combine(projectPath, "main.mj");
+			if (Directory.Exists(clientPath))
+			{
+				if (Directory.Exists(projectPath))
+				{
+					if (File.Exists(mainPath))
+					{
+						string fileText = File.ReadAllText(mainPath);
+
+						return JsonConvert.DeserializeObject<Page>(fileText);
+					}
+				}
+			}
+			return null;
 		}
 
 
