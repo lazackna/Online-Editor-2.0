@@ -15,9 +15,6 @@ namespace Online_Editor
 			InitializeComponent();
 		}
 
-		private void OpenPath(object sender, MouseButtonEventArgs e)
-		{
-			(DataContext as MainWindowViewModel)?.OpenPath(sender, e);
-		}
+		
 	}
 }

@@ -23,7 +23,12 @@ namespace Online_Editor
 		public static CloseLogin closeLogin;
 		private static IWindowClose loginClose;
 
-		private string SelectedProject = null;
+		private dynamic selectedProject;
+		public object SelectedProject
+		{
+			get { return selectedProject; }
+			set { selectedProject = value; NotifyPropertyChanged(); }
+		}
 
 		public ICommand Login { get; } = new RelayCommand(async e =>
 		{
@@ -60,6 +65,7 @@ namespace Online_Editor
 
 		private void CloseLoginWindow (List<string> projects)
 		{
+			selectedProject = null;
 			loginClose.CloseWindow();
 			Values.Clear();
 			foreach (string s in projects) 
@@ -68,10 +74,30 @@ namespace Online_Editor
 				Values.Add(new { path = s });
 			}
 			NotifyPropertyChanged();
-
+			
 
 		}
 
+		private ICommand openProjectCommand;
+		public ICommand OpenProjectCommand
+		{
+			get
+			{
+				if (openProjectCommand == null)
+				{
+					openProjectCommand = new RelayCommand(e => OpenProject());
+				}
+
+				return openProjectCommand;
+			}
+			
+		}
+
+		public void OpenProject()
+		{
+			// Open project.
+			
+		}
 
 		private ObservableCollection<object> _values;
 		public ObservableCollection<object> Values
@@ -115,11 +141,6 @@ namespace Online_Editor
 		//		await Task.Delay(10);
 		//	}
 		//}
-		public void SelectProject(object sender, MouseButtonEventArgs e)
-		{
-			if (!(sender is Label label)) return;
-			this.SelectedProject = label.Content.ToString();
-		}
 
 		private ICommand _sendMessage;
 		public ICommand SendMessage => _sendMessage ??= new RelayCommand(param => model.SendMessage());

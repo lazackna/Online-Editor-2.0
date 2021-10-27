@@ -14,15 +14,15 @@
 				<Button Content="Login" Command="{Binding Login}" Margin="0,10,10,10" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-				<Button Content="Open" Command="{Binding MakeNewProject}" Margin="10,10,0,10"/>
+				<Button Content="Open" Command="{Binding Path=OpenProjectCommand}" Margin="10,10,0,10"/>
 				<Button Content="Edit" Command="{Binding Login}" Margin="10,10,0,10" IsEnabled="False"/>
 			</StackPanel>
 		</Grid>
 		<ScrollViewer HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" x:Name="MainContent">
-			<ListBox ItemsSource="{Binding Values}">
+			<ListBox ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedProject}">
 				<ListBox.ItemTemplate>
 					<DataTemplate>
-						<Label Content="{Binding path}" PreviewMouseDown="SelectProject" HorizontalAlignment="Left" VerticalAlignment="Top" />
+						<Label Content="{Binding path}" HorizontalAlignment="Left" VerticalAlignment="Top" />
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>
