@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -10,24 +11,34 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Client;
 using Online_Editor.Util;
+using Online_Editor_2._0.Util;
 
 namespace Online_Editor
 {
-	class MainWindowViewModel : INotifyPropertyChanged
+	public class MainWindowViewModel : INotifyPropertyChanged
 	{
 		private static ClientMain client;
 		private static bool connected;
+		public delegate void CloseLogin(List<string> projects);
+		public static CloseLogin closeLogin;
+		private static IWindowClose loginClose;
+
+		private string SelectedProject = null;
 
 		public ICommand Login { get; } = new RelayCommand(async e =>
 		{
+			
 			if (!client.isConnected)
 			{
 				try
 				{
 					await client.ConnectToServerAsync();
 					Login login = new Login { ShowInTaskbar = false, Owner = Application.Current.MainWindow};
-					login.DataContext = new LoginViewModel(client);
+					
+					login.DataContext = new LoginViewModel(client, closeLogin);
+					loginClose = login;
 					login.ShowDialog();
+					
 				}
 				catch
 				{
@@ -37,11 +48,30 @@ namespace Online_Editor
 			else
 			{
 				Login login = new Login { ShowInTaskbar = false, Owner = Application.Current.MainWindow };
-				login.DataContext = new LoginViewModel(client);
-				login.ShowDialog();
+				
+				login.DataContext = new LoginViewModel(client, closeLogin);
+				loginClose = login;
+				login.ShowDialog();	
 			}
 
 		});
+
+		
+
+		private void CloseLoginWindow (List<string> projects)
+		{
+			loginClose.CloseWindow();
+			Values.Clear();
+			foreach (string s in projects) 
+			{ 
+				if (s != null && s.Length != 0)
+				Values.Add(new { path = s });
+			}
+			NotifyPropertyChanged();
+
+
+		}
+
 
 		private ObservableCollection<object> _values;
 		public ObservableCollection<object> Values
@@ -59,6 +89,7 @@ namespace Online_Editor
 		public MainWindowViewModel()
 		{
 			this.model = new Model();
+			closeLogin += CloseLoginWindow;
 			Values = new ObservableCollection<object>();
 			client = new ClientMain("localhost", 34192);
 			int connectionAttempts = 0;
@@ -67,29 +98,27 @@ namespace Online_Editor
 				connectionAttempts++;
 			}
 
-			GetFiles(Environment.CurrentDirectory);
+			//GetFiles(Environment.CurrentDirectory);
 		}
 
-		private async void GetFiles(string path)
-		{
-			foreach (var d in Directory.GetDirectories(path))
-			{
-				GetFiles(d);
-			}
+		//private async void GetFiles(string path)
+		//{
+		//	foreach (var d in Directory.GetDirectories(path))
+		//	{
+		//		GetFiles(d);
+		//	}
 
-			var files = Directory.GetFiles(path);
-			foreach (var f in files)
-			{
-				Values.Add(new { path = f });
-				await Task.Delay(10);
-			}
-		}
-
-		public void OpenPath(object sender, MouseButtonEventArgs e)
+		//	var files = Directory.GetFiles(path);
+		//	foreach (var f in files)
+		//	{
+		//		Values.Add(new { path = f });
+		//		await Task.Delay(10);
+		//	}
+		//}
+		public void SelectProject(object sender, MouseButtonEventArgs e)
 		{
 			if (!(sender is Label label)) return;
-			var path = Directory.GetParent(label.Content.ToString() ?? string.Empty);
-			if (path != null) Process.Start("explorer.exe", path.ToString());
+			this.SelectedProject = label.Content.ToString();
 		}
 
 		private ICommand _sendMessage;

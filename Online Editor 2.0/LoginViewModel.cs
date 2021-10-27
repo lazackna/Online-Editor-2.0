@@ -18,9 +18,11 @@ namespace Online_Editor
 	public class LoginViewModel
 	{
 		private ClientMain client;
-		public LoginViewModel(ClientMain client)
+		private MainWindowViewModel.CloseLogin close;
+		public LoginViewModel(ClientMain client, MainWindowViewModel.CloseLogin close)
 		{
 			this.client = client;
+			this.close = close;
 		}
 
 		public string UserName { get; set; }
@@ -52,7 +54,8 @@ namespace Online_Editor
 			ByteData data = new ByteData(await this.client.Read());
 			if (data.Id == Messages.Codes.ResponseOK) {
 				// Tell client that they are logged in and change screen.
-				await RequestPages();
+
+				this.close(await RequestPages());
 			} else {
 				// Could not log in.
 			}
@@ -60,11 +63,11 @@ namespace Online_Editor
 			//await this.client.Read();
 		}
 
-		public async Task RequestPages()
+		public async Task<List<string>> RequestPages()
 		{
 			await this.client.SendSegments(new ByteData(Messages.RequestPages()));
 			ByteData data = new ByteData(await this.client.Read());
-			List<string> pages = JsonConvert.DeserializeObject<List<string>>(data.Message);
+			return JsonConvert.DeserializeObject<List<string>>(data.Message);
 		}
 
 		public async Task ClientMakeAccount()

@@ -22,7 +22,7 @@
 			<ListBox ItemsSource="{Binding Values}">
 				<ListBox.ItemTemplate>
 					<DataTemplate>
-						<Label Content="{Binding path}" PreviewMouseDown="OpenPath" HorizontalAlignment="Left" VerticalAlignment="Top" />
+						<Label Content="{Binding path}" PreviewMouseDown="SelectProject" HorizontalAlignment="Left" VerticalAlignment="Top" />
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>
