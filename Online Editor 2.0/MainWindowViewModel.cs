@@ -19,11 +19,13 @@ namespace Online_Editor
 	public class MainWindowViewModel : INotifyPropertyChanged
 	{
 		private static ClientMain client;
-		public delegate void CloseLogin(List<string> projects);
+		public delegate void CloseLogin(List<string> projects, string username);
 		public static CloseLogin closeLogin;
 		private static IWindowClose loginClose;
 		private bool _loggedIn;
 		private Visibility _wantToMakeProject = Visibility.Hidden;
+
+		private string UserName;
 
 		public string NewProjectName
 		{
@@ -40,7 +42,24 @@ namespace Online_Editor
 		public bool LoggedOut => !_loggedIn;
 
 		public ICommand CancelMakeProject => _cancelMakeProject ??= new RelayCommand(e => WantToMakeProject = Visibility.Hidden);
-		public ICommand RequestMakeProject => _requestMakeProject ??= new RelayCommand(e => Debug.WriteLine(NewProjectName));
+		public ICommand RequestMakeProject => _requestMakeProject ??= new RelayCommand(async e => 
+		{
+			await client.SendSegments(new ByteData(Messages.CreateProject(NewProjectName)));
+			ByteData data = new ByteData(await client.Read());
+			if (data.Id == 40)
+			{
+				List<string> list = await RequestPages();
+				Values.Clear();
+				foreach(string s in list)
+				{
+					Values.Add(new { path = s });
+				}
+				NotifyPropertyChanged();
+			} else
+			{
+				//tell client it didnt work.
+			}
+		});
 
 		private dynamic selectedProject;
 		public object SelectedProject
@@ -66,7 +85,7 @@ namespace Online_Editor
 
 
 
-		private void CloseLoginWindow(List<string> projects)
+		private void CloseLoginWindow(List<string> projects, string username)
 		{
 			Debug.WriteLine("loading projects");
 			selectedProject = null;
@@ -113,6 +132,13 @@ namespace Online_Editor
 
 		}
 
+		public async Task<List<string>> RequestPages()
+		{
+			await client.SendSegments(new ByteData(Messages.RequestPages()));
+			ByteData data = new ByteData(await client.Read());
+			return JsonConvert.DeserializeObject<List<string>>(data.Message);
+		}
+
 		private ObservableCollection<object> _values;
 		public ObservableCollection<object> Values
 		{
@@ -136,6 +162,7 @@ namespace Online_Editor
 			_loggedIn = false;
 			int connectionAttempts = 0;
 			while (connectionAttempts++ <= 2 && !client.ConnectToServer()) { }
+			this.UserName = "";
 
 			//GetFiles(Environment.CurrentDirectory);
 		}

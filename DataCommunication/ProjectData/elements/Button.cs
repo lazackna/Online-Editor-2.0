@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Drawing;
+using Newtonsoft.Json;
 using Storage;
 
 namespace DataCommunication_ProjectData
 {
 	public class Button : TextElement, IImageProvider, IOffsetProvider
 	{
+		
 		private static readonly int offset = 3;
 
-		private readonly Bitmap _image;
+		[JsonProperty]
+		public readonly Bitmap _image;
 
 		public Button(int x, int y, string value) : base(x, y, value)
 		{

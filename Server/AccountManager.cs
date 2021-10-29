@@ -1,11 +1,9 @@
 ﻿using DataCommunication_ProjectData;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Server
 {
@@ -53,15 +51,13 @@ namespace Server
 			return false;
 		}
 
-		public List<string> GetPages()
+		public List<string> GetPages(string username)
 		{
 			string[] users = Directory.GetDirectories(dataPath);
 			List<string> list = new List<string>();
 			foreach (string s in users)
 			{
-				//list.AddRange()
-				string[] projects = GetProjects(s);
-				list.AddRange(projects);
+				list.AddRange(GetProjects(s, username));
 			}
 
 			return list;
@@ -80,20 +76,25 @@ namespace Server
 				{
 					Directory.CreateDirectory(projectPath);
 
+					File.WriteAllText(Path.Combine(projectPath, $"main.{FileExtention}"), mainFiller);
+					string permissionsPath = Path.Combine(projectPath, "Permissions");
+					Directory.CreateDirectory(permissionsPath);
+					File.Create(Path.Combine(permissionsPath, $"{userName}.perm"));
 
+					return true;
 				} else
 				{
 					// Project already exists.
 					return false;
 				}
-				return true;
+				
 			} else
 			{
 				// Project under that name already exists or no such user exists.
 				return false;
 			}
 		}
-		private const string mainFiller = @"{""Elements"":[{""Width"":10,""Height"":0,""Value"":""test"",""X"":0,""Y"":0}]}";
+		private const string mainFiller = @"{""Elements"":[{""_value"":""Click me!"",""_x"":0,""_y"":0}]}";
 		private void CreateProjectFiles(string path, string username)
 		{
 			string permissionPath = Path.Combine(path, "Permissions");
@@ -102,19 +103,43 @@ namespace Server
 			File.WriteAllText(Path.Combine(path, $"main.{FileExtention}"), mainFiller);
 		}
 
-		private string[] GetProjects (string directory)
+		private List<string> GetProjects (string directory, string username)
 		{
+			List<string> projectNames = new List<string>();
 			string[] projects = Directory.GetDirectories(directory);
-			if (projects.Length == 0) return null;
-			string[] projectNames = new string[projects.Length];
-			for(int i = 0; i < projects.Length; i++)
+			foreach (string s in projects)
 			{
-				string projectName = projects[i].Substring(projects[i].LastIndexOf("\\") + 1);
-				string userName = directory.Substring(directory.LastIndexOf("\\") + 1);
-				string fullName = userName + "|" + projectName;
-				projectNames[i] = fullName;
+				string[] permissions = Directory.GetFiles(Path.Combine(s, "Permissions"));
+				bool contains = false;
+				foreach(string p in permissions)
+				{
+
+					string permName = p.Substring(p.LastIndexOf("\\") + 1, (p.LastIndexOf(".perm") + 1) - (p.LastIndexOf("\\") + 2));
+					
+					if (username == permName)
+					{
+						contains = true;
+						break;
+					}
+				}
+				if (contains)
+				{
+					string[] files = Directory.GetFiles(s, "*.jm");
+					projectNames.AddRange(files);
+				}
 			}
 			return projectNames;
+
+			//if (projects.Length == 0) return null;
+			//string[] projectNames = new string[projects.Length];
+			//for(int i = 0; i < projects.Length; i++)
+			//{
+			//	string projectName = projects[i].Substring(projects[i].LastIndexOf("\\") + 1);
+			//	string userName = directory.Substring(directory.LastIndexOf("\\") + 1);
+			//	string fullName = userName + "|" + projectName;
+			//	projectNames[i] = fullName;
+			//}
+			//return projectNames;
 		}
 
 		public Page GetPage(string projectName)
@@ -130,8 +155,12 @@ namespace Server
 					if (File.Exists(mainPath))
 					{
 						string fileText = File.ReadAllText(mainPath);
-
-						return JsonConvert.DeserializeObject<Page>(fileText);
+						JObject test = JObject.Parse(fileText);
+						//Page page = test.Value<Page>("Elements");
+						Page page = new Page();
+						page.Elements.Add(new Text(0,0,"Click me!"));
+						string j = JsonConvert.SerializeObject(page);
+						return JsonConvert.DeserializeObject<Page>(j);
 					}
 				}
 			}

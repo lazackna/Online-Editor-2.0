@@ -11,6 +11,9 @@ namespace DataCommunication
 		public static (byte, string) RequestAccount() => (Codes.RequestAccount, StringMessages.RequestAccount);
 		public static (byte, string) MakeAccount(string username, string password) => (Codes.MakeAccount, JsonMessages.MakeAccount(username, password).ToString());
 
+		public static (byte, string) CreateProject(string name) => (Codes.CreateProject, JsonMessages.createProject(name).ToString());
+		public static (byte, string) CreatePage(string name) => (Codes.CreateProject, JsonMessages.createPage(name).ToString());
+
 		public static (byte, string) RequestPages() => (Codes.RequestPages, StringMessages.RequestPages);
 		public static (byte, string) RequestPage(string pageID) => (Codes.RequestPage, JsonMessages.requestPage(pageID).ToString());
 		public static (byte, string) UploadPage(Page page) => (Codes.UploadPage, JsonMessages.uploadPage(page).ToString());
@@ -32,6 +35,9 @@ namespace DataCommunication
 
 			internal static JObject requestPage(string pageID) => JObject.FromObject(new { page = pageID });
 			internal static JObject uploadPage(Page page) => JObject.FromObject(new { elements = page.Elements });
+
+			internal static JObject createProject(string name) => JObject.FromObject(new { projectName = name });
+			internal static JObject createPage(string name) => JObject.FromObject(new { pageName = name });
 
 			internal static JObject requestPageResponse(Page page) => JObject.FromObject(new { elements = page.Elements });
 			internal static JObject uploadChangedPage(string pageID, Page page) => JObject.FromObject(new { page = pageID, elements = page.Elements });
@@ -55,6 +61,9 @@ namespace DataCommunication
 			public static readonly byte Login = 0;
 			public static readonly byte RequestAccount = 1;
 			public static readonly byte MakeAccount = 2;
+
+			public static readonly byte CreateProject = 11;
+			public static readonly byte CreatePage = 12;
 
 			public static readonly byte RequestPages = 20;
 			public static readonly byte RequestPage = 21;

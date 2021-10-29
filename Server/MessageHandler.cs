@@ -15,10 +15,12 @@ namespace Server
 	{
 		private AccountManager manager;
 		public NetworkClient client;
+		private string name;
 		public MessageHandler (NetworkClient client)
 		{
 			this.client = client;
 			this.manager = new AccountManager();
+			this.name = "";
 		}
 
 		public async Task Handle (ByteData data)
@@ -36,6 +38,12 @@ namespace Server
 					break;
 				case 2:
 					await MakeAccount(data);
+					break;
+				case 11:
+					await CreateProject(data);
+					break;
+				case 12:
+					await CreatePage(data);
 					break;
 				case 20:
 					await RequestPages(data);
@@ -80,7 +88,7 @@ namespace Server
 
 		public async Task RequestPages (ByteData array)
 		{
-			List<string> list = this.manager.GetPages();
+			List<string> list = this.manager.GetPages(name);
 			string pages = JsonConvert.SerializeObject(list);
 			await this.client.Write(new ByteData(Messages.RequestPagesResponse(pages)));
 		}
@@ -102,7 +110,13 @@ namespace Server
 		public async Task Login (ByteData array)
 		{
 			JObject root = Parse(array);
-			if (this.manager.Login(root.Value<string>("username"), root.Value<string>("password"))) {
+			this.name = (root.Value<string>("username"));
+			if (this.name == null || this.name.Length == 0)
+			{
+				await this.client.WriteNotOkResponse();
+				return;
+			}
+			if (this.manager.Login(this.name, root.Value<string>("password"))) {
 				// log client into server.
 
 				await this.client.WriteOkResponse();
@@ -126,6 +140,23 @@ namespace Server
 			} else {
 				await this.client.WriteNotOkResponse();
 			}
+		}
+
+		public async Task CreateProject(ByteData array)
+		{
+			JObject root = JObject.Parse(array.Message);
+			if (this.manager.CreateProject(this.name, root.Value<string>("projectName")))
+			{
+				await this.client.WriteOkResponse();
+			} else
+			{
+				await this.client.WriteNotOkResponse();
+			}
+		}
+
+		public async Task CreatePage(ByteData array)
+		{
+
 		}
 
 		private JObject Parse (ByteData data) {

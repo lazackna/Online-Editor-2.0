@@ -57,7 +57,7 @@ namespace Online_Editor
 			{
 				// Tell client that they are logged in and change screen.
 
-				this.close(await RequestPages());
+				this.close(await RequestPages(), UserName);
 			} else 
             {
 				// Could not log in.
