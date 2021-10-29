@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataCommunication_ProjectData
+﻿namespace DataCommunication_ProjectData
 {
-	public class Element
+	public abstract class Element : IPositionProvider
 	{
-		public int X { get; set; }
-		public int Y { get; set; }
+		private readonly int _x;
+		private readonly int _y;
 
-		public Element(int x, int y)
+		protected Element(int x, int y)
 		{
-			X = x;
-			Y = y;
+			_x = x;
+			_y = y;
 		}
+
+		public int GetX() => _x;
+		public int GetY() => _y;
 	}
 }

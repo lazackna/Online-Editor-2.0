@@ -9,14 +9,14 @@
 	<DockPanel>
 		<Grid DockPanel.Dock="Top" HorizontalAlignment="Stretch">
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-				<Button Content="Back" Command="{Binding Login}" Margin="0,10,10,10" />
+				<Button Content="Back" Command="{Binding AddText}" Margin="0,10,10,10" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-				<Button Content="&lt;" Command="{Binding MakeNewProject}" Margin="10,10,0,10"/>
-				<Button Content="&gt;" Command="{Binding Login}" Margin="10,10,0,10" IsEnabled="False"/>
+				<Button Content="&lt;" Margin="10,10,0,10"/>
+				<Button Content="&gt;" Margin="10,10,0,10" IsEnabled="False"/>
 			</StackPanel>
 		</Grid>
-		<Canvas DockPanel.Dock="Bottom">
+		<Canvas DockPanel.Dock="Bottom" x:Name="Canvas">
 		</Canvas>
 	</DockPanel>
 </Window>

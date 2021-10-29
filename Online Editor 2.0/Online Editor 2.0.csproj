@@ -8,157 +8,403 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\lowercase\a.png" />
-    <None Remove="Resources\lowercase\b.png" />
-    <None Remove="Resources\lowercase\c.png" />
-    <None Remove="Resources\lowercase\d.png" />
-    <None Remove="Resources\lowercase\e.png" />
-    <None Remove="Resources\lowercase\f.png" />
-    <None Remove="Resources\lowercase\g.png" />
-    <None Remove="Resources\lowercase\h.png" />
-    <None Remove="Resources\lowercase\i.png" />
-    <None Remove="Resources\lowercase\j.png" />
-    <None Remove="Resources\lowercase\k.png" />
-    <None Remove="Resources\lowercase\l.png" />
-    <None Remove="Resources\lowercase\m.png" />
-    <None Remove="Resources\lowercase\n.png" />
-    <None Remove="Resources\lowercase\o.png" />
-    <None Remove="Resources\lowercase\p.png" />
-    <None Remove="Resources\lowercase\q.png" />
-    <None Remove="Resources\lowercase\r.png" />
-    <None Remove="Resources\lowercase\s.png" />
-    <None Remove="Resources\lowercase\t.png" />
-    <None Remove="Resources\lowercase\u.png" />
-    <None Remove="Resources\lowercase\v.png" />
-    <None Remove="Resources\lowercase\w.png" />
-    <None Remove="Resources\lowercase\x.png" />
-    <None Remove="Resources\lowercase\y.png" />
-    <None Remove="Resources\lowercase\z.png" />
-    <None Remove="Resources\number\0.png" />
-    <None Remove="Resources\number\1.png" />
-    <None Remove="Resources\number\2.png" />
-    <None Remove="Resources\number\3.png" />
-    <None Remove="Resources\number\4.png" />
-    <None Remove="Resources\number\5.png" />
-    <None Remove="Resources\number\6.png" />
-    <None Remove="Resources\number\7.png" />
-    <None Remove="Resources\number\8.png" />
-    <None Remove="Resources\number\9.png" />
-    <None Remove="Resources\special\as.png" />
-    <None Remove="Resources\special\bs.png" />
-    <None Remove="Resources\special\cl.png" />
-    <None Remove="Resources\special\dq.png" />
-    <None Remove="Resources\special\fs.png" />
-    <None Remove="Resources\special\la.png" />
-    <None Remove="Resources\special\pc.png" />
-    <None Remove="Resources\special\qm.png" />
-    <None Remove="Resources\special\ra.png" />
+    <None Remove="Resources\pictures\button\center.png" />
+    <None Remove="Resources\pictures\button\left.png" />
+    <None Remove="Resources\pictures\button\right.png" />
+    <None Remove="Resources\pictures\invalid_image.png" />
+    <None Remove="Resources\symbols\lowercase\a.png" />
+    <None Remove="Resources\symbols\lowercase\b.png" />
+    <None Remove="Resources\symbols\lowercase\c.png" />
+    <None Remove="Resources\symbols\lowercase\d.png" />
+    <None Remove="Resources\symbols\lowercase\e.png" />
+    <None Remove="Resources\symbols\lowercase\f.png" />
+    <None Remove="Resources\symbols\lowercase\g.png" />
+    <None Remove="Resources\symbols\lowercase\h.png" />
+    <None Remove="Resources\symbols\lowercase\i.png" />
+    <None Remove="Resources\symbols\lowercase\j.png" />
+    <None Remove="Resources\symbols\lowercase\k.png" />
+    <None Remove="Resources\symbols\lowercase\l.png" />
+    <None Remove="Resources\symbols\lowercase\m.png" />
+    <None Remove="Resources\symbols\lowercase\n.png" />
+    <None Remove="Resources\symbols\lowercase\o.png" />
+    <None Remove="Resources\symbols\lowercase\p.png" />
+    <None Remove="Resources\symbols\lowercase\q.png" />
+    <None Remove="Resources\symbols\lowercase\r.png" />
+    <None Remove="Resources\symbols\lowercase\s.png" />
+    <None Remove="Resources\symbols\lowercase\t.png" />
+    <None Remove="Resources\symbols\lowercase\u.png" />
+    <None Remove="Resources\symbols\lowercase\v.png" />
+    <None Remove="Resources\symbols\lowercase\w.png" />
+    <None Remove="Resources\symbols\lowercase\x.png" />
+    <None Remove="Resources\symbols\lowercase\y.png" />
+    <None Remove="Resources\symbols\lowercase\z.png" />
+    <None Remove="Resources\symbols\number\0.png" />
+    <None Remove="Resources\symbols\number\1.png" />
+    <None Remove="Resources\symbols\number\2.png" />
+    <None Remove="Resources\symbols\number\3.png" />
+    <None Remove="Resources\symbols\number\4.png" />
+    <None Remove="Resources\symbols\number\5.png" />
+    <None Remove="Resources\symbols\number\6.png" />
+    <None Remove="Resources\symbols\number\7.png" />
+    <None Remove="Resources\symbols\number\8.png" />
+    <None Remove="Resources\symbols\number\9.png" />
+    <None Remove="Resources\symbols\special\as.png" />
+    <None Remove="Resources\symbols\special\bs.png" />
+    <None Remove="Resources\symbols\special\cl.png" />
+    <None Remove="Resources\symbols\special\dq.png" />
+    <None Remove="Resources\symbols\special\fs.png" />
+    <None Remove="Resources\symbols\special\la.png" />
+    <None Remove="Resources\symbols\special\pc.png" />
+    <None Remove="Resources\symbols\special\qm.png" />
+    <None Remove="Resources\symbols\special\ra.png" />
+    <None Remove="Resources\symbols\special\sc.png" />
+    <None Remove="Resources\symbols\special\sp.png" />
+    <None Remove="Resources\symbols\symbols\!.png" />
+    <None Remove="Resources\symbols\symbols\#.png" />
+    <None Remove="Resources\symbols\symbols\%25.png" />
+    <None Remove="Resources\symbols\symbols\%27.png" />
+    <None Remove="Resources\symbols\symbols\%28.png" />
+    <None Remove="Resources\symbols\symbols\%29.png" />
+    <None Remove="Resources\symbols\symbols\%3b.png" />
+    <None Remove="Resources\symbols\symbols\%40.png" />
+    <None Remove="Resources\symbols\symbols\&amp;.png" />
+    <None Remove="Resources\symbols\symbols\+.png" />
+    <None Remove="Resources\symbols\symbols\,.png" />
+    <None Remove="Resources\symbols\symbols\-.png" />
+    <None Remove="Resources\symbols\symbols\..png" />
+    <None Remove="Resources\symbols\symbols\[.png" />
+    <None Remove="Resources\symbols\symbols\].png" />
+    <None Remove="Resources\symbols\symbols\^.png" />
+    <None Remove="Resources\symbols\symbols\_.png" />
+    <None Remove="Resources\symbols\symbols\{.png" />
+    <None Remove="Resources\symbols\symbols\}.png" />
+    <None Remove="Resources\symbols\symbols\~.png" />
     <None Remove="Resources\undefined.png" />
-    <None Remove="Resources\uppercase\A.png" />
-    <None Remove="Resources\uppercase\B.png" />
-    <None Remove="Resources\uppercase\C.png" />
-    <None Remove="Resources\uppercase\D.png" />
-    <None Remove="Resources\uppercase\E.png" />
-    <None Remove="Resources\uppercase\F.png" />
-    <None Remove="Resources\uppercase\G.png" />
-    <None Remove="Resources\uppercase\H.png" />
-    <None Remove="Resources\uppercase\I.png" />
-    <None Remove="Resources\uppercase\J.png" />
-    <None Remove="Resources\uppercase\K.png" />
-    <None Remove="Resources\uppercase\L.png" />
-    <None Remove="Resources\uppercase\M.png" />
-    <None Remove="Resources\uppercase\N.png" />
-    <None Remove="Resources\uppercase\O.png" />
-    <None Remove="Resources\uppercase\P.png" />
-    <None Remove="Resources\uppercase\Q.png" />
-    <None Remove="Resources\uppercase\R.png" />
-    <None Remove="Resources\uppercase\S.png" />
-    <None Remove="Resources\uppercase\T.png" />
-    <None Remove="Resources\uppercase\U.png" />
-    <None Remove="Resources\uppercase\V.png" />
-    <None Remove="Resources\uppercase\W.png" />
-    <None Remove="Resources\uppercase\X.png" />
-    <None Remove="Resources\uppercase\Y.png" />
-    <None Remove="Resources\uppercase\Z.png" />
+    <None Remove="Resources\symbols\uppercase\A.png" />
+    <None Remove="Resources\symbols\uppercase\B.png" />
+    <None Remove="Resources\symbols\uppercase\C.png" />
+    <None Remove="Resources\symbols\uppercase\D.png" />
+    <None Remove="Resources\symbols\uppercase\E.png" />
+    <None Remove="Resources\symbols\uppercase\F.png" />
+    <None Remove="Resources\symbols\uppercase\G.png" />
+    <None Remove="Resources\symbols\uppercase\H.png" />
+    <None Remove="Resources\symbols\uppercase\I.png" />
+    <None Remove="Resources\symbols\uppercase\J.png" />
+    <None Remove="Resources\symbols\uppercase\K.png" />
+    <None Remove="Resources\symbols\uppercase\L.png" />
+    <None Remove="Resources\symbols\uppercase\M.png" />
+    <None Remove="Resources\symbols\uppercase\N.png" />
+    <None Remove="Resources\symbols\uppercase\O.png" />
+    <None Remove="Resources\symbols\uppercase\P.png" />
+    <None Remove="Resources\symbols\uppercase\Q.png" />
+    <None Remove="Resources\symbols\uppercase\R.png" />
+    <None Remove="Resources\symbols\uppercase\S.png" />
+    <None Remove="Resources\symbols\uppercase\T.png" />
+    <None Remove="Resources\symbols\uppercase\U.png" />
+    <None Remove="Resources\symbols\uppercase\V.png" />
+    <None Remove="Resources\symbols\uppercase\W.png" />
+    <None Remove="Resources\symbols\uppercase\X.png" />
+    <None Remove="Resources\symbols\uppercase\Y.png" />
+    <None Remove="Resources\symbols\uppercase\Z.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\lowercase\a.png" />
-    <EmbeddedResource Include="Resources\lowercase\b.png" />
-    <EmbeddedResource Include="Resources\lowercase\c.png" />
-    <EmbeddedResource Include="Resources\lowercase\d.png" />
-    <EmbeddedResource Include="Resources\lowercase\e.png" />
-    <EmbeddedResource Include="Resources\lowercase\f.png" />
-    <EmbeddedResource Include="Resources\lowercase\g.png" />
-    <EmbeddedResource Include="Resources\lowercase\h.png" />
-    <EmbeddedResource Include="Resources\lowercase\i.png" />
-    <EmbeddedResource Include="Resources\lowercase\j.png" />
-    <EmbeddedResource Include="Resources\lowercase\k.png" />
-    <EmbeddedResource Include="Resources\lowercase\l.png" />
-    <EmbeddedResource Include="Resources\lowercase\m.png" />
-    <EmbeddedResource Include="Resources\lowercase\n.png" />
-    <EmbeddedResource Include="Resources\lowercase\o.png" />
-    <EmbeddedResource Include="Resources\lowercase\p.png" />
-    <EmbeddedResource Include="Resources\lowercase\q.png" />
-    <EmbeddedResource Include="Resources\lowercase\r.png" />
-    <EmbeddedResource Include="Resources\lowercase\s.png" />
-    <EmbeddedResource Include="Resources\lowercase\t.png" />
-    <EmbeddedResource Include="Resources\lowercase\u.png" />
-    <EmbeddedResource Include="Resources\lowercase\v.png" />
-    <EmbeddedResource Include="Resources\lowercase\w.png" />
-    <EmbeddedResource Include="Resources\lowercase\x.png" />
-    <EmbeddedResource Include="Resources\lowercase\y.png" />
-    <EmbeddedResource Include="Resources\lowercase\z.png" />
-    <EmbeddedResource Include="Resources\number\0.png" />
-    <EmbeddedResource Include="Resources\number\1.png" />
-    <EmbeddedResource Include="Resources\number\2.png" />
-    <EmbeddedResource Include="Resources\number\3.png" />
-    <EmbeddedResource Include="Resources\number\4.png" />
-    <EmbeddedResource Include="Resources\number\5.png" />
-    <EmbeddedResource Include="Resources\number\6.png" />
-    <EmbeddedResource Include="Resources\number\7.png" />
-    <EmbeddedResource Include="Resources\number\8.png" />
-    <EmbeddedResource Include="Resources\number\9.png" />
-    <EmbeddedResource Include="Resources\special\as.png" />
-    <EmbeddedResource Include="Resources\special\bs.png" />
-    <EmbeddedResource Include="Resources\special\cl.png" />
-    <EmbeddedResource Include="Resources\special\dq.png" />
-    <EmbeddedResource Include="Resources\special\fs.png" />
-    <EmbeddedResource Include="Resources\special\la.png" />
-    <EmbeddedResource Include="Resources\special\pc.png" />
-    <EmbeddedResource Include="Resources\special\qm.png" />
-    <EmbeddedResource Include="Resources\special\ra.png" />
-    <EmbeddedResource Include="Resources\undefined.png" />
-    <EmbeddedResource Include="Resources\uppercase\A.png" />
-    <EmbeddedResource Include="Resources\uppercase\B.png" />
-    <EmbeddedResource Include="Resources\uppercase\C.png" />
-    <EmbeddedResource Include="Resources\uppercase\D.png" />
-    <EmbeddedResource Include="Resources\uppercase\E.png" />
-    <EmbeddedResource Include="Resources\uppercase\F.png" />
-    <EmbeddedResource Include="Resources\uppercase\G.png" />
-    <EmbeddedResource Include="Resources\uppercase\H.png" />
-    <EmbeddedResource Include="Resources\uppercase\I.png" />
-    <EmbeddedResource Include="Resources\uppercase\J.png" />
-    <EmbeddedResource Include="Resources\uppercase\K.png" />
-    <EmbeddedResource Include="Resources\uppercase\L.png" />
-    <EmbeddedResource Include="Resources\uppercase\M.png" />
-    <EmbeddedResource Include="Resources\uppercase\N.png" />
-    <EmbeddedResource Include="Resources\uppercase\O.png" />
-    <EmbeddedResource Include="Resources\uppercase\P.png" />
-    <EmbeddedResource Include="Resources\uppercase\Q.png" />
-    <EmbeddedResource Include="Resources\uppercase\R.png" />
-    <EmbeddedResource Include="Resources\uppercase\S.png" />
-    <EmbeddedResource Include="Resources\uppercase\T.png" />
-    <EmbeddedResource Include="Resources\uppercase\U.png" />
-    <EmbeddedResource Include="Resources\uppercase\V.png" />
-    <EmbeddedResource Include="Resources\uppercase\W.png" />
-    <EmbeddedResource Include="Resources\uppercase\X.png" />
-    <EmbeddedResource Include="Resources\uppercase\Y.png" />
-    <EmbeddedResource Include="Resources\uppercase\Z.png" />
+    <EmbeddedResource Include="Resources\pictures\button\center.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\pictures\button\left.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\pictures\button\right.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\pictures\invalid_image.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\a.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\b.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\c.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\d.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\e.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\f.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\g.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\h.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\i.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\j.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\k.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\l.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\m.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\n.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\o.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\p.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\q.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\r.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\s.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\t.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\u.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\v.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\w.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\x.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\y.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\lowercase\z.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\number\0.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\number\1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\number\2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\number\3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\number\4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\number\5.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\number\6.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\number\7.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\number\8.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\number\9.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\special\as.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\special\bs.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\special\cl.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\special\dq.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\special\fs.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\special\la.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\special\pc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\special\qm.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\special\ra.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\special\sc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\special\sp.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\!.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\#.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\%.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\&amp;.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\'.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\(.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\).png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\+.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\,.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\-.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\special\dt.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\@.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\[.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\].png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\^.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\_.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\{.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\}.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\symbols\~.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\undefined.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\A.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\B.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\C.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\D.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\E.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\F.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\G.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\H.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\I.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\J.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\K.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\L.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\M.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\N.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\O.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\P.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\Q.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\R.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\S.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\T.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\U.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\V.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\W.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\X.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\Y.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\symbols\uppercase\Z.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>

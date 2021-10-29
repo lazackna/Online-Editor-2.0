@@ -1,14 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Drawing;
+using System.IO;
+using Storage;
 
 namespace DataCommunication_ProjectData
 {
-	public class Image : Element
+	public class Image : Element, IImageProvider
 	{
-		public int Width { get; set; }
-		public int Height { get; set; }
+		private Bitmap _image;
 
-		public Image (int x, int y, int width, int height) :base(x,y){ this.Width = width; this.Height = height; }
+		public Image(int x, int y, string base64Image) : base(x, y)
+		{
+			var bytes = Convert.FromBase64String(base64Image);
+			using var ms = new MemoryStream(bytes);
+			try
+			{
+				_image = new Bitmap(ms);
+			}
+			catch
+			{
+				_image = ImagePictureStorage.Instance.Image;
+			}
+		}
+
+		~Image()
+		{
+			_image.Dispose();
+		}
+
+		public Bitmap GetImage() => _image;
+		public int GetWidth() => _image.Width;
+		public int GetHeight() => _image.Height;
 	}
 }

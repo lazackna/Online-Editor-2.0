@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DataCommunication_ProjectData
+﻿namespace DataCommunication_ProjectData
 {
-	public abstract class TextElement : Element
+	public abstract class TextElement : Element, ITextProvider
 	{
-		public string Value { get; set; }
+		private readonly string _value;
 
-		public TextElement(int x, int y, string value) : base(x, y){ this.Value = value; }
+		protected TextElement(int x, int y, string value) : base(x, y) => _value = value;
+
+		public string GetText() => _value;
 	}
 }
