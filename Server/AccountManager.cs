@@ -11,6 +11,8 @@ namespace Server
 {
 	public class AccountManager
 	{
+		private static readonly string FileExtention = "jm";
+
 		public static string dataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Online_Editor");
 
 		private const string PASSPATH = "Password.pass";
@@ -46,8 +48,8 @@ namespace Server
 				CreateProject("tester", "test2");
 				if (password == savedpass) return true;
 			}
-			
-			
+
+
 			return false;
 		}
 
@@ -78,7 +80,7 @@ namespace Server
 				{
 					Directory.CreateDirectory(projectPath);
 
-					
+
 				} else
 				{
 					// Project already exists.
@@ -97,7 +99,7 @@ namespace Server
 			string permissionPath = Path.Combine(path, "Permissions");
 			Directory.CreateDirectory(permissionPath);
 			File.Create(Path.Combine(permissionPath, username + ".perm"));
-			File.WriteAllText(Path.Combine(path, "main.mj"), mainFiller);
+			File.WriteAllText(Path.Combine(path, $"main.{FileExtention}"), mainFiller);
 		}
 
 		private string[] GetProjects (string directory)
@@ -120,7 +122,7 @@ namespace Server
 			string[] array = projectName.Split("|");
 			string clientPath = Path.Combine(dataPath, array[0]);
 			string projectPath = Path.Combine(clientPath, array[1]);
-			string mainPath = Path.Combine(projectPath, "main.mj");
+			string mainPath = Path.Combine(projectPath, $"main.{FileExtention}");
 			if (Directory.Exists(clientPath))
 			{
 				if (Directory.Exists(projectPath))

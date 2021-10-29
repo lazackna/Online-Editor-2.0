@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Storage
 {
-	class SymbolStorage
+	public class SymbolStorage
 	{
 		private static SymbolStorage _instance;
 		public static SymbolStorage Instance => _instance ??= new SymbolStorage();

@@ -77,7 +77,7 @@ namespace Server
 					   {
 						   byte[][] segments = await this.client.ReadSegments();
 						   ByteData data = new ByteData(segments);
-						   
+
 						   Console.WriteLine($"Received from {this.tcpClient.Client.RemoteEndPoint}: {data.Message}");
 						   await this.messageHandler.Handle(data);
 					   }
@@ -94,7 +94,7 @@ namespace Server
 				this.thread.Start();
 			}
 
-			
+
 
 			private void CloseAndDispose()
 			{

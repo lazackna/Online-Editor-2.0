@@ -28,93 +28,63 @@ namespace Online_Editor
 		private dynamic selectedProject;
 		public object SelectedProject
 		{
-			get { return selectedProject; }
+			get => selectedProject;
 			set { selectedProject = value; NotifyPropertyChanged(); }
 		}
 
 		public ICommand Login { get; } = new RelayCommand(async e =>
 		{
-			
-			if (!client.isConnected)
-			{
-				try
-				{
-					await client.ConnectToServerAsync();
-					Login login = new Login { ShowInTaskbar = false, Owner = Application.Current.MainWindow};
-					
-					login.DataContext = new LoginViewModel(client, closeLogin);
-					loginClose = login;
-					login.ShowDialog();
-					
-				}
-				catch
-				{
+			if (!client.isConnected) await client.ConnectToServerAsync();
 
-				}
-			}
-			else
-			{
-				Login login = new Login { ShowInTaskbar = false, Owner = Application.Current.MainWindow };
-				
-				login.DataContext = new LoginViewModel(client, closeLogin);
-				loginClose = login;
-				login.ShowDialog();	
-			}
+			Login login = new Login { ShowInTaskbar = false, Owner = Application.Current.MainWindow, DataContext = new LoginViewModel(client, closeLogin) };
+
+			loginClose = login;
+			login.ShowDialog();
 
 		});
 
-		
 
-		private void CloseLoginWindow (List<string> projects)
+
+		private void CloseLoginWindow(List<string> projects)
 		{
 			selectedProject = null;
 			loginClose.CloseWindow();
 			Values.Clear();
-			foreach (string s in projects) 
-			{ 
-				if (s != null && s.Length != 0)
-				Values.Add(new { path = s });
+			foreach (string s in projects)
+			{
+				if (!string.IsNullOrEmpty(s))
+					Values.Add(new { path = s });
 			}
 			NotifyPropertyChanged();
-			
-
 		}
 
 		private ICommand openProjectCommand;
-		public ICommand OpenProjectCommand
-		{
-			get
-			{
-				if (openProjectCommand == null)
-				{
-					openProjectCommand = new RelayCommand(async e => await OpenProject());
-				}
-
-				return openProjectCommand;
-			}
-			
-		}
+		public ICommand OpenProjectCommand => openProjectCommand ??= new RelayCommand(async e => await OpenProject());
 
 		public async Task OpenProject()
 		{
 			// Open project.
 			await client.SendSegments(new ByteData(Messages.RequestPage(selectedProject.path)));
 
-			ByteData data = null;
-			if (ByteData.TryParse(out data, await client.Read()))
+			if (ByteData.TryParse(out var data, await client.Read()))
 			{
 				//open the project view and load the project.
 				if (data.Id == Messages.Codes.RequestPageResponse)
 				{
 					Page page = JsonConvert.DeserializeObject<Page>(data.Message);
-				} else
+					var projectView = new ProjectView();
+					projectView.DataContext = new ProjectViewModel(projectView, page);
+					projectView.Show();
+					this.ClosableWindow.Close();
+				}
+				else
 				{
 					// Did not find page or did not have permission (look if client has permission to see on server side to not show pointless projects.
 					// Add a folder in each project for permission to see and edit project.
 				}
 			}
-			
-			
+
+
 		}
 
 		private ObservableCollection<object> _values;
@@ -130,20 +100,20 @@ namespace Online_Editor
 
 		private Model model;
 
-		public MainWindowViewModel()
+		public MainWindowViewModel(IClosable mainWindow)
 		{
 			this.model = new Model();
+			this.ClosableWindow = mainWindow;
 			closeLogin += CloseLoginWindow;
 			Values = new ObservableCollection<object>();
 			client = new ClientMain("localhost", 34192);
 			int connectionAttempts = 0;
-			while (connectionAttempts <= 2 && !client.ConnectToServer())
-			{
-				connectionAttempts++;
-			}
+			while (connectionAttempts++ <= 2 && !client.ConnectToServer()) { }
 
 			//GetFiles(Environment.CurrentDirectory);
 		}
+
+		private readonly IClosable ClosableWindow;
 
 		//private async void GetFiles(string path)
 		//{

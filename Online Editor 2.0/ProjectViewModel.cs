@@ -10,7 +10,7 @@ namespace Online_Editor
 		private int i;
 		private ICanvasFiller _canvasFiller;
 
-		public ProjectViewModel(ICanvasFiller canvasFiller)
+		public ProjectViewModel(ICanvasFiller canvasFiller, Page page)
 		{
 			_canvasFiller = canvasFiller;
 

@@ -19,7 +19,6 @@ namespace Online_Editor
 		public ProjectView()
 		{
 			InitializeComponent();
-			DataContext = new ProjectViewModel(this);
 		}
 
 		public void Add(Element element)

@@ -12,7 +12,7 @@ namespace Online_Editor
         {
 	        var window = new MainWindow();
 
-			var vm = new MainWindowViewModel();
+			var vm = new MainWindowViewModel(window);
 
 			window.DataContext = vm;
 			window.Closed += vm.Window_Closed;
