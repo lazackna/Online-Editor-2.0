@@ -8,7 +8,8 @@ namespace DataCommunication
 	{
 		public IList<Segment> Segments { private set; get; }
 		public string Message;
-		public int Id;
+		public int Id => Segments[0].Type;
+
 		public ByteData((byte, string) message)
 		{
 			var messageType = message.Item1;
@@ -50,9 +51,9 @@ namespace DataCommunication
 				builder.Append(segment.Message);
 			}
 			Message = builder.ToString();
-			this.Id = this.Segments[0].Type;
 		}
-		public byte GetMessageType() {
+		public byte GetMessageType()
+		{
 			return this.Segments[0].Type;
 		}
 		public static bool TryParse(out ByteData byteData, params byte[][] data)
@@ -93,7 +94,7 @@ namespace DataCommunication
 		private ushort _length;
 		internal byte Type { private set; get; }
 		public string Message { private set; get; }
-		public ushort _id { private set; get; }
+		public ushort Id { private set; get; }
 		private byte _checksum;
 
 		public Segment(byte[] bytes)
@@ -103,7 +104,7 @@ namespace DataCommunication
 				_length = segment._length;
 				Type = segment.Type;
 				Message = segment.Message;
-				_id = segment._id;
+				Id = segment.Id;
 				_checksum = segment._checksum;
 			}
 			else throw new Exception("Checksum was not correct");
@@ -115,7 +116,7 @@ namespace DataCommunication
 			_length = (ushort) (LengthSize + TypeSize + message.Length + IdSize + ChecksumSize);
 			Type = type;
 			Message = message;
-			_id = id;
+			Id = id;
 			_checksum = 0;
 		}
 
@@ -138,7 +139,7 @@ namespace DataCommunication
 
 			Array.Reverse(lengthArr);
 			Array.Reverse(idArr);
-			s._id = BitConverter.ToUInt16(idArr, 0);
+			s.Id = BitConverter.ToUInt16(idArr, 0);
 			s._checksum = 0;
 			s.CalculateChecksum();
 			Console.WriteLine(s._checksum);
@@ -146,7 +147,7 @@ namespace DataCommunication
 			s._length = BitConverter.ToUInt16(lengthArr, 0);
 			s.Type = bytes[TypeIndex];
 			s.Message = Encoding.ASCII.GetString(messageArr);
-			s._id = BitConverter.ToUInt16(idArr, 0);
+			s.Id = BitConverter.ToUInt16(idArr, 0);
 
 			s._checksum = 0;
 			s.CalculateChecksum();
@@ -157,7 +158,8 @@ namespace DataCommunication
 			return correctChecksum;
 		}
 
-		public string GetMessage () {
+		public string GetMessage()
+		{
 
 			byte[] array = ToByteArray();
 			int size = array.Length - 6;
@@ -171,7 +173,7 @@ namespace DataCommunication
 		{
 			var lengthAsBytes = BitConverter.GetBytes(_length);
 			var messageAsBytes = Encoding.ASCII.GetBytes(Message);
-			var idAsBytes = BitConverter.GetBytes(_id);
+			var idAsBytes = BitConverter.GetBytes(Id);
 
 			Array.Reverse(lengthAsBytes);
 			Array.Reverse(idAsBytes);
@@ -186,7 +188,8 @@ namespace DataCommunication
 			return bytes;
 		}
 
-		public byte CreateChecksum () {
+		public byte CreateChecksum()
+		{
 			//byte[] array = new byte[]
 			return 1;
 		}
@@ -201,7 +204,7 @@ namespace DataCommunication
 
 			for (int i = 1; i < bytes.Length - 2; i++)
 			{
-				output = (byte)(output ^ bytes[i]);
+				output = (byte) (output ^ bytes[i]);
 			}
 			return output;
 		}

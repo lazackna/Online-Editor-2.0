@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,10 +19,28 @@ namespace Online_Editor
 	public class MainWindowViewModel : INotifyPropertyChanged
 	{
 		private static ClientMain client;
-		private static bool connected;
 		public delegate void CloseLogin(List<string> projects);
 		public static CloseLogin closeLogin;
 		private static IWindowClose loginClose;
+		private bool _loggedIn;
+		private Visibility _wantToMakeProject = Visibility.Hidden;
+
+		public string NewProjectName
+		{
+			get => _newProjectName;
+			set { _newProjectName = value; NotifyPropertyChanged(); }
+		}
+
+		public Visibility WantToMakeProject
+		{
+			get => _wantToMakeProject;
+			set { _wantToMakeProject = value; NotifyPropertyChanged(); if (value == Visibility.Hidden) NewProjectName = ""; }
+		}
+		public bool LoggedIn => _loggedIn;
+		public bool LoggedOut => !_loggedIn;
+
+		public ICommand CancelMakeProject => _cancelMakeProject ??= new RelayCommand(e => WantToMakeProject = Visibility.Hidden);
+		public ICommand RequestMakeProject => _requestMakeProject ??= new RelayCommand(e => Debug.WriteLine(NewProjectName));
 
 		private dynamic selectedProject;
 		public object SelectedProject
@@ -31,6 +48,10 @@ namespace Online_Editor
 			get => selectedProject;
 			set { selectedProject = value; NotifyPropertyChanged(); }
 		}
+
+
+		private ICommand _makeNewProject;
+		public ICommand MakeNewProject => _makeNewProject ??= new RelayCommand(e => WantToMakeProject = Visibility.Visible);
 
 		public ICommand Login { get; } = new RelayCommand(async e =>
 		{
@@ -47,6 +68,7 @@ namespace Online_Editor
 
 		private void CloseLoginWindow(List<string> projects)
 		{
+			Debug.WriteLine("loading projects");
 			selectedProject = null;
 			loginClose.CloseWindow();
 			Values.Clear();
@@ -55,6 +77,10 @@ namespace Online_Editor
 				if (!string.IsNullOrEmpty(s))
 					Values.Add(new { path = s });
 			}
+
+			_loggedIn = true;
+			NotifyPropertyChanged(nameof(LoggedIn));
+			NotifyPropertyChanged(nameof(LoggedOut));
 			NotifyPropertyChanged();
 		}
 
@@ -107,6 +133,7 @@ namespace Online_Editor
 			closeLogin += CloseLoginWindow;
 			Values = new ObservableCollection<object>();
 			client = new ClientMain("localhost", 34192);
+			_loggedIn = false;
 			int connectionAttempts = 0;
 			while (connectionAttempts++ <= 2 && !client.ConnectToServer()) { }
 
@@ -131,6 +158,9 @@ namespace Online_Editor
 		//}
 
 		private ICommand _sendMessage;
+		private RelayCommand _cancelMakeProject;
+		private RelayCommand _requestMakeProject;
+		private string _newProjectName;
 		public ICommand SendMessage => _sendMessage ??= new RelayCommand(param => model.SendMessage());
 
 		public void Window_Closed(object sender, EventArgs e)

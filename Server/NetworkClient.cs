@@ -47,7 +47,7 @@ namespace Server
 				byte[] received = await Read();
 				await WriteOkResponse();
 				Segment segment = new Segment(received);
-				segments = new byte[segment._id + 1][];
+				segments = new byte[segment.Id + 1][];
 				segments[currentSegment] = received;
 				byte[] segmentID = { received[^2], received[^3] };
 				int id = BitConverter.ToInt16(segmentID);

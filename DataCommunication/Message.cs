@@ -10,15 +10,18 @@ namespace DataCommunication
 		public static (byte, string) Login(string username, string password) => (Codes.Login, JsonMessages.Login(username, password).ToString());
 		public static (byte, string) RequestAccount() => (Codes.RequestAccount, StringMessages.RequestAccount);
 		public static (byte, string) MakeAccount(string username, string password) => (Codes.MakeAccount, JsonMessages.MakeAccount(username, password).ToString());
+
 		public static (byte, string) RequestPages() => (Codes.RequestPages, StringMessages.RequestPages);
-		public static (byte, string) RequestPagesResponse(string pages) => (Codes.RequestPagesResponse, pages);
 		public static (byte, string) RequestPage(string pageID) => (Codes.RequestPage, JsonMessages.requestPage(pageID).ToString());
-		public static (byte, string) RequestPageResponse(Page page) => (Codes.RequestPageResponse, JsonMessages.requestPageResponse(page).ToString());
 		public static (byte, string) UploadPage(Page page) => (Codes.UploadPage, JsonMessages.uploadPage(page).ToString());
 		public static (byte, string) RequestChangePage() => (Codes.RequestChangePage, StringMessages.RequestChangePage);
 		public static (byte, string) UploadChangedPage(string pageID, Page page) => (Codes.UploadChangedPage, JsonMessages.uploadChangedPage(pageID, page).ToString());
+
 		public static (byte, string) ResponseOk() => (Codes.ResponseOK, StringMessages.ResponseOK);
 		public static (byte, string) ResponseNotOk() => (Codes.ResponseNotOK, StringMessages.ResponseNotOK);
+		public static (byte, string) RequestPagesResponse(string pages) => (Codes.RequestPagesResponse, pages);
+		public static (byte, string) RequestPageResponse(Page page) => (Codes.RequestPageResponse, JsonMessages.requestPageResponse(page).ToString());
+
 		public static (byte, string) ClientPing() => (Codes.ClientPing, JsonMessages.ping().ToString());
 		public static (byte, string) ServerPing() => (Codes.ServerPing, JsonMessages.ping().ToString());
 
@@ -26,18 +29,23 @@ namespace DataCommunication
 		{
 			internal static JObject Login(string username, string password) => JObject.FromObject(new { username, password });
 			internal static JObject MakeAccount(string username, string password) => JObject.FromObject(new { username, password });
+
 			internal static JObject requestPage(string pageID) => JObject.FromObject(new { page = pageID });
-			internal static JObject requestPageResponse(Page page) => JObject.FromObject(new { elements = page.Elements });
 			internal static JObject uploadPage(Page page) => JObject.FromObject(new { elements = page.Elements });
+
+			internal static JObject requestPageResponse(Page page) => JObject.FromObject(new { elements = page.Elements });
 			internal static JObject uploadChangedPage(string pageID, Page page) => JObject.FromObject(new { page = pageID, elements = page.Elements });
+
 			internal static JObject ping() => JObject.FromObject(new { sendtime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() });
 		}
 
 		private static class StringMessages
 		{
 			internal static readonly string RequestAccount = "request make account";
+
 			internal static readonly string RequestPages = "request pages";
 			internal static readonly string RequestChangePage = "request change page";
+
 			internal static readonly string ResponseOK = "affirmative";
 			internal static readonly string ResponseNotOK = "negative";
 		}

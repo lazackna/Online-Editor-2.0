@@ -17,11 +17,11 @@
 			<RowDefinition Height="*" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<Label Grid.Row="0" Grid.Column="0" Content="Username:" Padding="0,0,0,0" Margin="0,0,0,5" />
-		<TextBox Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" ToolTip="Username" Margin="0,0,0,5" />
-		<Label Grid.Row="1" Grid.Column="0" Content="Password:" Padding="0,0,0,0" Margin="0,0,0,5" />
-		<TextBox Text="{Binding PassWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" ToolTip="Password" Margin="0,0,0,5" />
-		<Button Command="{Binding Path=MakeAccount}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="Make Account" Margin="0,0,2.5,0" />
-		<Button Command="{Binding Path=Login}" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" Content="Login" Margin="2.5,0,0,0" />
+		<Label Grid.Row="0" Grid.Column="0" Content="Username:" Padding="0,0,0,0" Margin="0,0,0,5" Grid.IsSharedSizeScope="True" />
+		<TextBox Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" ToolTip="Username" Margin="0,0,0,5" Grid.IsSharedSizeScope="True" />
+		<Label Grid.Row="1" Grid.Column="0" Content="Password:" Padding="0,0,0,0" Margin="0,0,0,5" Grid.IsSharedSizeScope="True" />
+		<TextBox Text="{Binding PassWord, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" ToolTip="Password" Margin="0,0,0,5" Grid.IsSharedSizeScope="True" />
+		<Button Command="{Binding Path=MakeAccount}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="Make Account" Margin="0,0,2.5,0" Grid.IsSharedSizeScope="True" />
+		<Button Command="{Binding Path=Login}" Grid.Row="2" Grid.Column="2" Content="Login" Margin="2.5,0,0,0" Grid.IsSharedSizeScope="True" />
 	</Grid>
 </Window>
