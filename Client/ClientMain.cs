@@ -148,6 +148,7 @@ namespace Client
 			{
 				byte[] received = await Read();
 				Segment segment = new Segment(received);
+				if (currentSegment == 0)
 				segments = new byte[segment.Id + 1][];
 				segments[currentSegment] = received;
 				byte[] segmentID = { received[^2], received[^3] };
