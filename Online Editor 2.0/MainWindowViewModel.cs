@@ -139,9 +139,9 @@ namespace Online_Editor
 					IsVisible = Visibility.Hidden;
 					ShowTaskbar = false;
 					projectView.ShowDialog();
-					
+
 					//projectView.Close();
-					
+
 				}
 				else
 				{
