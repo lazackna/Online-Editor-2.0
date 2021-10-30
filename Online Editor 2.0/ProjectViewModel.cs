@@ -12,6 +12,10 @@ namespace Online_Editor
 			foreach (var element in page.Elements) canvasFiller.Add(element);
 		}
 
-		public ICommand GoBack { get; set; }
+		private ICommand goBack;
+		public ICommand GoBack => goBack ??= new RelayCommand(async e => 
+		{
+			//this.Dialog
+		});
 	}
 }

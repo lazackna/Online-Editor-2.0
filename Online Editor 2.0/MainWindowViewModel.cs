@@ -106,6 +106,9 @@ namespace Online_Editor
 		private ICommand openProjectCommand;
 		public ICommand OpenProjectCommand => openProjectCommand ??= new RelayCommand(async e => await OpenProject());
 
+
+		public bool IsVisible;
+		private bool isVisible;
 		public async Task OpenProject()
 		{
 			// Open project.
@@ -123,6 +126,8 @@ namespace Online_Editor
 					projectView.DataContext = new ProjectViewModel(projectView, page);
 					projectView.Show();
 					this.ClosableWindow.Close();
+					//projectView.Close();
+					
 				}
 				else
 				{

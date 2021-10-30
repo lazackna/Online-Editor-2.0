@@ -160,7 +160,7 @@ namespace Server
 						Page page = new Page();
 						page.Elements.Add(new Text(0,0,"Click me!"));
 						string j = JsonConvert.SerializeObject(page);
-						return JsonConvert.DeserializeObject<Page>(j);
+						return JsonConvert.DeserializeObject<Page>(fileText);
 					}
 				}
 			}
