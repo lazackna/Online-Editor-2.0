@@ -147,21 +147,42 @@ namespace Client
 			return received;
 		}
 
-		public async Task<ByteData> ReadSegments()
-		{
-			var segment1Data = await Read();
-			var segment1 = new ByteData(segment1Data);
-			var segmentCount = segment1.Id;
-			var bytes = new byte[segmentCount];
-			bytes[0] = segment1Data[0];
+		//public async Task<ByteData> ReadSegments()
+		//{
+		//	var segment1Data = await Read();
+		//	var segment1 = new ByteData(segment1Data);
+		//	var segmentCount = segment1.Id;
+		//	var bytes = new byte[segmentCount];
+		//	bytes[0] = segment1Data[0];
 
-			for (var i = 1; i < segmentCount; i++)
+		//	for (var i = 1; i < segmentCount; i++)
+		//	{
+		//		var b = await Read();
+		//		bytes[i] = bytes[0];
+		//	}
+
+		//	return ByteData.TryParse(out var byteData, bytes) ? byteData : null;
+		//}
+
+		public async Task<byte[][]> ReadSegments()
+		{
+			bool finalSegment = false;
+			byte[][] segments = null;
+			int currentSegment = 0;
+			while (!finalSegment || currentSegment == 0)
 			{
-				var b = await Read();
-				bytes[i] = bytes[0];
+				byte[] received = await Read();
+				Segment segment = new Segment(received);
+				segments = new byte[segment.Id + 1][];
+				segments[currentSegment] = received;
+				byte[] segmentID = { received[^2], received[^3] };
+				int id = BitConverter.ToInt16(segmentID);
+
+				if (id == 0) finalSegment = true;
+				currentSegment++;
 			}
 
-			return ByteData.TryParse(out var byteData, bytes) ? byteData : null;
+			return segments;
 		}
 	}
 }

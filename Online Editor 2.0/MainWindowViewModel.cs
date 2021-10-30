@@ -126,36 +126,38 @@ namespace Online_Editor
 			// Open project.
 			await client.SendSegments(new ByteData(Messages.RequestPage(selectedProject.path)));
 
-			var segments = await client.ReadSegments();
-
-			//open the project view and load the project.
-			if (segments.Id == Messages.Codes.RequestPageResponse)
+			ByteData data = null;
+			if (ByteData.TryParse(out data, await client.ReadSegments()))
 			{
-				Debug.WriteLine(segments.Message);
+				//open the project view and load the project.
+				if (data.Id == Messages.Codes.RequestPageResponse)
+				{
+					Debug.WriteLine(data.Message);
 
-				Page page = JsonConvert.DeserializeObject<Page>(segments.Message);
-				projectView = new ProjectView();
-				projectView.DataContext = new ProjectViewModel(projectView, page, back);
-				//this.ClosableWindow.Close();
-				IsVisible = Visibility.Hidden;
-				ShowTaskbar = false;
-				projectView.ShowDialog();
+					Page page = JsonConvert.DeserializeObject<Page>(data.Message);
+					projectView = new ProjectView();
+					projectView.DataContext = new ProjectViewModel(projectView, page, back);
+					//this.ClosableWindow.Close();
+					IsVisible = Visibility.Hidden;
+					ShowTaskbar = false;
+					projectView.ShowDialog();
 
-				//projectView.Close();
+					//projectView.Close();
 
-				//Page page = JsonConvert.DeserializeObject<Page>(segments.Message);
-				//var projectView = new ProjectView();
-				//projectView.DataContext = new ProjectViewModel(projectView, page);
-				//projectView.Show();
-				//this.ClosableWindow.Close();
+					//Page page = JsonConvert.DeserializeObject<Page>(segments.Message);
+					//var projectView = new ProjectView();
+					//projectView.DataContext = new ProjectViewModel(projectView, page);
+					//projectView.Show();
+					//this.ClosableWindow.Close();
 
-				//projectView.Close();
+					//projectView.Close();
 
-			}
-			else
-			{
-				// Did not find page or did not have permission (look if client has permission to see on server side to not show pointless projects.
-				// Add a folder in each project for permission to see and edit project.
+				}
+				else
+				{
+					// Did not find page or did not have permission (look if client has permission to see on server side to not show pointless projects.
+					// Add a folder in each project for permission to see and edit project.
+				}
 			}
 	}
 
