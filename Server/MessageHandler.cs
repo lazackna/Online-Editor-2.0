@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -16,54 +17,42 @@ namespace Server
 		private AccountManager manager;
 		public NetworkClient client;
 		private string name;
+		private CommandHandler[] commands;
+
+		private delegate Task CommandHandler(ByteData data);
+
 		public MessageHandler (NetworkClient client)
 		{
 			this.client = client;
 			this.manager = new AccountManager();
 			this.name = "";
+
+			commands = new CommandHandler[256];
+			FillCommands();
+		}
+
+		private void FillCommands()
+		{
+			commands[Messages.Codes.Login] = Login;
+			commands[Messages.Codes.RequestAccount] = RequestAccount;
+			commands[Messages.Codes.MakeAccount] = MakeAccount;
+
+			commands[Messages.Codes.CreateProject] = CreateProject;
+			commands[Messages.Codes.CreatePage] = CreatePage;
+
+			commands[Messages.Codes.RequestPages] = RequestPages;
+			commands[Messages.Codes.RequestPage] = RequestPage;
+			commands[Messages.Codes.UploadPage] = UploadPage;
+			commands[Messages.Codes.RequestChangePage] = RequestChangePage;
+			commands[Messages.Codes.UploadChangedPage] = UploadChangedPage;
+
+			commands[Messages.Codes.ClientPing] = Ping;
 		}
 
 		public async Task Handle (ByteData data)
 		{
-
-			
-
-			switch (data.GetMessageType())
-			{
-				case 0:
-					await Login(data);
-					break;
-				case 1:
-					await RequestAccount(data);
-					break;
-				case 2:
-					await MakeAccount(data);
-					break;
-				case 11:
-					await CreateProject(data);
-					break;
-				case 12:
-					await CreatePage(data);
-					break;
-				case 20:
-					await RequestPages(data);
-					break;
-				case 21:
-					await RequestPage(data);
-					break;
-				case 22:
-					UploadPage(data);
-					break;
-				case 23:
-					RequestChangePage(data);
-					break;
-				case 24:
-					UploadChangedPage(data);
-					break;
-				case 193:
-					await Ping(data);
-					break;
-			}
+			var command = commands[data.GetMessageType()];
+			if (command != null) await command(data);
 		}
 
 		public async Task Ping (ByteData array)
@@ -71,19 +60,19 @@ namespace Server
 			await this.client.Write(new ByteData(Messages.ServerPing()));
 		}
 
-		public void UploadChangedPage (ByteData array)
+		public async Task UploadChangedPage (ByteData array)
 		{
-			
+
 		}
 
-		public void RequestChangePage (ByteData array)
+		public async Task RequestChangePage (ByteData array)
 		{
-			
+
 		}
 
-		public void UploadPage (ByteData array)
+		public async Task UploadPage (ByteData array)
 		{
-			
+
 		}
 
 		public async Task RequestPages (ByteData array)
@@ -92,7 +81,7 @@ namespace Server
 			string pages = JsonConvert.SerializeObject(list);
 			await this.client.Write(new ByteData(Messages.RequestPagesResponse(pages)));
 		}
-		
+
 		public async Task RequestPage (ByteData array)
 		{
 			JObject root = Parse(array);
@@ -110,8 +99,8 @@ namespace Server
 		public async Task Login (ByteData array)
 		{
 			JObject root = Parse(array);
-			this.name = (root.Value<string>("username"));
-			if (this.name == null || this.name.Length == 0)
+			this.name = root.Value<string>("username");
+			if (string.IsNullOrEmpty(this.name))
 			{
 				await this.client.WriteNotOkResponse();
 				return;
@@ -133,7 +122,7 @@ namespace Server
 		public async Task MakeAccount (ByteData array) {
 			Console.WriteLine("making account");
 			JObject root = JObject.Parse(array.Message);
-			
+
 
 			if (this.manager.CreateAccount(root.Value<string>("username"),root.Value<string>("password"))) {
 				await this.client.WriteOkResponse();

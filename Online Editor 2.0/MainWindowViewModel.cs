@@ -42,7 +42,7 @@ namespace Online_Editor
 		public bool LoggedOut => !_loggedIn;
 
 		public ICommand CancelMakeProject => _cancelMakeProject ??= new RelayCommand(e => WantToMakeProject = Visibility.Hidden);
-		public ICommand RequestMakeProject => _requestMakeProject ??= new RelayCommand(async e => 
+		public ICommand RequestMakeProject => _requestMakeProject ??= new RelayCommand(async e =>
 		{
 			await client.SendSegments(new ByteData(Messages.CreateProject(NewProjectName)));
 			ByteData data = new ByteData(await client.Read());
@@ -116,6 +116,8 @@ namespace Online_Editor
 				//open the project view and load the project.
 				if (data.Id == Messages.Codes.RequestPageResponse)
 				{
+					Debug.WriteLine(data.Message);
+
 					Page page = JsonConvert.DeserializeObject<Page>(data.Message);
 					var projectView = new ProjectView();
 					projectView.DataContext = new ProjectViewModel(projectView, page);

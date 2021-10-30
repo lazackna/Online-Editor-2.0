@@ -87,7 +87,7 @@ namespace Server
 					// Project already exists.
 					return false;
 				}
-				
+
 			} else
 			{
 				// Project under that name already exists or no such user exists.
@@ -115,7 +115,7 @@ namespace Server
 				{
 
 					string permName = p.Substring(p.LastIndexOf("\\") + 1, (p.LastIndexOf(".perm") + 1) - (p.LastIndexOf("\\") + 2));
-					
+
 					if (username == permName)
 					{
 						contains = true;
@@ -124,8 +124,8 @@ namespace Server
 				}
 				if (contains)
 				{
-					string[] files = Directory.GetFiles(s, "*.jm");
-					projectNames.AddRange(files);
+					var path = s.Substring(directory.LastIndexOf("\\") + 1);
+					projectNames.Add(path.Replace("\\", "|"));
 				}
 			}
 			return projectNames;
