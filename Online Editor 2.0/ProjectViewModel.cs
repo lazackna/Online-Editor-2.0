@@ -7,15 +7,17 @@ namespace Online_Editor
 {
 	public class ProjectViewModel
 	{
-		public ProjectViewModel(ICanvasFiller canvasFiller, Page page)
+		private MainWindowViewModel.Back back;
+		public ProjectViewModel(ICanvasFiller canvasFiller, Page page, MainWindowViewModel.Back back)
 		{
+			this.back = back;
 			foreach (var element in page.Elements) canvasFiller.Add(element);
 		}
 
 		private ICommand goBack;
 		public ICommand GoBack => goBack ??= new RelayCommand(async e => 
 		{
-			//this.Dialog
+			back();
 		});
 	}
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Online_Editor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Visibility="{Binding IsVisible, Mode=TwoWay}" ShowInTaskbar="{Binding ShowTaskbar, Mode=TwoWay}">
 
 	<DockPanel>
 		<Grid DockPanel.Dock="Top" HorizontalAlignment="Stretch">
