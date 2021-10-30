@@ -76,7 +76,13 @@ namespace Server
 				{
 					Directory.CreateDirectory(projectPath);
 
-					File.WriteAllText(Path.Combine(projectPath, $"main.{FileExtention}"), mainFiller);
+					var page = new Page();
+					page.Elements.Add(new Text(0, 0, "Click me!"));
+					page.Elements.Add(new Button(0, 15, "No, Click Me!!"));
+					var json = JsonConvert.SerializeObject(page, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
+
+					File.WriteAllText(Path.Combine(projectPath, $"main.{FileExtention}"), json);
+
 					string permissionsPath = Path.Combine(projectPath, "Permissions");
 					Directory.CreateDirectory(permissionsPath);
 					File.Create(Path.Combine(permissionsPath, $"{userName}.perm"));
@@ -100,7 +106,11 @@ namespace Server
 			string permissionPath = Path.Combine(path, "Permissions");
 			Directory.CreateDirectory(permissionPath);
 			File.Create(Path.Combine(permissionPath, username + ".perm"));
-			File.WriteAllText(Path.Combine(path, $"main.{FileExtention}"), mainFiller);
+			var page = new Page();
+			page.Elements.Add(new Text(0, 0, "Click me!"));
+			page.Elements.Add(new Button(0, 15, "No, Click Me!!"));
+			var json = JsonConvert.SerializeObject(page, new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All});
+			File.WriteAllText(Path.Combine(path, $"main.{FileExtention}"), json);
 		}
 
 		private List<string> GetProjects (string directory, string username)
@@ -155,19 +165,11 @@ namespace Server
 					if (File.Exists(mainPath))
 					{
 						string fileText = File.ReadAllText(mainPath);
-						JObject test = JObject.Parse(fileText);
-						//Page page = test.Value<Page>("Elements");
-						Page page = new Page();
-						page.Elements.Add(new Text(0,0,"Click me!"));
-						string j = JsonConvert.SerializeObject(page);
-						return JsonConvert.DeserializeObject<Page>(fileText);
+						return JsonConvert.DeserializeObject<Page>(fileText, new JsonSerializerSettings{TypeNameHandling = TypeNameHandling.All});
 					}
 				}
 			}
 			return null;
 		}
-
-
-
 	}
 }

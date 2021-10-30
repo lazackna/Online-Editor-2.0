@@ -50,12 +50,13 @@ namespace Online_Editor
 			{
 				List<string> list = await RequestPages();
 				Values.Clear();
-				foreach(string s in list)
+				foreach (string s in list)
 				{
 					Values.Add(new { path = s });
 				}
 				NotifyPropertyChanged();
-			} else
+			}
+			else
 			{
 				//tell client it didnt work.
 			}
@@ -125,12 +126,12 @@ namespace Online_Editor
 			// Open project.
 			await client.SendSegments(new ByteData(Messages.RequestPage(selectedProject.path)));
 
-			if (ByteData.TryParse(out var data, await client.Read()))
+			var segments = await client.ReadSegments();
+
+			//open the project view and load the project.
+			if (segments.Id == Messages.Codes.RequestPageResponse)
 			{
-				//open the project view and load the project.
-				if (data.Id == Messages.Codes.RequestPageResponse)
-				{
-					Debug.WriteLine(data.Message);
+				Debug.WriteLine(segments.Message);
 
 					Page page = JsonConvert.DeserializeObject<Page>(data.Message);
 					projectView = new ProjectView();
@@ -148,6 +149,18 @@ namespace Online_Editor
 					// Did not find page or did not have permission (look if client has permission to see on server side to not show pointless projects.
 					// Add a folder in each project for permission to see and edit project.
 				}
+				Page page = JsonConvert.DeserializeObject<Page>(segments.Message);
+				var projectView = new ProjectView();
+				projectView.DataContext = new ProjectViewModel(projectView, page);
+				projectView.Show();
+				this.ClosableWindow.Close();
+				//projectView.Close();
+
+			}
+			else
+			{
+				// Did not find page or did not have permission (look if client has permission to see on server side to not show pointless projects.
+				// Add a folder in each project for permission to see and edit project.
 			}
 
 

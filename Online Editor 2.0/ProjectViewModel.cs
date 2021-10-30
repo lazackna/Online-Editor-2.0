@@ -15,7 +15,7 @@ namespace Online_Editor
 		}
 
 		private ICommand goBack;
-		public ICommand GoBack => goBack ??= new RelayCommand(async e => 
+		public ICommand GoBack => goBack ??= new RelayCommand(async e =>
 		{
 			back();
 		});

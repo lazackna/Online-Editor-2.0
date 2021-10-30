@@ -58,7 +58,7 @@ namespace Online_Editor
 				// Tell client that they are logged in and change screen.
 
 				this.close(await RequestPages(), UserName);
-			} else 
+			} else
             {
 				// Could not log in.
 			}
@@ -76,7 +76,7 @@ namespace Online_Editor
 			var passwordLength = random.Next(value.Length / 2, value.Length * 2);
 
 			var sb = new StringBuilder();
-			for (var i = 0; i < passwordLength; i++) sb.Append((char) (random.Next('0', 'z')));
+			for (var i = 0; i < passwordLength; i++) sb.Append((char) random.Next('0', 'z'));
 
 			return sb.ToString();
 		}
@@ -96,7 +96,7 @@ namespace Online_Editor
 			ByteData data = new ByteData(received);
 			if (data.Id == Messages.Codes.ResponseOK)
 			{
-				await this.client.SendSegments(new ByteData(Messages.MakeAccount(UserName, PassWord)));
+				await this.client.SendSegments(new ByteData(Messages.MakeAccount(UserName, Encrypt(PassWord))));
 				data = new ByteData(await this.client.Read());
 
 				if (!(data.Id == Messages.Codes.ResponseOK))

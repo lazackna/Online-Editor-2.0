@@ -52,13 +52,15 @@ namespace DataCommunication
 			}
 			Message = builder.ToString();
 		}
+
 		public byte GetMessageType()
 		{
 			return this.Segments[0].Type;
 		}
+
 		public static bool TryParse(out ByteData byteData, params byte[][] data)
 		{
-			var bd = new ByteData { Segments = new List<Segment>() };
+			var bd = new ByteData {Segments = new List<Segment>()};
 			var builder = new StringBuilder();
 
 			foreach (var bytes in data)
@@ -73,6 +75,12 @@ namespace DataCommunication
 					byteData = null;
 					return false;
 				}
+			}
+
+			if (bd.Segments[^1].Id != 0)
+			{
+				byteData = null;
+				return false;
 			}
 
 			bd.Message = builder.ToString();

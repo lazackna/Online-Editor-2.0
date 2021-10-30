@@ -9,6 +9,7 @@ namespace DataCommunication_ProjectData
 	public class Image : Element, IImageProvider
 	{
 		[JsonProperty]
+		[JsonConverter(typeof(ImageConverter))]
 		public Bitmap _image;
 
 		public Image(int x, int y, string base64Image) : base(x, y)

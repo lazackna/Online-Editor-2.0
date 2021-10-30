@@ -7,11 +7,11 @@ namespace DataCommunication_ProjectData
 {
 	public class Button : TextElement, IImageProvider, IOffsetProvider
 	{
-		
 		private static readonly int offset = 3;
 
 		[JsonProperty]
-		public readonly Bitmap _image;
+		[JsonConverter(typeof(ImageConverter))]
+		public Bitmap _image;
 
 		public Button(int x, int y, string value) : base(x, y, value)
 		{
@@ -19,7 +19,7 @@ namespace DataCommunication_ProjectData
 			var ss = SymbolStorage.Instance;
 
 			var text = GetText();
-			if (text.Length == 0) _image = MakeImage(bps);
+			if (string.IsNullOrEmpty(text)) _image = MakeImage(bps);
 			else
 			{
 				var width = 0;

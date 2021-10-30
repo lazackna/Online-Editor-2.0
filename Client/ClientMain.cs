@@ -146,5 +146,22 @@ namespace Client
 			Debug.WriteLine("received message: " + Encoding.ASCII.GetString(received));
 			return received;
 		}
+
+		public async Task<ByteData> ReadSegments()
+		{
+			var segment1Data = await Read();
+			var segment1 = new ByteData(segment1Data);
+			var segmentCount = segment1.Id;
+			var bytes = new byte[segmentCount];
+			bytes[0] = segment1Data[0];
+
+			for (var i = 1; i < segmentCount; i++)
+			{
+				var b = await Read();
+				bytes[i] = bytes[0];
+			}
+
+			return ByteData.TryParse(out var byteData, bytes) ? byteData : null;
+		}
 	}
 }
