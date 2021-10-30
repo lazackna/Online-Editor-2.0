@@ -12,6 +12,7 @@ namespace Client
 {
 	public class ClientMain
 	{
+		public string name { get; set; }
 		public TcpClient tcpClient;
 		private NetworkStream stream;
 		private Thread thread;
@@ -92,15 +93,6 @@ namespace Client
 			byte[] received = await Read();
 		}
 
-		public async Task SendTest()
-		{
-			//byte[] buffer = { 6, 0, 0, 0, 104, 101, 108, 108, 111, 63 }
-			byte[] buffer = { 0, 26, 1, 0, 101, 113, 117, 101, 115, 116, 32, 109, 97, 107, 101, 32, 97, 99, 99, 111, 117, 110, 116, 0, 0, 0 };
-			await this.stream.WriteAsync(buffer, 0, buffer.Length);
-			await this.stream.FlushAsync();
-			byte[] received = await Read();
-		}
-
 		public async Task SendSegments(ByteData data)
 		{
 			foreach (Segment s in data.Segments)
@@ -146,23 +138,6 @@ namespace Client
 			Debug.WriteLine("received message: " + Encoding.ASCII.GetString(received));
 			return received;
 		}
-
-		//public async Task<ByteData> ReadSegments()
-		//{
-		//	var segment1Data = await Read();
-		//	var segment1 = new ByteData(segment1Data);
-		//	var segmentCount = segment1.Id;
-		//	var bytes = new byte[segmentCount];
-		//	bytes[0] = segment1Data[0];
-
-		//	for (var i = 1; i < segmentCount; i++)
-		//	{
-		//		var b = await Read();
-		//		bytes[i] = bytes[0];
-		//	}
-
-		//	return ByteData.TryParse(out var byteData, bytes) ? byteData : null;
-		//}
 
 		public async Task<byte[][]> ReadSegments()
 		{

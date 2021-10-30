@@ -19,6 +19,9 @@ namespace Server
 		private string name;
 		private CommandHandler[] commands;
 
+		private string activePageString = "";
+		
+
 		private delegate Task CommandHandler(ByteData data);
 
 		public MessageHandler (NetworkClient client)
@@ -72,6 +75,14 @@ namespace Server
 
 		public async Task UploadPage (ByteData array)
 		{
+			try
+			{
+				Page page = JsonConvert.DeserializeObject<Page>(array.Message, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
+				manager.UploadPage(page, manager.getMainPath(activePageString));
+			}	catch (Exception e)
+			{
+				Console.WriteLine("could not deserialize page");
+			}
 
 		}
 
@@ -86,6 +97,7 @@ namespace Server
 		{
 			JObject root = Parse(array);
 			string projectName = root.Value<string>("page");
+			activePageString = projectName;
 			Page page = this.manager.GetPage(projectName);
 			if (page != null)
 			{

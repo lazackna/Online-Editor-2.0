@@ -100,6 +100,12 @@ namespace Server
 				return false;
 			}
 		}
+
+		internal void UploadPage(Page page, string pageID)
+		{
+			File.WriteAllText(pageID, JsonConvert.SerializeObject(page, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }));
+		}
+
 		private const string mainFiller = @"{""Elements"":[{""_value"":""Click me!"",""_x"":0,""_y"":0}]}";
 		private void CreateProjectFiles(string path, string username)
 		{
@@ -150,6 +156,14 @@ namespace Server
 			//	projectNames[i] = fullName;
 			//}
 			//return projectNames;
+		}
+		public string getMainPath(string projectName)
+		{
+			string[] array = projectName.Split("|");
+			string clientPath = Path.Combine(dataPath, array[0]);
+			string projectPath = Path.Combine(clientPath, array[1]);
+			string mainPath = Path.Combine(projectPath, $"main.{FileExtention}");
+			return mainPath;
 		}
 
 		public Page GetPage(string projectName)

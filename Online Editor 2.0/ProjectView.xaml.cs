@@ -18,6 +18,8 @@ namespace Online_Editor
 	/// </summary>
 	public partial class ProjectView : Window, ICanvasFiller
 	{
+
+		public MainWindowViewModel.UpdatePage updatePage { get; set; }
 		public ProjectView()
 		{
 			InitializeComponent();
@@ -79,17 +81,59 @@ namespace Online_Editor
 			Canvas.Children.Add(TextCanvas);
 			dictionary.Add(TextCanvas, element as Element);
 		}
-
+		
 		private void Canvas_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
+			//List<UIElement> toRemove = new List<UIElement>();
+			//List<Element> toAdd = new List<Element>();
+
+			//TODO make a box in which you can edit the values. click button then the rest of this method gets used.
 			foreach (UIElement u in Canvas.Children)
 			{
 				if (u.IsMouseOver)
 				{
 					Debug.WriteLine("found something");
 					Element el = dictionary[u];
+					//this is selected element.
+					//if (el.GetLocked() != "") return;
+
+					if(el is DataCommunication_ProjectData.Button)
+					{
+						DataCommunication_ProjectData.Button button = el as DataCommunication_ProjectData.Button;
+						button._value = "new value!!";
+						updatePage(el, button);
+						//toRemove.Add(u);
+						//toAdd.Add(button);
+						break;
+					} else if (el is Text)
+					{
+						Text old = el as Text;
+						(el as Text)._value = "new Value";
+						//text._value = "new value!!";
+						updatePage(old, el);
+						//toRemove.Add(u);
+						//toAdd.Add(text);
+						break;
+					}
+					//updatePage(el);
 				}
 			}
+			//foreach(UIElement u in toRemove)
+			//{
+			//	Canvas.Children.Remove(u);
+			//	dictionary.Remove(u);
+				
+			//}
+			//foreach(Element el in toAdd)
+			//{
+			//	if (el is DataCommunication_ProjectData.Button)
+			//	{
+			//		RenderImage(el as DataCommunication_ProjectData.Button);
+			//	} else if (el is Text)
+			//	{
+			//		RenderText(el as Text);
+			//	}
+			//}
 		}
 
 	

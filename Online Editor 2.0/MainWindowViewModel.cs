@@ -99,6 +99,8 @@ namespace Online_Editor
 			}
 
 			_loggedIn = true;
+			UserName = username;
+			client.name = username;
 			NotifyPropertyChanged(nameof(LoggedIn));
 			NotifyPropertyChanged(nameof(LoggedOut));
 			NotifyPropertyChanged();
@@ -121,6 +123,8 @@ namespace Online_Editor
 		public Back back;
 
 		private ProjectView projectView;
+		public delegate void UpdatePage(Element oldElement, Element newElement);
+		public UpdatePage updatePage;
 		public async Task OpenProject()
 		{
 			// Open project.
@@ -137,9 +141,13 @@ namespace Online_Editor
 					Page page = JsonConvert.DeserializeObject<Page>(data.Message);
 					page = new Page();
 					page.Elements.Add(new Text(10, 10, "hallo"));
-					page.Elements.Add(new Button(10, 30, "Click me!"));
+					//page.Elements.Add(new Button(10, 30, "Click me!"));
+
 					projectView = new ProjectView();
-					projectView.DataContext = new ProjectViewModel(projectView, page, back);
+					ProjectViewModel viewmodel = new ProjectViewModel(projectView, page, back, client);
+					projectView.updatePage += viewmodel.UpdatePage;
+					projectView.DataContext = viewmodel;
+					
 					//this.ClosableWindow.Close();
 					IsVisible = Visibility.Hidden;
 					ShowTaskbar = false;

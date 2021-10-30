@@ -1,5 +1,6 @@
 ﻿using System;
 using DataCommunication_ProjectData;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 
@@ -16,7 +17,7 @@ namespace DataCommunication
 
 		public static (byte, string) RequestPages() => (Codes.RequestPages, StringMessages.RequestPages);
 		public static (byte, string) RequestPage(string pageID) => (Codes.RequestPage, JsonMessages.requestPage(pageID).ToString());
-		public static (byte, string) UploadPage(Page page) => (Codes.UploadPage, JsonMessages.uploadPage(page).ToString());
+		public static (byte, string) UploadPage(Page page) => (Codes.UploadPage, JsonConvert.SerializeObject(page, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }));
 		public static (byte, string) RequestChangePage() => (Codes.RequestChangePage, StringMessages.RequestChangePage);
 		public static (byte, string) UploadChangedPage(string pageID, Page page) => (Codes.UploadChangedPage, JsonMessages.uploadChangedPage(pageID, page).ToString());
 

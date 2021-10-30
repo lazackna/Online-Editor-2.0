@@ -5,7 +5,7 @@ namespace DataCommunication_ProjectData
 {
 	public class Element : IPositionProvider
 	{
-		
+		//private string lockedBy;
 		public int _x;
 		
 		public int _y;
@@ -24,5 +24,7 @@ namespace DataCommunication_ProjectData
 
 		public int GetX() => _x;
 		public int GetY() => _y;
+		//public string GetLocked() => lockedBy;
+		//public void SetLocked(string newLock) => lockedBy = newLock; 
 	}
 }
