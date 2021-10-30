@@ -133,27 +133,22 @@ namespace Online_Editor
 			{
 				Debug.WriteLine(segments.Message);
 
-					Page page = JsonConvert.DeserializeObject<Page>(data.Message);
-					projectView = new ProjectView();
-					projectView.DataContext = new ProjectViewModel(projectView, page, back);
-					//this.ClosableWindow.Close();
-					IsVisible = Visibility.Hidden;
-					ShowTaskbar = false;
-					projectView.ShowDialog();
-
-					//projectView.Close();
-
-				}
-				else
-				{
-					// Did not find page or did not have permission (look if client has permission to see on server side to not show pointless projects.
-					// Add a folder in each project for permission to see and edit project.
-				}
 				Page page = JsonConvert.DeserializeObject<Page>(segments.Message);
-				var projectView = new ProjectView();
-				projectView.DataContext = new ProjectViewModel(projectView, page);
-				projectView.Show();
-				this.ClosableWindow.Close();
+				projectView = new ProjectView();
+				projectView.DataContext = new ProjectViewModel(projectView, page, back);
+				//this.ClosableWindow.Close();
+				IsVisible = Visibility.Hidden;
+				ShowTaskbar = false;
+				projectView.ShowDialog();
+
+				//projectView.Close();
+
+				//Page page = JsonConvert.DeserializeObject<Page>(segments.Message);
+				//var projectView = new ProjectView();
+				//projectView.DataContext = new ProjectViewModel(projectView, page);
+				//projectView.Show();
+				//this.ClosableWindow.Close();
+
 				//projectView.Close();
 
 			}
@@ -162,9 +157,7 @@ namespace Online_Editor
 				// Did not find page or did not have permission (look if client has permission to see on server side to not show pointless projects.
 				// Add a folder in each project for permission to see and edit project.
 			}
-
-
-		}
+	}
 
 		public void CloseProject()
 		{
