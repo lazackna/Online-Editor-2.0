@@ -106,9 +106,20 @@ namespace Online_Editor
 		private ICommand openProjectCommand;
 		public ICommand OpenProjectCommand => openProjectCommand ??= new RelayCommand(async e => await OpenProject());
 
+		private Visibility isvisible = Visibility.Visible;
+		public Visibility IsVisible
+		{
+			get => isvisible;
+			set { isvisible = value; NotifyPropertyChanged(); }
+		}
 
-		public bool IsVisible;
-		private bool isVisible;
+		private bool showTaskbar;
+		public bool ShowTaskbar { get { return showTaskbar; } set { showTaskbar = value; NotifyPropertyChanged(); } }
+
+		public delegate void Back();
+		public Back back;
+
+		private ProjectView projectView;
 		public async Task OpenProject()
 		{
 			// Open project.
@@ -122,10 +133,13 @@ namespace Online_Editor
 					Debug.WriteLine(data.Message);
 
 					Page page = JsonConvert.DeserializeObject<Page>(data.Message);
-					var projectView = new ProjectView();
-					projectView.DataContext = new ProjectViewModel(projectView, page);
-					projectView.Show();
-					this.ClosableWindow.Close();
+					projectView = new ProjectView();
+					projectView.DataContext = new ProjectViewModel(projectView, page, back);
+					//this.ClosableWindow.Close();
+					IsVisible = Visibility.Hidden;
+					ShowTaskbar = false;
+					projectView.ShowDialog();
+					
 					//projectView.Close();
 					
 				}
@@ -137,6 +151,14 @@ namespace Online_Editor
 			}
 
 
+		}
+
+		public void CloseProject()
+		{
+			projectView.Close();
+			Debug.WriteLine("closed other");
+			IsVisible = Visibility.Visible;
+			ShowTaskbar = true;
 		}
 
 		public async Task<List<string>> RequestPages()
@@ -170,7 +192,8 @@ namespace Online_Editor
 			int connectionAttempts = 0;
 			while (connectionAttempts++ <= 2 && !client.ConnectToServer()) { }
 			this.UserName = "";
-
+			ShowTaskbar = true;
+			back += CloseProject;
 			//GetFiles(Environment.CurrentDirectory);
 		}
 
