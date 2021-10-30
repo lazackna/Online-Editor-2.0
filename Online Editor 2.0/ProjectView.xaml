@@ -16,7 +16,7 @@
 				<Button Content="&gt;" Margin="10,10,0,10" IsEnabled="False"/>
 			</StackPanel>
 		</Grid>
-		<Canvas DockPanel.Dock="Bottom" x:Name="Canvas">
-		</Canvas>
+		<Canvas DockPanel.Dock="Bottom" x:Name="Canvas" MouseDown="Canvas_MouseDown"/>
+
 	</DockPanel>
 </Window>

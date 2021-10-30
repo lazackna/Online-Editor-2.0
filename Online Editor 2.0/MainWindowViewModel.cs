@@ -135,6 +135,9 @@ namespace Online_Editor
 					Debug.WriteLine(data.Message);
 
 					Page page = JsonConvert.DeserializeObject<Page>(data.Message);
+					page = new Page();
+					page.Elements.Add(new Text(10, 10, "hallo"));
+					page.Elements.Add(new Button(10, 30, "Click me!"));
 					projectView = new ProjectView();
 					projectView.DataContext = new ProjectViewModel(projectView, page, back);
 					//this.ClosableWindow.Close();

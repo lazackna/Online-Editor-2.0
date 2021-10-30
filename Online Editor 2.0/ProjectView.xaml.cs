@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using DataCommunication_ProjectData;
 using Online_Editor_2._0.Util;
@@ -20,6 +22,8 @@ namespace Online_Editor
 		{
 			InitializeComponent();
 		}
+
+		private Dictionary<UIElement, Element> dictionary = new Dictionary<UIElement, Element>();
 
 		public void Add(Element element)
 		{
@@ -43,6 +47,7 @@ namespace Online_Editor
 			Canvas.SetLeft(bmp, x + xOff);
 			Canvas.SetTop(bmp, y + yOff);
 			Canvas.Children.Add(bmp);
+			dictionary.Add(bmp, element as Element);
 		}
 
 		private void RenderText(ITextProvider element)
@@ -52,19 +57,41 @@ namespace Online_Editor
 			var y = element.GetY();
 
 			var symbols = SymbolStorage.Instance;
-
+			List<Image> list = new List<Image>();
+			Canvas TextCanvas = new Canvas();
 			foreach (var t in text)
 			{
 				var src = Imaging.CreateBitmapSourceFromHBitmap(symbols.GetImage(t).GetHbitmap(),
 					IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-
+				
 				var bmp = new Image {Source = src};
 				Canvas.SetLeft(bmp, x);
 				Canvas.SetTop(bmp, y);
-				Canvas.Children.Add(bmp);
-
+				//TextCanvas.
+				list.Add(bmp);
+				TextCanvas.Children.Add(bmp);
+				//dictionary.Add(bmp, element as Element);
+				
 				x += src.PixelWidth;
 			}
+			//Canvas.SetLeft(TextCanvas, x);
+			//Canvas.SetTop(TextCanvas, y);
+			Canvas.Children.Add(TextCanvas);
+			dictionary.Add(TextCanvas, element as Element);
 		}
+
+		private void Canvas_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			foreach (UIElement u in Canvas.Children)
+			{
+				if (u.IsMouseOver)
+				{
+					Debug.WriteLine("found something");
+					Element el = dictionary[u];
+				}
+			}
+		}
+
+	
 	}
 }
