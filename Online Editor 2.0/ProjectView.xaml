@@ -14,7 +14,7 @@
 						<StackPanel.CommandBindings>
 							<CommandBinding Command="ApplicationCommands.New" Executed="NewCommand_Executed" CanExecute="True" />
 						</StackPanel.CommandBindings>
-						<Button Content="Text" Margin="0,0,10,0" MinWidth="50" Command="ApplicationCommands.New"/>
+						<Button Content="Text" Margin="0,0,10,0" MinWidth="50" Command="New"/>
 						<Button Content="Button" Margin="0,0,10,0" MinWidth="50" IsEnabled="False" />
 						<Button Content="Image" Margin="0,0,0,0" MinWidth="50" IsEnabled="False" />
 					</StackPanel>
@@ -22,10 +22,14 @@
 				<Button Content="Back" Command="{Binding GoBack}" Margin="0,10,10,10" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+				<StackPanel.CommandBindings>
+					<CommandBinding Command="ApplicationCommands.Close" Executed="UnbindSelected" CanExecute="True" />
+				</StackPanel.CommandBindings>
 				<Button Content="&lt;" Margin="10,10,0,10" IsEnabled="False"/>
 				<Button Content="&gt;" Margin="10,10,10,10" IsEnabled="False"/>
-				<Label Content="value" Margin="25,10,10,10" />
-				<TextBox TextChanged="ValueChanged" MinWidth="100" Margin="10,10,10,10" />
+				<Label Content="Value" Margin="25,10,10,10" />
+				<TextBox x:Name="ValueBox" TextChanged="ValueChanged" MinWidth="100" Margin="0,10,10,10" />
+				<Button Content="Done" Margin="0,10,10,10" Command="Close"/>
 			</StackPanel>
 		</Grid>
 		<Canvas Background="White" DockPanel.Dock="Bottom" x:Name="Canvas" MouseDown="Canvas_MouseDown"/>

@@ -94,7 +94,6 @@ namespace Server
 
 		public void Dispose()
 		{
-			//throw new NotImplementedException();
 			try
 			{
 				this.stream.Close();

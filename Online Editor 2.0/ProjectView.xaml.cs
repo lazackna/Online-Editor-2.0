@@ -13,6 +13,7 @@ using Online_Editor_2._0.Util;
 using Storage;
 using Button = System.Windows.Controls.Button;
 using Image = System.Windows.Controls.Image;
+using Page = DataCommunication_ProjectData.Page;
 
 namespace Online_Editor
 {
@@ -21,11 +22,15 @@ namespace Online_Editor
 	/// </summary>
 	public partial class ProjectView : Window, ICanvasFiller
 	{
+		private Element _selectedElement;
+		private Page _page;
 
 		public MainWindowViewModel.UpdatePage updatePage { get; set; }
 		public ProjectView()
 		{
 			InitializeComponent();
+
+			_page = new Page();
 		}
 
 		private Dictionary<UIElement, Element> dictionary = new Dictionary<UIElement, Element>();
@@ -35,7 +40,11 @@ namespace Online_Editor
 			if (element is IImageProvider image) RenderImage(image);
 
 			if (element is ITextProvider text) RenderText(text);
+
+			_page.Elements.Add(element);
 		}
+
+		public Page GetPage() => _page;
 
 		private void RenderImage(IImageProvider element)
 		{
@@ -85,8 +94,6 @@ namespace Online_Editor
 			dictionary.Add(TextCanvas, element as Element);
 		}
 
-		private Element _selectedElement;
-
 		private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			if (e.Source is Button b)
@@ -118,6 +125,8 @@ namespace Online_Editor
 					{
 						Debug.WriteLine("found something");
 						_selectedElement = dictionary[u];
+
+						if (_selectedElement is TextElement text) ValueBox.Text = text._value;
 						break;
 					}
 		}
@@ -129,17 +138,27 @@ namespace Online_Editor
 				if (_selectedElement is TextElement text)
 				{
 					text._value = textbox.Text;
-
 					for (var i = Canvas.Children.Count - 1; i >= 0; i--)
 						if (dictionary[Canvas.Children[i]] == _selectedElement)
+						{
 							Canvas.Children.RemoveAt(i);
+							_page.Elements.Remove(_selectedElement);
+						}
 
 					Add(_selectedElement);
 				}
 				else if (_selectedElement is DataCommunication_ProjectData.Image img) img._image = img.FromBase64(textbox.Text);
-
-
 			}
+			else if (sender is TextBox textBox)
+			{
+				textBox.Text = "";
+			}
+		}
+
+		private void UnbindSelected(object sender, ExecutedRoutedEventArgs e)
+		{
+			_selectedElement = null;
+			ValueBox.Text = "";
 		}
 	}
 }

@@ -16,13 +16,13 @@ namespace Online_Editor
 		private Page selectedPage;
 		private ClientMain client;
 
-
 		public ProjectViewModel(ICanvasFiller canvasFiller, Page page, MainWindowViewModel.Back back, ClientMain client)
 		{
 			this.back = back;
 			this.selectedPage = page;
 			this.client = client;
-			foreach (var element in page.Elements) canvasFiller.Add(element);
+			_canvasFiller = canvasFiller;
+			foreach (var element in page.Elements) _canvasFiller.Add(element);
 		}
 
 		public void UpdatePage(Element oldElement, Element newElement)
@@ -39,8 +39,11 @@ namespace Online_Editor
 		}
 
 		private ICommand goBack;
+		private ICanvasFiller _canvasFiller;
+
 		public ICommand GoBack => goBack ??= new RelayCommand(async e =>
 		{
+			await client.SendSegments(new ByteData(Messages.UploadPage(_canvasFiller.GetPage())));
 			back();
 		});
 
