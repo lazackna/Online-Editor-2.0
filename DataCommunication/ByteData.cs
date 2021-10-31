@@ -196,10 +196,8 @@ namespace DataCommunication
 		public void CalculateChecksum()
 		{
 			var bytes = ToByteArray();
-			//byte checksum = 0;
 
-			//for (var i = 0; i < bytes.Length - 1; i++) checksum ^= bytes[i];
-			byte output = bytes[0];
+			var output = bytes[0];
 
 			for (int i = 1; i < bytes.Length - 2; i++)
 			{
