@@ -69,7 +69,7 @@ namespace Online_Editor
 				var src = Imaging.CreateBitmapSourceFromHBitmap(symbols.GetImage(t).GetHbitmap(),
 					IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 
-				var bmp = new Image {Source = src};
+				var bmp = new Image { Source = src };
 				Canvas.SetLeft(bmp, x);
 				Canvas.SetTop(bmp, y);
 				//TextCanvas.
@@ -89,7 +89,8 @@ namespace Online_Editor
 
 		private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			if (e.Source is Button b) {
+			if (e.Source is Button b)
+			{
 				if (b.Content.ToString() == nameof(Text)) _selectedElement = new Text(-1, -1, "abc");
 			}
 		}
@@ -119,6 +120,26 @@ namespace Online_Editor
 						_selectedElement = dictionary[u];
 						break;
 					}
+		}
+
+		private void ValueChanged(object sender, TextChangedEventArgs e)
+		{
+			if (_selectedElement != null && sender is TextBox textbox)
+			{
+				if (_selectedElement is TextElement text)
+				{
+					text._value = textbox.Text;
+
+					for (var i = Canvas.Children.Count - 1; i >= 0; i--)
+						if (dictionary[Canvas.Children[i]] == _selectedElement)
+							Canvas.Children.RemoveAt(i);
+
+					Add(_selectedElement);
+				}
+				else if (_selectedElement is DataCommunication_ProjectData.Image img) img._image = img.FromBase64(textbox.Text);
+
+
+			}
 		}
 	}
 }

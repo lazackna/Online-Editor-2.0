@@ -25,7 +25,7 @@
 				<Button Content="&lt;" Margin="10,10,0,10" IsEnabled="False"/>
 				<Button Content="&gt;" Margin="10,10,10,10" IsEnabled="False"/>
 				<Label Content="value" Margin="25,10,10,10" />
-				<TextBox MinWidth="100" Margin="10,10,10,10" />
+				<TextBox TextChanged="ValueChanged" MinWidth="100" Margin="10,10,10,10" />
 			</StackPanel>
 		</Grid>
 		<Canvas Background="White" DockPanel.Dock="Bottom" x:Name="Canvas" MouseDown="Canvas_MouseDown"/>

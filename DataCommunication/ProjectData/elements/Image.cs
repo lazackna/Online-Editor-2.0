@@ -14,15 +14,20 @@ namespace DataCommunication_ProjectData
 
 		private Image(int x, int y, string base64Image) : base(x, y)
 		{
+			_image = FromBase64(base64Image);
+		}
+
+		public Bitmap FromBase64(string base64Image)
+		{
 			var bytes = Convert.FromBase64String(base64Image);
 			using var ms = new MemoryStream(bytes);
 			try
 			{
-				_image = new Bitmap(ms);
+				return new Bitmap(ms);
 			}
 			catch
 			{
-				_image = ImagePictureStorage.Instance.Image;
+				return ImagePictureStorage.Instance.Image;
 			}
 		}
 

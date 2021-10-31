@@ -13,12 +13,14 @@ namespace Server
 
 		private TcpClient client;
 		private NetworkStream stream;
-		public NetworkClient(TcpClient client) {
+		public NetworkClient(TcpClient client)
+		{
 			this.client = client;
 			this.stream = client.GetStream();
 		}
 
-		public async Task<byte[]> Read () {
+		public async Task<byte[]> Read()
+		{
 			byte[] prefix = new byte[2];
 			await stream.ReadAsync(prefix, 0, 2);
 			Array.Reverse(prefix);
@@ -59,7 +61,8 @@ namespace Server
 			return segments;
 		}
 
-		public async Task Write (ByteData data) {
+		public async Task Write(ByteData data)
+		{
 			foreach (Segment s in data.Segments)
 			{
 				byte[] array = s.ToByteArray();
@@ -68,11 +71,13 @@ namespace Server
 			}
 		}
 
-		public async Task WriteOkResponse() {
+		public async Task WriteOkResponse()
+		{
 			await Write(new ByteData(Messages.ResponseOk()));
 		}
 
-		public async Task WriteNotOkResponse() {
+		public async Task WriteNotOkResponse()
+		{
 			await Write(new ByteData(Messages.ResponseNotOk()));
 		}
 
@@ -94,7 +99,8 @@ namespace Server
 			{
 				this.stream.Close();
 				this.stream.Dispose();
-			} catch
+			}
+			catch
 			{
 
 			}
@@ -103,9 +109,6 @@ namespace Server
 			{
 				this.client.Close();
 				this.client.Dispose();
-			} catch
-			{
-
 			}
 			catch
 			{
