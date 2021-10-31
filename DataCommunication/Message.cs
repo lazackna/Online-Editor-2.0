@@ -29,6 +29,8 @@ namespace DataCommunication
 		public static (byte, string) ClientPing() => (Codes.ClientPing, JsonMessages.ping());
 		public static (byte, string) ServerPing() => (Codes.ServerPing, JsonMessages.ping());
 
+		public static (byte, string) Disconnect() => (Codes.Disconnect, StringMessages.Disconnect);
+
 		private static class JsonMessages
 		{
 			internal static string Login(string username, string password) => JsonConvert.SerializeObject(new { username, password });
@@ -59,6 +61,8 @@ namespace DataCommunication
 				});
 
 			internal static string ping() => JsonConvert.SerializeObject(new { sendtime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() });
+
+			
 		}
 
 		private static class StringMessages
@@ -70,6 +74,8 @@ namespace DataCommunication
 
 			internal static readonly string ResponseOK = "affirmative";
 			internal static readonly string ResponseNotOK = "negative";
+
+			internal static readonly string Disconnect = "disconnect";
 		}
 
 		public static class Codes
@@ -94,6 +100,8 @@ namespace DataCommunication
 
 			public static readonly byte ClientPing = 193;
 			public static readonly byte ServerPing = 194;
+
+			public static readonly byte Disconnect = byte.MaxValue;
 		}
 	}
 }

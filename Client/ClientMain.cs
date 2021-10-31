@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Client
 {
-	public class ClientMain
+	public class ClientMain : IDisposable
 	{
 		public string name { get; set; }
 		public TcpClient tcpClient;
@@ -160,5 +160,24 @@ namespace Client
 
 			return segments;
 		}
+
+		public async Task Disconnect()
+		{
+			await SendSegments(new ByteData(Messages.Disconnect()));
+			ByteData data = new ByteData(await ReadSegments());
+			while (data.Id != Messages.Codes.ResponseOK)
+			{
+				await SendSegments(new ByteData(Messages.Disconnect()));
+				data = new ByteData(await ReadSegments());
+			}
+			
+		}
+
+		public void Dispose()
+		{
+			Disconnect().GetAwaiter().GetResult(); ;
+		}
+
+		
 	}
 }

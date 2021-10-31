@@ -19,6 +19,8 @@ namespace Server
 		private string name;
 		private CommandHandler[] commands;
 
+		public bool connected = true;
+
 		private string activePageString = "";
 
 
@@ -50,6 +52,8 @@ namespace Server
 			commands[Messages.Codes.UploadChangedPage] = UploadChangedPage;
 
 			commands[Messages.Codes.ClientPing] = Ping;
+
+			commands[Messages.Codes.Disconnect] = Disconnect;
 		}
 
 		public async Task Handle(ByteData data)
@@ -177,6 +181,12 @@ namespace Server
 		public async Task CreatePage(ByteData array)
 		{
 
+		}
+
+		public async Task Disconnect(ByteData array)
+		{
+			this.connected = false;
+			await this.client.WriteOkResponse();
 		}
 
 		private JObject Parse(ByteData data)

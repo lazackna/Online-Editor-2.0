@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Client;
@@ -44,5 +45,10 @@ namespace Online_Editor
 		{
 			back();
 		});
+
+		public void Window_Closed(object sender, EventArgs e)
+		{
+			client.Dispose();
+		}
 	}
 }

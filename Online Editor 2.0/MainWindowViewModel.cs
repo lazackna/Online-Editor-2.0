@@ -145,6 +145,7 @@ namespace Online_Editor
 					var viewmodel = new ProjectViewModel(projectView, page, back, client);
 					projectView.updatePage += viewmodel.UpdatePage;
 					projectView.DataContext = viewmodel;
+					projectView.Closed += viewmodel.Window_Closed;
 
 					IsVisible = Visibility.Hidden;
 					ShowTaskbar = false;
@@ -227,7 +228,7 @@ namespace Online_Editor
 
 		public void Window_Closed(object sender, EventArgs e)
 		{
-
+			client.Dispose();
 		}
 
 		public event PropertyChangedEventHandler? PropertyChanged;

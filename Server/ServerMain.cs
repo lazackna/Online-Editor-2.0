@@ -71,7 +71,7 @@ namespace Server
 
 				this.thread = new Thread(async () =>
 			   {
-				   while (true)
+				   while (this.messageHandler.connected)
 				   {
 					   try
 					   {
@@ -83,25 +83,18 @@ namespace Server
 					   }
 					   catch (Exception e)
 					   {
-						   Debug.WriteLine(e.Message);
-						   CloseAndDispose();
+						   Debug.WriteLine(e.StackTrace);
+						   this.client.Dispose();
+						   clients.Remove(this);
 						   break;
 					   }
+
 				   }
 				   Console.WriteLine("Removing client");
+				   this.client.Dispose();
 				   clients.Remove(this);
 			   });
 				this.thread.Start();
-			}
-
-
-
-			private void CloseAndDispose()
-			{
-				this.tcpClient.GetStream().Close();
-				this.tcpClient.GetStream().Dispose();
-				this.tcpClient.Close();
-				this.tcpClient.Dispose();
 			}
 		}
 	}

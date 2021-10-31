@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-	public class NetworkClient
+	public class NetworkClient : IDisposable
 	{
 
 		private TcpClient client;
@@ -85,6 +85,25 @@ namespace Server
 			lengthPrefix.CopyTo(ret, 0);
 			message.CopyTo(ret, lengthPrefix.Length);
 			return ret;
+		}
+
+		public void Dispose()
+		{
+			//throw new NotImplementedException();
+			try
+			{
+				this.stream.Close();
+				this.stream.Dispose();
+			} catch
+			{
+
+			}
+
+			try
+			{
+				this.client.Close();
+				this.client.Dispose();
+			}
 		}
 	}
 }
