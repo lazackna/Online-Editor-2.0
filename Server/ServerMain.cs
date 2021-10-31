@@ -84,8 +84,6 @@ namespace Server
 					   catch (Exception e)
 					   {
 						   Debug.WriteLine(e.StackTrace);
-						   this.client.Dispose();
-						   clients.Remove(this);
 						   break;
 					   }
 
