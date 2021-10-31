@@ -14,7 +14,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\ButtonPictureStorage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\Button.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\Element.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\ImageConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\ImageToJSONConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\ElementsTypeBinder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\providers\IImageProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\Image.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProjectData\elements\providers\IOffsetProvider.cs" />

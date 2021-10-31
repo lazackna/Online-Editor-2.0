@@ -103,9 +103,6 @@ namespace Server
 				this.tcpClient.Close();
 				this.tcpClient.Dispose();
 			}
-
 		}
-
 	}
-
 }

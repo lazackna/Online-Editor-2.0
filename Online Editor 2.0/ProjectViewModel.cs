@@ -15,8 +15,8 @@ namespace Online_Editor
 		private Page selectedPage;
 		private ClientMain client;
 
-		
-		
+
+
 
 		public ProjectViewModel(ICanvasFiller canvasFiller, Page page, MainWindowViewModel.Back back, ClientMain client)
 		{

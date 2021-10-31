@@ -55,10 +55,8 @@ namespace Server
 		{
 			string[] users = Directory.GetDirectories(dataPath);
 			List<string> list = new List<string>();
-			foreach (string s in users)
-			{
-				list.AddRange(GetProjects(s, username));
-			}
+
+			foreach (string s in users) list.AddRange(GetProjects(s, username));
 
 			return list;
 		}
@@ -78,8 +76,12 @@ namespace Server
 
 					var page = new Page();
 					page.Elements.Add(new Text(0, 0, "Click me!"));
-					page.Elements.Add(new Button(0, 15, "No, Click Me!!"));
-					var json = JsonConvert.SerializeObject(page, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
+					page.Elements.Add(new Text(0, 20, "No, Click Me!!"));
+					var json = JsonConvert.SerializeObject(page, new JsonSerializerSettings
+					{
+						TypeNameHandling = TypeNameHandling.Objects,
+						SerializationBinder = new ElementsTypeBinder()
+					});
 
 					File.WriteAllText(Path.Combine(projectPath, $"main.{FileExtention}"), json);
 
@@ -106,7 +108,6 @@ namespace Server
 			File.WriteAllText(pageID, JsonConvert.SerializeObject(page, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }));
 		}
 
-		private const string mainFiller = @"{""Elements"":[{""_value"":""Click me!"",""_x"":0,""_y"":0}]}";
 		private void CreateProjectFiles(string path, string username)
 		{
 			string permissionPath = Path.Combine(path, "Permissions");
@@ -114,8 +115,12 @@ namespace Server
 			File.Create(Path.Combine(permissionPath, username + ".perm"));
 			var page = new Page();
 			page.Elements.Add(new Text(0, 0, "Click me!"));
-			page.Elements.Add(new Button(0, 15, "No, Click Me!!"));
-			var json = JsonConvert.SerializeObject(page, new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All});
+			page.Elements.Add(new Text(0, 20, "No, Click Me!!"));
+			var json = JsonConvert.SerializeObject(page, new JsonSerializerSettings
+			{
+				TypeNameHandling = TypeNameHandling.Objects,
+				SerializationBinder = new ElementsTypeBinder()
+			});
 			File.WriteAllText(Path.Combine(path, $"main.{FileExtention}"), json);
 		}
 
@@ -179,7 +184,11 @@ namespace Server
 					if (File.Exists(mainPath))
 					{
 						string fileText = File.ReadAllText(mainPath);
-						return JsonConvert.DeserializeObject<Page>(fileText, new JsonSerializerSettings{TypeNameHandling = TypeNameHandling.All});
+						return JsonConvert.DeserializeObject<Page>(fileText, new JsonSerializerSettings
+						{
+							TypeNameHandling = TypeNameHandling.Objects,
+							SerializationBinder = new ElementsTypeBinder()
+						});
 					}
 				}
 			}

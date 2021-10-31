@@ -20,11 +20,11 @@ namespace Server
 		private CommandHandler[] commands;
 
 		private string activePageString = "";
-		
+
 
 		private delegate Task CommandHandler(ByteData data);
 
-		public MessageHandler (NetworkClient client)
+		public MessageHandler(NetworkClient client)
 		{
 			this.client = client;
 			this.manager = new AccountManager();
@@ -52,48 +52,57 @@ namespace Server
 			commands[Messages.Codes.ClientPing] = Ping;
 		}
 
-		public async Task Handle (ByteData data)
+		public async Task Handle(ByteData data)
 		{
 			var command = commands[data.GetMessageType()];
 			if (command != null) await command(data);
 		}
 
-		public async Task Ping (ByteData array)
+		public async Task Ping(ByteData array)
 		{
 			await this.client.Write(new ByteData(Messages.ServerPing()));
 		}
 
-		public async Task UploadChangedPage (ByteData array)
+		public async Task UploadChangedPage(ByteData array)
 		{
 
 		}
 
-		public async Task RequestChangePage (ByteData array)
+		public async Task RequestChangePage(ByteData array)
 		{
 
 		}
 
-		public async Task UploadPage (ByteData array)
+		public async Task UploadPage(ByteData array)
 		{
 			try
 			{
-				Page page = JsonConvert.DeserializeObject<Page>(array.Message, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
+				Page page = JsonConvert.DeserializeObject<Page>(array.Message, new JsonSerializerSettings
+				{
+					TypeNameHandling = TypeNameHandling.Objects,
+					SerializationBinder = new ElementsTypeBinder()
+				});
 				manager.UploadPage(page, manager.getMainPath(activePageString));
-			}	catch (Exception e)
+			}
+			catch
 			{
 				Console.WriteLine("could not deserialize page");
 			}
 
 		}
 
-		public async Task RequestPages (ByteData array)
+		public async Task RequestPages(ByteData array)
 		{
 			List<string> list = this.manager.GetPages(name);
-			string pages = JsonConvert.SerializeObject(list);
+			string pages = JsonConvert.SerializeObject(list, new JsonSerializerSettings
+			{
+				TypeNameHandling = TypeNameHandling.Objects,
+				SerializationBinder = new ElementsTypeBinder()
+			});
 			await this.client.Write(new ByteData(Messages.RequestPagesResponse(pages)));
 		}
 
-		public async Task RequestPage (ByteData array)
+		public async Task RequestPage(ByteData array)
 		{
 			JObject root = Parse(array);
 			string projectName = root.Value<string>("page");
@@ -102,13 +111,14 @@ namespace Server
 			if (page != null)
 			{
 				await this.client.Write(new ByteData(Messages.RequestPageResponse(page)));
-			} else
+			}
+			else
 			{
 				await this.client.WriteNotOkResponse();
 			}
 		}
 
-		public async Task Login (ByteData array)
+		public async Task Login(ByteData array)
 		{
 			JObject root = Parse(array);
 			this.name = root.Value<string>("username");
@@ -117,28 +127,36 @@ namespace Server
 				await this.client.WriteNotOkResponse();
 				return;
 			}
-			if (this.manager.Login(this.name, root.Value<string>("password"))) {
+			if (this.manager.Login(this.name, root.Value<string>("password")))
+			{
 				// log client into server.
 
 				await this.client.WriteOkResponse();
-			} else {
+			}
+			else
+			{
 				await this.client.WriteNotOkResponse();
 			}
 
 		}
 
-		public async Task RequestAccount (ByteData array) {
+		public async Task RequestAccount(ByteData array)
+		{
 			await this.client.Write(new ByteData(Messages.ResponseOk()));
 		}
 
-		public async Task MakeAccount (ByteData array) {
+		public async Task MakeAccount(ByteData array)
+		{
 			Console.WriteLine("making account");
 			JObject root = JObject.Parse(array.Message);
 
 
-			if (this.manager.CreateAccount(root.Value<string>("username"),root.Value<string>("password"))) {
+			if (this.manager.CreateAccount(root.Value<string>("username"), root.Value<string>("password")))
+			{
 				await this.client.WriteOkResponse();
-			} else {
+			}
+			else
+			{
 				await this.client.WriteNotOkResponse();
 			}
 		}
@@ -149,7 +167,8 @@ namespace Server
 			if (this.manager.CreateProject(this.name, root.Value<string>("projectName")))
 			{
 				await this.client.WriteOkResponse();
-			} else
+			}
+			else
 			{
 				await this.client.WriteNotOkResponse();
 			}
@@ -160,7 +179,8 @@ namespace Server
 
 		}
 
-		private JObject Parse (ByteData data) {
+		private JObject Parse(ByteData data)
+		{
 			return JObject.Parse(data.Message);
 		}
 

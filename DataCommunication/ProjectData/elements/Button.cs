@@ -10,10 +10,10 @@ namespace DataCommunication_ProjectData
 		private static readonly int offset = 3;
 
 		[JsonProperty]
-		[JsonConverter(typeof(ImageConverter))]
+		[JsonConverter(typeof(ImageToJSONConverter))]
 		public Bitmap _image;
 
-		public Button(int x, int y, string value) : base(x, y, value)
+		private Button(int x, int y, string value) : base(x, y, value)
 		{
 			var bps = ButtonPictureStorage.Instance;
 			var ss = SymbolStorage.Instance;
