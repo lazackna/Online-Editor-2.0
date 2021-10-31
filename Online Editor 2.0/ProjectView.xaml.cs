@@ -55,8 +55,8 @@ namespace Online_Editor
 		private void RenderText(ITextProvider element)
 		{
 			var text = element.GetText();
-			var x = element.GetX();
-			var y = element.GetY();
+			var x = 0;
+			var y = 0;
 
 			var symbols = SymbolStorage.Instance;
 			List<Image> list = new List<Image>();
@@ -76,8 +76,8 @@ namespace Online_Editor
 
 				x += src.PixelWidth;
 			}
-			//Canvas.SetLeft(TextCanvas, x);
-			//Canvas.SetTop(TextCanvas, y);
+			Canvas.SetLeft(TextCanvas, element.GetX());
+			Canvas.SetTop(TextCanvas, element.GetY());
 			Canvas.Children.Add(TextCanvas);
 			dictionary.Add(TextCanvas, element as Element);
 		}

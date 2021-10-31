@@ -1,4 +1,4 @@
-﻿<Window x:Class="Online_Editor.ProjectView"
+<Window x:Class="Online_Editor.ProjectView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,7 +11,7 @@
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 				<ScrollViewer VerticalScrollBarVisibility="Hidden" MaxWidth="166" HorizontalScrollBarVisibility="Auto" Margin="0,0,50,0">
 					<StackPanel Orientation="Horizontal" CanHorizontallyScroll="True">
-						<Button Content="Text" Margin="0,0,10,0" MinWidth="50" />
+						<Button Content="Text" Margin="0,0,10,0" MinWidth="50" Command="{Binding AddElement}" CommandParameter="text}"/>
 						<Button Content="Button" Margin="0,0,10,0" MinWidth="50" IsEnabled="False" />
 						<Button Content="Image" Margin="0,0,0,0" MinWidth="50" IsEnabled="False" />
 					</StackPanel>
