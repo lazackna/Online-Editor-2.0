@@ -1,4 +1,4 @@
-﻿<Window x:Class="Online_Editor.ProjectView"
+<Window x:Class="Online_Editor.ProjectView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,14 +9,30 @@
 	<DockPanel>
 		<Grid DockPanel.Dock="Top" HorizontalAlignment="Stretch">
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-				<Button Content="Back" Command="{Binding Login}" Margin="0,10,10,10" />
+				<ScrollViewer VerticalScrollBarVisibility="Hidden" MaxWidth="166" HorizontalScrollBarVisibility="Auto" Margin="0,0,50,0">
+					<StackPanel Orientation="Horizontal" CanHorizontallyScroll="True">
+						<StackPanel.CommandBindings>
+							<CommandBinding Command="ApplicationCommands.New" Executed="NewCommand_Executed" CanExecute="True" />
+						</StackPanel.CommandBindings>
+						<Button Content="Text" Margin="0,0,10,0" MinWidth="50" Command="New"/>
+						<Button Content="Button" Margin="0,0,10,0" MinWidth="50" IsEnabled="False" />
+						<Button Content="Image" Margin="0,0,0,0" MinWidth="50" IsEnabled="False" />
+					</StackPanel>
+				</ScrollViewer>
+				<Button Content="Back" Command="{Binding GoBack}" Margin="0,10,10,10" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-				<Button Content="&lt;" Command="{Binding MakeNewProject}" Margin="10,10,0,10"/>
-				<Button Content="&gt;" Command="{Binding Login}" Margin="10,10,0,10" IsEnabled="False"/>
+				<StackPanel.CommandBindings>
+					<CommandBinding Command="ApplicationCommands.Close" Executed="UnbindSelected" CanExecute="True" />
+				</StackPanel.CommandBindings>
+				<Button Content="&lt;" Margin="10,10,0,10" IsEnabled="False"/>
+				<Button Content="&gt;" Margin="10,10,10,10" IsEnabled="False"/>
+				<Label Content="Value" Margin="25,10,10,10" />
+				<TextBox x:Name="ValueBox" TextChanged="ValueChanged" MinWidth="100" Margin="0,10,10,10" />
+				<Button Content="Done" Margin="0,10,10,10" Command="Close"/>
 			</StackPanel>
 		</Grid>
-		<Canvas DockPanel.Dock="Bottom">
-		</Canvas>
+		<Canvas Background="White" DockPanel.Dock="Bottom" x:Name="Canvas" MouseDown="Canvas_MouseDown"/>
+
 	</DockPanel>
 </Window>

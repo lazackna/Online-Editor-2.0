@@ -5,24 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Online_Editor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Visibility="{Binding IsVisible, Mode=TwoWay}" ShowInTaskbar="{Binding ShowTaskbar, Mode=TwoWay}">
 
 	<DockPanel>
 		<Grid DockPanel.Dock="Top" HorizontalAlignment="Stretch">
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-				<Button Content="New Project" Command="{Binding MakeNewProject}" Margin="0,10,10,10" IsEnabled="False"/>
-				<Button Content="Login" Command="{Binding Login}" Margin="0,10,10,10" />
+				<Button Content="New Project" Command="{Binding MakeNewProject}" Margin="0,10,10,10" IsEnabled="{Binding LoggedIn}"/>
+				<Button Content="Login" Command="{Binding Login}" Margin="0,10,10,10" IsEnabled="{Binding LoggedOut}"/>
 			</StackPanel>
+			<Grid HorizontalAlignment="Center">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+				<Label Grid.Column="0" Grid.Row="0" Content="Name:" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0,0,0,0" Margin="0,0,5,0" Visibility="{Binding WantToMakeProject}"/>
+				<TextBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" Text="{Binding NewProjectName}" Visibility="{Binding WantToMakeProject}"/>
+				<Button Grid.Column="0" Grid.Row="1" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,5,0" Command="{Binding CancelMakeProject}" Visibility="{Binding WantToMakeProject}"/>
+				<Button Grid.Column="1" Grid.Row="1" Content="Make" HorizontalAlignment="Left" VerticalAlignment="Top" Width="50" Command="{Binding RequestMakeProject}" Visibility="{Binding WantToMakeProject}"/>
+			</Grid>
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-				<Button Content="Open" Command="{Binding MakeNewProject}" Margin="10,10,0,10"/>
-				<Button Content="Edit" Command="{Binding Login}" Margin="10,10,0,10" IsEnabled="False"/>
+				<Button Content="Open" Command="{Binding Path=OpenProjectCommand}" Margin="10,10,0,10"/>
 			</StackPanel>
 		</Grid>
-		<ScrollViewer HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" x:Name="MainContent">
-			<ListBox ItemsSource="{Binding Values}">
+		<ScrollViewer HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" x:Name="MainContent" CanContentScroll="True">
+			<ListBox ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedProject}">
 				<ListBox.ItemTemplate>
 					<DataTemplate>
-						<Label Content="{Binding path}" PreviewMouseDown="OpenPath" HorizontalAlignment="Left" VerticalAlignment="Top" />
+						<Label Content="{Binding path}" HorizontalAlignment="Left" VerticalAlignment="Top" />
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>

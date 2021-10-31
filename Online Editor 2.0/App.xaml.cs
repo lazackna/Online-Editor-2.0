@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Online_Editor
 {
@@ -18,7 +12,7 @@ namespace Online_Editor
         {
 	        var window = new MainWindow();
 
-			var vm = new MainWindowViewModel();
+			var vm = new MainWindowViewModel(window);
 
 			window.DataContext = vm;
 			window.Closed += vm.Window_Closed;

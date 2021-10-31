@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Online_Editor_2._0.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +18,17 @@ namespace Online_Editor
 	/// <summary>
 	/// Interaction logic for Login.xaml
 	/// </summary>
-	public partial class Login : Window
+	public partial class Login : Window, IWindowClose
 	{
 		public Login()
 		{
 			InitializeComponent();
+		}
+
+		public void CloseWindow()
+		{
+			this.DialogResult = true;
+			base.Close();
 		}
 	}
 }

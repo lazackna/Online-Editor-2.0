@@ -1,14 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Drawing;
+using System.IO;
+using Newtonsoft.Json;
+using Storage;
 
 namespace DataCommunication_ProjectData
 {
-	public class Image : Element
+	public class Image : Element, IImageProvider
 	{
-		public int Width { get; set; }
-		public int Height { get; set; }
+		[JsonProperty]
+		[JsonConverter(typeof(ImageToJSONConverter))]
+		public Bitmap _image;
 
-		public Image (int x, int y, int width, int height) :base(x,y){ this.Width = width; this.Height = height; }
+		private Image(int x, int y, string base64Image) : base(x, y)
+		{
+			_image = FromBase64(base64Image);
+		}
+
+		public Bitmap FromBase64(string base64Image)
+		{
+			var bytes = Convert.FromBase64String(base64Image);
+			using var ms = new MemoryStream(bytes);
+			try
+			{
+				return new Bitmap(ms);
+			}
+			catch
+			{
+				return ImagePictureStorage.Instance.Image;
+			}
+		}
+
+		~Image()
+		{
+			_image.Dispose();
+		}
+
+		public Bitmap GetImage() => _image;
+		public int GetWidth() => _image.Width;
+		public int GetHeight() => _image.Height;
 	}
 }

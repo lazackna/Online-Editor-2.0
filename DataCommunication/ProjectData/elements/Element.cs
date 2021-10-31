@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace DataCommunication_ProjectData
 {
-	public class Element
+	public class Element : IPositionProvider
 	{
-		public int X { get; set; }
-		public int Y { get; set; }
+		public int _x;
+		public int _y;
 
 		public Element(int x, int y)
 		{
-			X = x;
-			Y = y;
+			_x = x;
+			_y = y;
 		}
+
+		public int GetX() => _x;
+		public int GetY() => _y;
 	}
 }
