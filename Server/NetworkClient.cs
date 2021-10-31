@@ -103,6 +103,9 @@ namespace Server
 			{
 				this.client.Close();
 				this.client.Dispose();
+			} catch
+			{
+
 			}
 			catch
 			{
