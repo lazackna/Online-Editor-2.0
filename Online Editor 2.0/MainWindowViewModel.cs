@@ -44,9 +44,10 @@ namespace Online_Editor
 		public ICommand CancelMakeProject => _cancelMakeProject ??= new RelayCommand(e => WantToMakeProject = Visibility.Hidden);
 		public ICommand RequestMakeProject => _requestMakeProject ??= new RelayCommand(async e =>
 		{
+			if (NewProjectName == null || NewProjectName == "") return;
 			await client.SendSegments(new ByteData(Messages.CreateProject(NewProjectName)));
 			ByteData data = new ByteData(await client.Read());
-			if (data.Id == 40)
+			if (data.Id == Messages.Codes.ResponseOK)
 			{
 				List<string> list = await RequestPages();
 				Values.Clear();
@@ -55,10 +56,6 @@ namespace Online_Editor
 					Values.Add(new { path = s });
 				}
 				NotifyPropertyChanged();
-			}
-			else
-			{
-				//tell client it didnt work.
 			}
 		});
 
@@ -128,6 +125,7 @@ namespace Online_Editor
 		public async Task OpenProject()
 		{
 			// Open project.
+			if (selectedProject == null || selectedProject.path == null) return;
 			await client.SendSegments(new ByteData(Messages.RequestPage(selectedProject.path)));
 
 			if (ByteData.TryParse(out var data, await client.ReadSegments()))

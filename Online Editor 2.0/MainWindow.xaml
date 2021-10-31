@@ -29,7 +29,6 @@
 			</Grid>
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
 				<Button Content="Open" Command="{Binding Path=OpenProjectCommand}" Margin="10,10,0,10"/>
-				<Button Content="Edit" Command="{Binding Login}" Margin="10,10,0,10" IsEnabled="{Binding LoggedIn}"/>
 			</StackPanel>
 		</Grid>
 		<ScrollViewer HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" x:Name="MainContent" CanContentScroll="True">

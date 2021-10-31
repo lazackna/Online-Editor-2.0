@@ -48,6 +48,7 @@ namespace Online_Editor
 
 		public async Task ClientLogin()
 		{
+			if (UserName == null || UserName.Length == 0 || PassWord == null || PassWord.Length == 0) return;
 			var password = Encrypt(PassWord);
 
 
@@ -99,10 +100,10 @@ namespace Online_Editor
 				await this.client.SendSegments(new ByteData(Messages.MakeAccount(UserName, Encrypt(PassWord))));
 				data = new ByteData(await this.client.Read());
 
-				if (!(data.Id == Messages.Codes.ResponseOK))
+				if (data.Id == Messages.Codes.ResponseOK)
 				{
-					// could not create account. Could be due to already existing or an error occured on the server.
-				}
+					await ClientLogin();
+				} 
 
 			}
 			else
