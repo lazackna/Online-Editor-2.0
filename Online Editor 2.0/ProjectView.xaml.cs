@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using DataCommunication_ProjectData;
+using Online_Editor.Util;
 using Online_Editor_2._0.Util;
 using Storage;
+using Button = System.Windows.Controls.Button;
 using Image = System.Windows.Controls.Image;
 
 namespace Online_Editor
@@ -82,62 +85,40 @@ namespace Online_Editor
 			dictionary.Add(TextCanvas, element as Element);
 		}
 
-		private void Canvas_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		private Element _selectedElement;
+
+		private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			//List<UIElement> toRemove = new List<UIElement>();
-			//List<Element> toAdd = new List<Element>();
-
-			//TODO make a box in which you can edit the values. click button then the rest of this method gets used.
-			foreach (UIElement u in Canvas.Children)
-			{
-				if (u.IsMouseOver)
-				{
-					Debug.WriteLine("found something");
-					Element el = dictionary[u];
-					//this is selected element.
-					//if (el.GetLocked() != "") return;
-
-					if(el is DataCommunication_ProjectData.Button)
-					{
-						DataCommunication_ProjectData.Button button = el as DataCommunication_ProjectData.Button;
-						button._value = "new value!!";
-						updatePage(el, button);
-						//toRemove.Add(u);
-						//toAdd.Add(button);
-						break;
-					}
-
-					if (el is Text)
-					{
-						Text old = el as Text;
-						(el as Text)._value = "new Value";
-						//text._value = "new value!!";
-						updatePage(old, el);
-						//toRemove.Add(u);
-						//toAdd.Add(text);
-						break;
-					}
-					//updatePage(el);
-				}
+			if (e.Source is Button b) {
+				if (b.Content.ToString() == nameof(Text)) _selectedElement = new Text(-1, -1, "abc");
 			}
-			//foreach(UIElement u in toRemove)
-			//{
-			//	Canvas.Children.Remove(u);
-			//	dictionary.Remove(u);
-
-			//}
-			//foreach(Element el in toAdd)
-			//{
-			//	if (el is DataCommunication_ProjectData.Button)
-			//	{
-			//		RenderImage(el as DataCommunication_ProjectData.Button);
-			//	} else if (el is Text)
-			//	{
-			//		RenderText(el as Text);
-			//	}
-			//}
 		}
 
+		private void True(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = true;
+		}
 
+		private void Canvas_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			if (_selectedElement != null && _selectedElement.GetX() == -1 && _selectedElement.GetY() == -1)
+			{
+				var pos = e.GetPosition(Canvas);
+				_selectedElement._x = (int) pos.X;
+				_selectedElement._y = (int) pos.Y;
+
+				Add(_selectedElement);
+				return;
+			}
+
+			if (_selectedElement == null)
+				foreach (UIElement u in Canvas.Children)
+					if (u.IsMouseOver)
+					{
+						Debug.WriteLine("found something");
+						_selectedElement = dictionary[u];
+						break;
+					}
+		}
 	}
 }

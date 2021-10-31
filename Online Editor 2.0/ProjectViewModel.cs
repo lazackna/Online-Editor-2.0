@@ -16,26 +16,6 @@ namespace Online_Editor
 		private Page selectedPage;
 		private ClientMain client;
 
-		private Element _selectedElement;
-		private ICommand _addElement;
-		public ICommand AddElement => _addElement ??= new RelayCommand(e =>
-		{
-			if (e is string s)
-			{
-				if (s == typeof(Text).Name) _selectedElement = new Text(-1, -1, "");
-			}
-		});
-
-		private ICommand _canvasClicked;
-		public ICommand CanvasClicked => _canvasClicked ??= new RelayCommand(e =>
-		{
-			Console.WriteLine(e);
-			if (_selectedElement != null && _selectedElement.GetX() == -1 && _selectedElement.GetY() == -1)
-			{
-
-			}
-		});
-
 
 		public ProjectViewModel(ICanvasFiller canvasFiller, Page page, MainWindowViewModel.Back back, ClientMain client)
 		{
@@ -66,7 +46,7 @@ namespace Online_Editor
 
 		public void Window_Closed(object sender, EventArgs e)
 		{
-			client.Dispose();
+			back();
 		}
 	}
 }

@@ -11,7 +11,10 @@
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 				<ScrollViewer VerticalScrollBarVisibility="Hidden" MaxWidth="166" HorizontalScrollBarVisibility="Auto" Margin="0,0,50,0">
 					<StackPanel Orientation="Horizontal" CanHorizontallyScroll="True">
-						<Button Content="Text" Margin="0,0,10,0" MinWidth="50" Command="{Binding AddElement}" CommandParameter="text}"/>
+						<StackPanel.CommandBindings>
+							<CommandBinding Command="ApplicationCommands.New" Executed="NewCommand_Executed" CanExecute="True" />
+						</StackPanel.CommandBindings>
+						<Button Content="Text" Margin="0,0,10,0" MinWidth="50" Command="ApplicationCommands.New"/>
 						<Button Content="Button" Margin="0,0,10,0" MinWidth="50" IsEnabled="False" />
 						<Button Content="Image" Margin="0,0,0,0" MinWidth="50" IsEnabled="False" />
 					</StackPanel>
@@ -25,7 +28,7 @@
 				<TextBox MinWidth="100" Margin="10,10,10,10" />
 			</StackPanel>
 		</Grid>
-		<Canvas DockPanel.Dock="Bottom" x:Name="Canvas" MouseDown="Canvas_MouseDown"/>
+		<Canvas Background="White" DockPanel.Dock="Bottom" x:Name="Canvas" MouseDown="Canvas_MouseDown"/>
 
 	</DockPanel>
 </Window>
