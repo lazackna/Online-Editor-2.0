@@ -61,8 +61,6 @@ namespace DataCommunication
 				});
 
 			internal static string ping() => JsonConvert.SerializeObject(new { sendtime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() });
-
-			
 		}
 
 		private static class StringMessages

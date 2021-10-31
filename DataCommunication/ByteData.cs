@@ -148,9 +148,6 @@ namespace DataCommunication
 			Array.Reverse(lengthArr);
 			Array.Reverse(idArr);
 			s.Id = BitConverter.ToUInt16(idArr, 0);
-			s._checksum = 0;
-			s.CalculateChecksum();
-			Console.WriteLine(s._checksum);
 
 			s._length = BitConverter.ToUInt16(lengthArr, 0);
 			s.Type = bytes[TypeIndex];
@@ -196,13 +193,7 @@ namespace DataCommunication
 			return bytes;
 		}
 
-		public byte CreateChecksum()
-		{
-			//byte[] array = new byte[]
-			return 1;
-		}
-
-		public byte CalculateChecksum()
+		public void CalculateChecksum()
 		{
 			var bytes = ToByteArray();
 			//byte checksum = 0;
@@ -214,7 +205,8 @@ namespace DataCommunication
 			{
 				output = (byte) (output ^ bytes[i]);
 			}
-			return output;
+
+			_checksum = output;
 		}
 	}
 }
