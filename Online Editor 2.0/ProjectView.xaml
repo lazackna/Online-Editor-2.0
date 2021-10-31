@@ -9,11 +9,20 @@
 	<DockPanel>
 		<Grid DockPanel.Dock="Top" HorizontalAlignment="Stretch">
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+				<ScrollViewer VerticalScrollBarVisibility="Hidden" MaxWidth="166" HorizontalScrollBarVisibility="Auto" Margin="0,0,50,0">
+					<StackPanel Orientation="Horizontal" CanHorizontallyScroll="True">
+						<Button Content="Text" Margin="0,0,10,0" MinWidth="50" />
+						<Button Content="Button" Margin="0,0,10,0" MinWidth="50" IsEnabled="False" />
+						<Button Content="Image" Margin="0,0,0,0" MinWidth="50" IsEnabled="False" />
+					</StackPanel>
+				</ScrollViewer>
 				<Button Content="Back" Command="{Binding GoBack}" Margin="0,10,10,10" />
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
 				<Button Content="&lt;" Margin="10,10,0,10" IsEnabled="False"/>
-				<Button Content="&gt;" Margin="10,10,0,10" IsEnabled="False"/>
+				<Button Content="&gt;" Margin="10,10,10,10" IsEnabled="False"/>
+				<Label Content="value" Margin="25,10,10,10" />
+				<TextBox MinWidth="100" Margin="10,10,10,10" />
 			</StackPanel>
 		</Grid>
 		<Canvas DockPanel.Dock="Bottom" x:Name="Canvas" MouseDown="Canvas_MouseDown"/>

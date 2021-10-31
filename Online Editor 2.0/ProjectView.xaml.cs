@@ -65,7 +65,7 @@ namespace Online_Editor
 			{
 				var src = Imaging.CreateBitmapSourceFromHBitmap(symbols.GetImage(t).GetHbitmap(),
 					IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-				
+
 				var bmp = new Image {Source = src};
 				Canvas.SetLeft(bmp, x);
 				Canvas.SetTop(bmp, y);
@@ -73,7 +73,7 @@ namespace Online_Editor
 				list.Add(bmp);
 				TextCanvas.Children.Add(bmp);
 				//dictionary.Add(bmp, element as Element);
-				
+
 				x += src.PixelWidth;
 			}
 			//Canvas.SetLeft(TextCanvas, x);
@@ -81,7 +81,7 @@ namespace Online_Editor
 			Canvas.Children.Add(TextCanvas);
 			dictionary.Add(TextCanvas, element as Element);
 		}
-		
+
 		private void Canvas_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			//List<UIElement> toRemove = new List<UIElement>();
@@ -105,7 +105,9 @@ namespace Online_Editor
 						//toRemove.Add(u);
 						//toAdd.Add(button);
 						break;
-					} else if (el is Text)
+					}
+
+					if (el is Text)
 					{
 						Text old = el as Text;
 						(el as Text)._value = "new Value";
@@ -122,7 +124,7 @@ namespace Online_Editor
 			//{
 			//	Canvas.Children.Remove(u);
 			//	dictionary.Remove(u);
-				
+
 			//}
 			//foreach(Element el in toAdd)
 			//{
@@ -136,6 +138,6 @@ namespace Online_Editor
 			//}
 		}
 
-	
+
 	}
 }

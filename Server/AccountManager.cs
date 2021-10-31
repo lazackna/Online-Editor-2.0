@@ -105,7 +105,11 @@ namespace Server
 
 		internal void UploadPage(Page page, string pageID)
 		{
-			File.WriteAllText(pageID, JsonConvert.SerializeObject(page, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }));
+			File.WriteAllText(pageID, JsonConvert.SerializeObject(page, new JsonSerializerSettings
+			{
+				TypeNameHandling = TypeNameHandling.Objects,
+				SerializationBinder = new ElementsTypeBinder()
+			}));
 		}
 
 		private void CreateProjectFiles(string path, string username)
