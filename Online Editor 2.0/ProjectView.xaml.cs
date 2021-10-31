@@ -98,7 +98,7 @@ namespace Online_Editor
 		{
 			if (e.Source is Button b)
 			{
-				if (b.Content.ToString() == nameof(Text)) _selectedElement = new Text(-1, -1, "abc");
+				if (b.Content.ToString() == nameof(Text)) _selectedElement = new Text(0, -15, "Empty Text Value");
 			}
 		}
 
@@ -109,13 +109,14 @@ namespace Online_Editor
 
 		private void Canvas_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
-			if (_selectedElement != null && _selectedElement.GetX() == -1 && _selectedElement.GetY() == -1)
+			if (_selectedElement != null && _selectedElement.GetX() == 0 && _selectedElement.GetY() == -15)
 			{
 				var pos = e.GetPosition(Canvas);
 				_selectedElement._x = (int) pos.X;
 				_selectedElement._y = (int) pos.Y;
 
 				Add(_selectedElement);
+				if (_selectedElement is TextElement text) ValueBox.Text = text._value;
 				return;
 			}
 

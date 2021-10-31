@@ -1,7 +1,6 @@
 ﻿using System;
 using DataCommunication_ProjectData;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 
 namespace DataCommunication
@@ -61,8 +60,6 @@ namespace DataCommunication
 				});
 
 			internal static string ping() => JsonConvert.SerializeObject(new { sendtime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() });
-
-			
 		}
 
 		private static class StringMessages
@@ -101,7 +98,7 @@ namespace DataCommunication
 			public static readonly byte ClientPing = 193;
 			public static readonly byte ServerPing = 194;
 
-			public static readonly byte Disconnect = byte.MaxValue;
+			public static readonly byte Disconnect = 255;
 		}
 	}
 }

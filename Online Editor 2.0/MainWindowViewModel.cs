@@ -185,11 +185,8 @@ namespace Online_Editor
 			}
 		}
 
-		private Model model;
-
 		public MainWindowViewModel(IClosable mainWindow)
 		{
-			this.model = new Model();
 			this.ClosableWindow = mainWindow;
 			closeLogin += CloseLoginWindow;
 			Values = new ObservableCollection<object>();
@@ -224,7 +221,6 @@ namespace Online_Editor
 		private RelayCommand _cancelMakeProject;
 		private RelayCommand _requestMakeProject;
 		private string _newProjectName;
-		public ICommand SendMessage => _sendMessage ??= new RelayCommand(param => model.SendMessage());
 
 		public void Window_Closed(object sender, EventArgs e)
 		{

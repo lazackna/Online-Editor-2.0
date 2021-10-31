@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using DataCommunication;
 
 namespace Online_Editor
 {
@@ -9,7 +11,7 @@ namespace Online_Editor
 	{
 
         protected override void OnStartup(StartupEventArgs e)
-        {
+		{
 	        var window = new MainWindow();
 
 			var vm = new MainWindowViewModel(window);
